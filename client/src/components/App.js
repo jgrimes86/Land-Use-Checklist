@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
+import Signup from "./Signup";
 
 function App() {
-    return <h1>Project Client</h1>
+    return (
+        <Signup />
+    )
 }
 
 export default App;
