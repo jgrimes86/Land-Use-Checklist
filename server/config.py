@@ -6,10 +6,17 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 from flask_bcrypt import Bcrypt
 
+import os
+from os.path import join, dirname
+from dotenv import load_dotenv
+
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+SECRET_KEY = os.environ.get("SECRET_KEY")
+
 app = Flask(__name__)
 
-# QUESTION:  Should this be stored in a hidden file? How
-app.secret_key = b'\xff~\xa8\xa8\x9c\xb5\xb9\xde\x97\xb5dR\xa9%(\xf6'
+app.secret_key = SECRET_KEY
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

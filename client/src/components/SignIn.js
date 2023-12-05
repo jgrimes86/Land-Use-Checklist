@@ -1,4 +1,5 @@
 
+import { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
@@ -6,6 +7,7 @@ import { Box, Button, TextField } from "@mui/material"
 
 
 function SignIn({setUser, signup, setSignup}) {  
+  const [error, setError] = useState(null)
 
   const signupSchema = yup.object().shape({
       name: yup.string().required("Must enter a first name").max(15),
@@ -49,7 +51,12 @@ function SignIn({setUser, signup, setSignup}) {
         if (r.ok) {
           r.json().then((user) => {
             setUser(user);
+            setError(null)
           });
+        }
+        else {
+          r.json()
+          .then(({error}) => setError(error))
         }
       });
     },
@@ -111,6 +118,11 @@ function SignIn({setUser, signup, setSignup}) {
           </Button>
       </form>
       <Button variant="outlined" onClick={toggleForm} >{signup ? 'Log In' : 'Sign Up'}</Button>
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      <p style={{ color: "red" }}>{formik.errors.name}</p>
+      <p style={{ color: "red" }}>{formik.errors.email}</p>
+      <p style={{ color: "red" }}>{formik.errors.password}</p>
+      <p style={{ color: "red" }}>{formik.errors.confirmPassword}</p>
     </Box>
   )
 }

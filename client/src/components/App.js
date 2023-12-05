@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 import SignIn from "./SignIn";
-import Login from "./Login";
 import Home from "./Home";
 import { Button } from "@mui/material";
 

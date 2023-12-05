@@ -11,12 +11,16 @@ def index():
 class Signup(Resource):
     def post(self):
         data = request.json
-        user = User(
-            name=data['name'], 
-            company=data['company'], 
-            phone_number=data['phoneNumber'],
-            email=data['email'], 
-            password_hash=data['password'])
+        try:
+            user = User(
+                name=data['name'], 
+                company=data['company'], 
+                phone_number=data['phoneNumber'],
+                email=data['email'], 
+                password_hash=data['password'])
+        except ValueError as v_error:
+            return make_response({"error": str(v_error)}, 400)
+        
         db.session.add(user)
         db.session.commit()
 
@@ -35,8 +39,8 @@ class Login(Resource):
         if user.authenticate(password):
             session['user_id'] = user.id
             return make_response(user.to_dict(), 201)
-
-        # return make_response({"error": "Invalid username or password"}, 401)
+        else:
+            return make_response({"error": "Invalid username or password"}, 401)
 
 api.add_resource(Login, '/login')
 
