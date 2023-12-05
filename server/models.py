@@ -14,7 +14,11 @@ class User(db.Model, SerializerMixin):
     email = db.Column(db.Text, nullable=False)
     _password_hash = db.Column(db.Text, nullable=False)
 
-    serialize_rules=('-_password_hash',)
+    tasks = db.relationship('Task', back_populates='user')
+    roles = db.relationship('Role', back_populates='user', cascade='all, delete-orphan')
+    project = association_proxy('tasks', 'project')
+
+    serialize_rules=('-_password_hash', '-tasks.user', '-roles.user')
 
     def __repr__(self):
         return f"<User {self.id}: {self.name}>"
@@ -40,6 +44,72 @@ class User(db.Model, SerializerMixin):
             return new_email
 
 
+class Project(db.Model, SerializerMixin):
+    __tablename__ = 'projects'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text)
+    client = db.Column(db.Text)
+    property_address = db.Column(db.Text)
+    property_lot = db.Column(db.Text)
+    property_block = db.Column(db.Text)
+    municipality = db.Column(db.Text)
+    county = db.Column(db.Text)
+    state = db.Column(db.Text)
+
+    tasks = db.relationship('Task', back_populates='project', cascade='all, delete-orphan')
+    roles = db.relationship('Role', back_populates='project', cascade='all, delete-orphan')
+    user = association_proxy('tasks', 'user')
+
+    serialize_rules = ('-tasks.project', '-roles.project')
+
+    def __repr__(self):
+        return f'<Project {self.id}: {self.name}>'
 
 
+class Role(db.Model, SerializerMixin):
+    __tablename__ = 'roles'
 
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    project_id = db.Column(db.Integer, db.ForeignKey('projects.id'))
+
+    user = db.relationship('User', 'role')
+    project = db.relationship('Project', 'role')
+
+    serialize_rules = ('-user.role', '-project.role')
+
+
+class Task(db.Model, SerializerMixin):
+    __tablename__ = 'tasks'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text)
+    description = db.Column(db.Text)
+    start_date = db.Column(db.Text)
+    end_date = db.Column(db.Text)
+    status = db.Column(db.Text)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    project_id = db.Column(db.Integer, db.ForeignKey('projects.id'))
+
+    user = db.relationship('User', back_populates='tasks')
+    project = db.relationship('Project', back_populates='tasks')
+    comments = db.relationship('Comment', back_populates='task', cascade='all, delete-orphan')
+
+    serialize_rules = ('-user.tasks', '-project.tasks', '-comments.task')
+
+
+class Comment(db.Model, SerializerMixin):
+    __tablename__ = 'comments'
+
+    id = db.Column(db.Integer, primary_key=True)
+    comment = db.Column(db.Text)
+
+    task_id = db.Column(db.Integer, db.ForeignKey('tasks.id'))
+
+    task = db.relationship('Task', back_populates='comments')
+
+    serialize_rules = ('-task.comments',)
