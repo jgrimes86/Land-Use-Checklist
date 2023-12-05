@@ -19,6 +19,8 @@ class Signup(Resource):
             password_hash=data['password'])
         db.session.add(user)
         db.session.commit()
+
+        session['user_id'] = user.id
         return make_response(user.to_dict(), 202)
 
 api.add_resource(Signup, '/signup')
@@ -39,7 +41,7 @@ class Login(Resource):
 api.add_resource(Login, '/login')
 
 class Logout(Resource):
-    def get(self):
+    def delete(self):
         session['user_id'] = None
         return make_response('', 204)
 
