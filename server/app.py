@@ -1,4 +1,4 @@
-from flask import request, make_response
+from flask import request, make_response, session
 from flask_restful import Resource
 from config import app, db, api
 
@@ -19,7 +19,7 @@ class Signup(Resource):
             password_hash=data['password'])
         db.session.add(user)
         db.session.commit()
-        return make_response(user.to_dict(), 200)
+        return make_response(user.to_dict(), 202)
 
 api.add_resource(Signup, '/signup')
 
@@ -32,9 +32,9 @@ class Login(Resource):
 
         if user.authenticate(password):
             session['user_id'] = user.id
-            return user.to_dict()
+            return make_response(user.to_dict(), 201)
 
-        return make_response({"error": "Invalid username or password"}, 401)
+        # return make_response({"error": "Invalid username or password"}, 401)
 
 api.add_resource(Login, '/login')
 

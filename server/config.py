@@ -8,6 +8,9 @@ from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
 
+# QUESTION:  Should this be stored in a hidden file? How
+app.secret_key = b'\xff~\xa8\xa8\x9c\xb5\xb9\xde\x97\xb5dR\xa9%(\xf6'
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
