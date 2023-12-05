@@ -13,7 +13,7 @@ class User(db.Model, SerializerMixin):
     email = db.Column(db.Text, unique=True)
     _password_hash = db.Column(db.Text)
 
-    serialize_rules=('-_password_hash')
+    serialize_rules=('-_password_hash',)
 
     def __repr__(self):
         return f"<User {self.id}: {self.name}>"

@@ -2,6 +2,7 @@ from flask import request, make_response
 from flask_restful import Resource
 from config import app, db, api
 
+from models import User
 
 @app.route('/')
 def index():
@@ -13,7 +14,7 @@ class Signup(Resource):
         user = User(
             name=data['name'], 
             company=data['company'], 
-            phone_number=data['phoneNumber']
+            phone_number=data['phoneNumber'],
             email=data['email'], 
             password_hash=data['password'])
         db.session.add(user)
