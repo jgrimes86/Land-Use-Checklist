@@ -18,7 +18,7 @@ class User(db.Model, SerializerMixin):
     roles = db.relationship('Role', back_populates='user', cascade='all, delete-orphan')
     project = association_proxy('tasks', 'project')
 
-    serialize_rules=('-_password_hash', '-tasks.user', '-roles.user')
+    serialize_rules = ('-_password_hash', '-tasks.user', '-roles.user')
 
     def __repr__(self):
         return f"<User {self.id}: {self.name}>"
@@ -79,7 +79,7 @@ class Role(db.Model, SerializerMixin):
     user = db.relationship('User', back_populates='roles')
     project = db.relationship('Project', back_populates='roles')
 
-    serialize_rules = ('-user.roles', '-project.roles')
+    serialize_rules = ('-user', '-project')
 
 
 class Task(db.Model, SerializerMixin):
@@ -112,4 +112,4 @@ class Comment(db.Model, SerializerMixin):
 
     task = db.relationship('Task', back_populates='comments')
 
-    serialize_rules = ('-task.comments',)
+    serialize_rules = ('-task',)

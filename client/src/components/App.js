@@ -32,8 +32,8 @@ function App() {
     if (user) {
         return (
             <div>
-                <Home />
-                <Button onClick={handleLogout}>Log Out</Button>
+                <Home user={user} />
+                <Button onClick={handleLogout} >Log Out</Button>
             </div>
         )
     }

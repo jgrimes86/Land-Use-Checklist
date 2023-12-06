@@ -38,7 +38,7 @@ class Login(Resource):
 
         if user.authenticate(password):
             session['user_id'] = user.id
-            return make_response(user.to_dict(), 201)
+            return make_response(user.to_dict(rules=('-roles', '-tasks')), 201)
         else:
             return make_response({"error": "Invalid username or password"}, 401)
 
