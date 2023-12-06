@@ -82,7 +82,7 @@ api.add_resource(ProjectsByUserRole, '/roles/users/<int:id>')
 class TasksByUser(Resource):
 
     def get(self, id):
-        tasks = [task.to_dict(rules=('-project.roles', '-user.id')) for task in Task.query.filter_by(user_id=id).all()]
+        tasks = [task.to_dict(rules=('-project.roles',)) for task in Task.query.filter_by(user_id=id).all()]
         if tasks:
             return make_response(tasks, 200)
         else:
