@@ -76,10 +76,10 @@ class Role(db.Model, SerializerMixin):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'))
 
-    user = db.relationship('User', 'role')
-    project = db.relationship('Project', 'role')
+    user = db.relationship('User', back_populates='roles')
+    project = db.relationship('Project', back_populates='roles')
 
-    serialize_rules = ('-user.role', '-project.role')
+    serialize_rules = ('-user.roles', '-project.roles')
 
 
 class Task(db.Model, SerializerMixin):
