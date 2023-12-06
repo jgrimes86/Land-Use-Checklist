@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Button } from '@chakra-ui/react';
 
 function UserProjects({user}) {
     const [userProjects, setUserProjects] = useState([])
@@ -18,11 +19,11 @@ function UserProjects({user}) {
     const projectList = userProjects.map(project => {
         const {id, name, client, property_address, property_block, property_lot, municipality, county, state} = project
         return (
-            <div key={id} variant="contained" >
+            <Button key={id} colorScheme="blue" >
                 <h3>{name}</h3>
                 <p>{client}, {property_address}</p>
                 <p>{property_block}, {property_lot}, {municipality}, {county}, {state}</p>
-            </div>
+            </Button>
         )
     })
 
@@ -30,7 +31,7 @@ function UserProjects({user}) {
         <div>
             <h2>My Projects</h2>
             {projectList}
-            <button variant="outlined" >Create New Project</button>
+            <Button colorScheme="blue" >Create New Project</Button>
         </div>
     )
 }

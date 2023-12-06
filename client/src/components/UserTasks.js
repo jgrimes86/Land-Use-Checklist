@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import TaskItem from "./TaskItem";
 
 function UserTasks({user}) {
     const [userTasks, setUserTasks] = useState([])
@@ -15,12 +16,16 @@ function UserTasks({user}) {
         })
     }, [])
 
-    console.log(userTasks)
+    console.log("User Tasks: ", userTasks)
 
+    const taskList = userTasks.map(task => {
+            return <TaskItem key={task.id} task={task}/>
+        })
+    
     return (
         <div >
             <h2>My Tasks</h2>
-
+            {taskList}
         </div>
     )
 }

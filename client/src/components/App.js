@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ChakraProvider } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 
 import SignIn from "./SignIn";
 import UserHome from "./UserHome";
@@ -33,7 +34,7 @@ function App() {
         return (
             <ChakraProvider>
                 <UserHome user={user} />
-                <button onClick={handleLogout} >Log Out</button>
+                <Button colorScheme="blue" onClick={handleLogout} >Log Out</Button>
 
             </ChakraProvider>
         )

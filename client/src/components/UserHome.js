@@ -1,6 +1,4 @@
 
-import { useState, useEffect } from "react";
-
 import UserProjects from "./UserProjects";
 import UserTasks from "./UserTasks";
 
