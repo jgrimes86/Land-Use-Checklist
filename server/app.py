@@ -2,7 +2,7 @@ from flask import request, make_response, session
 from flask_restful import Resource
 from config import app, db, api
 
-from models import User
+from models import User, Project, Role, Task, Comment
 
 @app.route('/')
 def index():
@@ -60,6 +60,27 @@ class CheckSession(Resource):
             return {'message': '401: Not Authorized'}, 401
 
 api.add_resource(CheckSession, '/check_session')
+
+
+
+
+
+class ProjectsByUserRole(Resource):
+    
+    def get(self, id):
+        roles = Role.query.filter_by(user_id=id).all()
+        if roles:
+            projects = [role.project.to_dict(rules=('-roles', '-tasks')) for role in roles]
+            return make_response(projects, 200)
+        else:
+            return make_response({"error": "User not found"}, 404)
+
+api.add_resource(ProjectsByUserRole, '/roles/users/<int:id>')
+
+
+
+
+
 
 
 

@@ -16,7 +16,8 @@ class User(db.Model, SerializerMixin):
 
     tasks = db.relationship('Task', back_populates='user')
     roles = db.relationship('Role', back_populates='user', cascade='all, delete-orphan')
-    project = association_proxy('tasks', 'project')
+
+    projects = association_proxy('roles', 'users')
 
     serialize_rules = ('-_password_hash', '-tasks.user', '-roles.user')
 
@@ -59,7 +60,8 @@ class Project(db.Model, SerializerMixin):
 
     tasks = db.relationship('Task', back_populates='project', cascade='all, delete-orphan')
     roles = db.relationship('Role', back_populates='project', cascade='all, delete-orphan')
-    user = association_proxy('tasks', 'user')
+
+    users = association_proxy('roles', 'projects')
 
     serialize_rules = ('-tasks.project', '-roles.project')
 
