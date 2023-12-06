@@ -3,8 +3,6 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-import { Box, Button, TextField } from "@mui/material"
-
 
 function SignIn({setUser, signup, setSignup}) {  
   const [error, setError] = useState(null)
@@ -67,63 +65,63 @@ function SignIn({setUser, signup, setSignup}) {
   }
 
   return (
-    <Box>
+    <div>
       <form onSubmit={formik.handleSubmit}>
-          {signup && <TextField 
-              id="name" 
-              label="Name" 
-              variant="outlined" 
-              value={formik.values.name} 
-              onChange={formik.handleChange} 
-          />}
-          {signup && <TextField 
-              id="company" 
-              label="Company" 
-              variant="outlined" 
-              value={formik.values.company} 
-              onChange={formik.handleChange}
-          />}
-          {signup && <TextField 
-              id="phoneNumber" 
-              label="Phone Number" 
-              variant="outlined" 
-              value={formik.values.phoneNumber} 
-              onChange={formik.handleChange}
-          />}
-          <TextField 
-              id="email" 
-              label="Email" 
-              variant="outlined" 
-              value={formik.values.email} 
-              onChange={formik.handleChange}
-          />
-          <TextField 
-              id="password" 
-              label="Password" 
-              variant="outlined" 
-              type="password"
-              value={formik.values.password} 
-              onChange={formik.handleChange}
-          />
-          {signup && <TextField 
-              id="confirmPassword" 
-              label="Confirm Password" 
-              variant="outlined" 
-              type="password"
-              value={formik.values.confirmPassword} 
-              onChange={formik.handleChange}
-          />}
-          <Button type="submit" variant="contained" >
-              Submit
-          </Button>
+        {signup && <label htmlFor="name">Name</label>}
+        {signup && <input 
+            id="name" 
+            name="name"
+            value={formik.values.name} 
+            onChange={formik.handleChange} 
+        />}
+        {signup && <label htmlFor="company">Company</label>}
+        {signup && <input 
+            id="company" 
+            name="company" 
+            value={formik.values.company} 
+            onChange={formik.handleChange}
+        />}
+        {signup && <label htmlFor="phoneNumber">Phone Number</label>}
+        {signup && <input 
+            id="phoneNumber" 
+            name="phoneNumber" 
+            value={formik.values.phoneNumber} 
+            onChange={formik.handleChange}
+        />}
+        <label htmlFor="email">Email</label>
+        <input 
+            id="email" 
+            name="email" 
+            value={formik.values.email} 
+            onChange={formik.handleChange}
+        />
+        <label htmlFor="password">Password</label>
+        <input 
+            id="password" 
+            name="password" 
+            type="password"
+            value={formik.values.password} 
+            onChange={formik.handleChange}
+        />
+        {signup && <label htmlFor="confirmPassword">Confirm Password</label>}
+        {signup && <input 
+            id="confirmPassword" 
+            name="confirmPassword"
+            type="password"
+            value={formik.values.confirmPassword} 
+            onChange={formik.handleChange}
+        />}
+        <button type="submit" variant="contained" >
+            Submit
+        </button>
       </form>
-      <Button variant="outlined" onClick={toggleForm} >{signup ? 'Log In' : 'Sign Up'}</Button>
+      <button variant="outlined" onClick={toggleForm} >{signup ? 'Log In' : 'Sign Up'}</button>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <p style={{ color: "red" }}>{formik.errors.name}</p>
       <p style={{ color: "red" }}>{formik.errors.email}</p>
       <p style={{ color: "red" }}>{formik.errors.password}</p>
       <p style={{ color: "red" }}>{formik.errors.confirmPassword}</p>
-    </Box>
+    </div>
   )
 }
 

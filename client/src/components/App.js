@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "@mui/material";
 
 import SignIn from "./SignIn";
 import UserHome from "./UserHome";
@@ -33,7 +32,7 @@ function App() {
         return (
             <div>
                 <UserHome user={user} />
-                <Button onClick={handleLogout} >Log Out</Button>
+                <button onClick={handleLogout} >Log Out</button>
 
             </div>
         )

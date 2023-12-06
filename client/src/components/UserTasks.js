@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Box, Button } from "@mui/material";
 
 function UserTasks({user}) {
     const [userTasks, setUserTasks] = useState([])
@@ -19,10 +18,10 @@ function UserTasks({user}) {
     console.log(userTasks)
 
     return (
-        <Box >
+        <div >
             <h2>My Tasks</h2>
 
-        </Box>
+        </div>
     )
 }
 

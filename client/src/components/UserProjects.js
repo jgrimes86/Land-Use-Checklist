@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Box, Button } from "@mui/material";
 
 function UserProjects({user}) {
     const [userProjects, setUserProjects] = useState([])
@@ -19,20 +18,20 @@ function UserProjects({user}) {
     const projectList = userProjects.map(project => {
         const {id, name, client, property_address, property_block, property_lot, municipality, county, state} = project
         return (
-            <Button key={id} variant="contained" >
+            <div key={id} variant="contained" >
                 <h3>{name}</h3>
                 <p>{client}, {property_address}</p>
                 <p>{property_block}, {property_lot}, {municipality}, {county}, {state}</p>
-            </Button>
+            </div>
         )
     })
 
     return (
-        <Box>
+        <div>
             <h2>My Projects</h2>
             {projectList}
-            <Button variant="outlined" >Create New Project</Button>
-        </Box>
+            <button variant="outlined" >Create New Project</button>
+        </div>
     )
 }
 
