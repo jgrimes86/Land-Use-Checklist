@@ -1,9 +1,7 @@
+import { useState, useEffect } from "react";
+import { Box, Button } from "@mui/material";
 
-import { useState, useEffect } from "react"
-import { Box, Button } from "@mui/material"
-
-
-function Home({user}) {
+function UserProjects({user}) {
     const [userProjects, setUserProjects] = useState([])
 
     useEffect(() => {
@@ -29,18 +27,13 @@ function Home({user}) {
         )
     })
 
-
-
     return (
         <Box>
-            <h1>{user.name}</h1>
-            <Box>
-                <h2>My Projects</h2>
-                {projectList}
-            </Box>
-            <h2>My Tasks</h2>
+            <h2>My Projects</h2>
+            {projectList}
+            <Button variant="outlined" >Create New Project</Button>
         </Box>
     )
 }
 
-export default Home
+export default UserProjects

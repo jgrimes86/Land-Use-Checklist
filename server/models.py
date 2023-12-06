@@ -101,7 +101,7 @@ class Task(db.Model, SerializerMixin):
     project = db.relationship('Project', back_populates='tasks')
     comments = db.relationship('Comment', back_populates='task', cascade='all, delete-orphan')
 
-    serialize_rules = ('-user.tasks', '-project.tasks', '-comments.task')
+    serialize_rules = ('-user', '-project.tasks', '-comments.task')
 
 
 class Comment(db.Model, SerializerMixin):
