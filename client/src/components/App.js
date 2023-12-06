@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { ChakraProvider } from '@chakra-ui/react';
 
 import SignIn from "./SignIn";
 import UserHome from "./UserHome";
@@ -30,18 +31,18 @@ function App() {
 
     if (user) {
         return (
-            <div>
+            <ChakraProvider>
                 <UserHome user={user} />
                 <button onClick={handleLogout} >Log Out</button>
 
-            </div>
+            </ChakraProvider>
         )
     }
     else {
         return (
-            <div>
+            <ChakraProvider>
                 <SignIn setUser={setUser} signup={signup} setSignup={setSignup} />
-            </div>
+            </ChakraProvider>
         )
     }
 }
