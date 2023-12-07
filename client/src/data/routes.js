@@ -10,7 +10,7 @@ const routes = [
         element: <App />,
         children: [
             {
-                path: "/signin",
+                path: "/login",
                 element: <SignIn />
             },
             {

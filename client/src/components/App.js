@@ -17,7 +17,10 @@ function App() {
         fetch('/check_session')
         .then((r) => {
             if (r.ok) {
-              r.json().then((user) => setUser(user));
+                r.json().then((user) => setUser(user));
+            }
+            else {
+                r.json().then(({error}) => navigate('/login'))
             }
           });
     }, [])
@@ -28,7 +31,7 @@ function App() {
             method: 'DELETE'
         })
         .then((r) => {
-            if (r.ok) {setUser(null); setSignup(false); navigate("/signin")}
+            if (r.ok) {setUser(null); setSignup(false); navigate("/login")}
         })
     }
 
