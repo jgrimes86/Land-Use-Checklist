@@ -65,7 +65,41 @@ api.add_resource(CheckSession, '/check_session')
 
 
 
-class ProjectsByUserRole(Resource):
+class UserById(Resource):
+    
+    def patch(self, id):
+        user = User.query.filter_by(id=id).first()
+        if user:
+            data = request.json
+            # userUpdate = {
+            #     name: data['name'],
+            #     company: data['company'],
+            #     phone_number: data['phoneNumber'],
+            #     email: data['email']
+            # }
+            # if data['newpassword']:
+            #     if not user.authenticate(data['oldPassword']):
+            #         return make_response({"error": "Incorrect password"}, 401)
+            for attr in data:
+                setattr(user, attr, data[attr])
+            db.session.commit()
+            return make_response(user.to_dict(), 200)
+        else:
+            return make_response({"error": "User not found"}, 404)
+
+api.add_resource(UserById, '/users/<int:id>')
+
+            # user = User(
+            #     name=data['name'], 
+            #     company=data['company'], 
+            #     phone_number=data['phoneNumber'],
+            #     email=data['email'], 
+            #     password_hash=data['password'])
+
+
+
+
+class UserProjects(Resource):
     
     def get(self, id):
         roles = Role.query.filter_by(user_id=id).all()
@@ -75,11 +109,11 @@ class ProjectsByUserRole(Resource):
         else:
             return make_response({"error": "User not found"}, 404)
 
-api.add_resource(ProjectsByUserRole, '/roles/users/<int:id>')
+api.add_resource(UserProjects, '/roles/users/<int:id>')
 
 
 
-class TasksByUser(Resource):
+class UserTasks(Resource):
 
     def get(self, id):
         tasks = [task.to_dict(rules=('-project.roles',)) for task in Task.query.filter_by(user_id=id).all()]
@@ -88,7 +122,7 @@ class TasksByUser(Resource):
         else:
             return make_response({"error": "User not found"}, 404)
 
-api.add_resource(TasksByUser, '/tasks/users/<int:id>')
+api.add_resource(UserTasks, '/tasks/users/<int:id>')
 
 
 
