@@ -42,7 +42,19 @@ function TaskTableItem({task, userTasks, setUserTasks}) {
     })
 
     function handleDelete() {
-        
+        fetch(`/tasks/${task.id}`, {
+            method: 'DELETE'
+        })
+        .then((r) => {
+            if (r.ok) {
+                setUserTasks(userTasks.filter(t => {
+                    if (t.id !== task.id) return t
+                }));
+                onClose()
+            } else {
+                r.json().then(({error}) => console.log(error))
+            }
+        })
     }
 
     return (
@@ -58,7 +70,6 @@ function TaskTableItem({task, userTasks, setUserTasks}) {
                 <ModalOverlay />
                     <ModalContent>
                     <ModalHeader>{task.project.name}</ModalHeader>
-                    {/* <ModalCloseButton /> */}
                     <ModalBody>
                         <form onSubmit={formik.handleSubmit}>
                             <FormLabel htmlFor="name">Name</FormLabel>
@@ -115,10 +126,10 @@ function TaskTableItem({task, userTasks, setUserTasks}) {
                                 <option value='incomplete'>Incomplete</option>
                             </Select>
 
-                            <Button variant='ghost' type="submit" >
+                            <Button colorScheme="blue" mr={3} type="submit" >
                                 Save Changes
                             </Button>
-                            <Button colorScheme='blue' mr={3} onClick={onClose}>
+                            <Button colorScheme='blue' variant='outline' mr={3} onClick={onClose}>
                                 Close
                             </Button>
                             <Button colorScheme='yellow' mr={3} onClick={handleDelete}>
@@ -126,9 +137,6 @@ function TaskTableItem({task, userTasks, setUserTasks}) {
                             </Button>
                         </form>
                     </ModalBody>
-
-                    <ModalFooter>
-                    </ModalFooter>
                 </ModalContent>
             </Modal>
         </>

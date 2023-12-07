@@ -136,9 +136,18 @@ class TasksById(Resource):
                 setattr(task, attr, data[attr])
             db.session.commit()
             return make_response(task.to_dict(), 202)
-
         else:
             return make_response({"error": "Task not found"}, 404)
+
+    def delete(self, id):
+        task = Task.query.filter_by(id=id).first()
+        if task:
+            db.session.delete(task)
+            db.session.commit()
+            return make_response({}, 204)
+        else:
+            return make_response({"error": "Task not found"}, 404)
+
 
 api.add_resource(TasksById, '/tasks/<int:id>')
 
