@@ -93,25 +93,26 @@ class Task(db.Model, SerializerMixin):
     start_date = db.Column(db.Text)
     end_date = db.Column(db.Text)
     status = db.Column(db.Text)
+    comments = db.Column(db.Text)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'))
 
     user = db.relationship('User', back_populates='tasks')
     project = db.relationship('Project', back_populates='tasks')
-    comments = db.relationship('Comment', back_populates='task', cascade='all, delete-orphan')
+    # comments = db.relationship('Comment', back_populates='task', cascade='all, delete-orphan')
 
-    serialize_rules = ('-user', '-project.tasks', '-comments.task')
+    serialize_rules = ('-user', '-project.tasks')
 
 
-class Comment(db.Model, SerializerMixin):
-    __tablename__ = 'comments'
+# class Comment(db.Model, SerializerMixin):
+#     __tablename__ = 'comments'
 
-    id = db.Column(db.Integer, primary_key=True)
-    comment = db.Column(db.Text)
+#     id = db.Column(db.Integer, primary_key=True)
+#     comment = db.Column(db.Text)
 
-    task_id = db.Column(db.Integer, db.ForeignKey('tasks.id'))
+#     task_id = db.Column(db.Integer, db.ForeignKey('tasks.id'))
 
-    task = db.relationship('Task', back_populates='comments')
+#     task = db.relationship('Task', back_populates='comments')
 
-    serialize_rules = ('-task',)
+#     serialize_rules = ('-task',)

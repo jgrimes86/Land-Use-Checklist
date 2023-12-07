@@ -2,7 +2,7 @@ from flask import request, make_response, session
 from flask_restful import Resource
 from config import app, db, api
 
-from models import User, Project, Role, Task, Comment
+from models import User, Project, Role, Task
 
 @app.route('/')
 def index():
