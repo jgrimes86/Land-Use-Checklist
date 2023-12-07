@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import { ChakraProvider } from '@chakra-ui/react';
 import { Button } from '@chakra-ui/react';
 
@@ -6,8 +7,9 @@ import SignIn from "./SignIn";
 import UserHome from "./UserHome";
 
 function App() {
-    const [user, setUser] = useState(null)
-    const [signup, setSignup] = useState(false)
+    const [user, setUser] = useState(null);
+    const [signup, setSignup] = useState(false);
+    const navigate = useNavigate();
 
     console.log(user)
 
@@ -26,26 +28,39 @@ function App() {
             method: 'DELETE'
         })
         .then((r) => {
-            if (r.ok) {setUser(null); setSignup(false)}
+            if (r.ok) {setUser(null); setSignup(false); navigate("/signin")}
         })
     }
 
-    if (user) {
-        return (
-            <ChakraProvider>
-                <UserHome user={user} />
-                <Button colorScheme="blue" onClick={handleLogout} >Log Out</Button>
+    const context = {
+        setUser,
+        signup,
+        setSignup,
+        user
+    }
 
-            </ChakraProvider>
-        )
-    }
-    else {
-        return (
-            <ChakraProvider>
-                <SignIn setUser={setUser} signup={signup} setSignup={setSignup} />
-            </ChakraProvider>
-        )
-    }
+    return (
+        <ChakraProvider>
+            <Outlet context={context} />
+            {user && <Button colorScheme="blue" onClick={handleLogout} >Log Out</Button>}
+        </ChakraProvider>
+    )
+
+    // if (user) {
+    //     return (
+    //         <ChakraProvider>
+    //             <UserHome user={user} />
+
+    //         </ChakraProvider>
+    //     )
+    // }
+    // else {
+    //     return (
+    //         <ChakraProvider>
+    //             <SignIn setUser={setUser} signup={signup} setSignup={setSignup} />
+    //         </ChakraProvider>
+    //     )
+    // }
 }
 
 export default App;

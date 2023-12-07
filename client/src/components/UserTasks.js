@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import TaskItem from "./TaskItem";
 
-import { chakra, Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer,} from '@chakra-ui/react';
-// import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
-// import { useTable, useSortBy } from 'react-table';
+import { Table, Thead, Tbody, Tr, Th, Td, } from '@chakra-ui/react';
 
 function UserTasks({user}) {
     const [userTasks, setUserTasks] = useState([])
@@ -28,9 +26,10 @@ function UserTasks({user}) {
     
     return (
         <div >
-            <h2>My Tasks</h2>
+            <h2>My Task List</h2>
             {taskList}
 
+            <h2>My Task Table</h2>
             <Table variant='simple'>
                 <Thead>
                     <Tr>
