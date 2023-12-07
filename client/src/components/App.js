@@ -6,6 +6,7 @@ import { Button } from '@chakra-ui/react';
 import SignIn from "./SignIn";
 import UserHome from "./UserHome";
 import EditUser from "./EditUser";
+import TaskTable from "./TaskTable";
 
 function App() {
     const [user, setUser] = useState(null);
@@ -37,20 +38,7 @@ function App() {
         })
     }
 
-    // const context = {
-    //     setUser,
-    //     signup,
-    //     setSignup,
-    //     user,
-    //     checkOK
-    // }
 
-    // return (
-    //     <ChakraProvider>
-    //         <Outlet context={context} />
-    //         {user && <Button colorScheme="blue" onClick={handleLogout} >Log Out</Button>}
-    //     </ChakraProvider>
-    // )
 
     if (user) {
         return (
@@ -58,6 +46,7 @@ function App() {
                 <UserHome user={user} />
                 <EditUser user={user} />
                 {user && <Button colorScheme="blue" onClick={handleLogout} >Log Out</Button>}
+                <TaskTable />
             </ChakraProvider>
         )
     }
