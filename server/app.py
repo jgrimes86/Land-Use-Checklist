@@ -116,7 +116,7 @@ api.add_resource(UserProjects, '/roles/users/<int:id>')
 class UserTasks(Resource):
 
     def get(self, id):
-        tasks = [task.to_dict(rules=('-project.roles',)) for task in Task.query.filter_by(user_id=id).all()]
+        tasks = [task.to_dict(rules=('-project.roles', '-user')) for task in Task.query.filter_by(user_id=id).all()]
         if tasks:
             return make_response(tasks, 200)
         else:
@@ -126,7 +126,21 @@ api.add_resource(UserTasks, '/tasks/users/<int:id>')
 
 
 
+class TasksById(Resource):
 
+    def patch(self, id):
+        task = Task.query.filter_by(id=id).first()
+        if task:
+            data = request.json
+            for attr in data:
+                setattr(task, attr, data[attr])
+            db.session.commit()
+            return make_response(task.to_dict(), 202)
+
+        else:
+            return make_response({"error": "Task not found"}, 404)
+
+api.add_resource(TasksById, '/tasks/<int:id>')
 
 
 

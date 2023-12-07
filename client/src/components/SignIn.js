@@ -36,7 +36,7 @@ function SignIn({setUser, signup, setSignup}) {
       email: "",
       password: "",
       confirmPassword: ""
-  },
+    },
 
     validationSchema: schema,
     // validateOnChange: false,

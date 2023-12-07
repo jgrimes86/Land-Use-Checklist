@@ -26,7 +26,7 @@ function UserTasks({user}) {
     // })
     
     const taskTableRows = userTasks.map(task => {
-        return <TaskTableItem key={task.id} task={task} />
+        return <TaskTableItem key={task.id} task={task} userTasks={userTasks} setUserTasks={setUserTasks} />
     })
 
     return (
