@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import TaskItem from "./TaskItem";
-
 import { Table, Thead, Tbody, Tr, Th, Td, } from '@chakra-ui/react';
+
+import TaskItem from "./TaskItem";
+import TaskTableItem from "./TaskTableItem";
 
 function UserTasks({user}) {
     const [userTasks, setUserTasks] = useState([])
@@ -20,14 +21,18 @@ function UserTasks({user}) {
 
     console.log("User Tasks: ", userTasks)
 
-    const taskList = userTasks.map(task => {
-            return <TaskItem key={task.id} task={task}/>
-        })
+    // const taskList = userTasks.map(task => {
+    //         return <TaskItem key={task.id} task={task}/>
+    // })
     
+    const taskTableRows = userTasks.map(task => {
+        return <TaskTableItem key={task.id} task={task} />
+    })
+
     return (
         <div >
-            <h2>My Task List</h2>
-            {taskList}
+            {/* <h2>My Task List</h2> */}
+            {/* {taskList} */}
 
             <h2>My Task Table</h2>
             <Table variant='simple'>
@@ -40,14 +45,7 @@ function UserTasks({user}) {
                     </Tr>
                 </Thead>
                 <Tbody>
-                    {userTasks.map(task => {
-                        return <Tr key={task.id} >
-                            <Td>{task.project.name}</Td>
-                            <Td>{task.start_date}</Td>
-                            <Td>{task.end_date}</Td>
-                            <Td>{task.status}</Td>
-                        </Tr>
-                    })}
+                    {taskTableRows}
                 </Tbody>
             </Table>
 
