@@ -9,15 +9,18 @@ import UserHome from "./UserHome";
 function App() {
     const [user, setUser] = useState(null);
     const [signup, setSignup] = useState(false);
+    const [checkOK, setCheckOK] = useState(false);
     const navigate = useNavigate();
 
     console.log(user)
-
+    
+    
     useEffect(() => {
+        setCheckOK(false)
         fetch('/check_session')
         .then((r) => {
             if (r.ok) {
-                r.json().then((user) => setUser(user));
+                r.json().then((user) => {setUser(user); setCheckOK(true)});
             }
             else {
                 r.json().then(({error}) => navigate('/login'))
@@ -39,7 +42,8 @@ function App() {
         setUser,
         signup,
         setSignup,
-        user
+        user,
+        checkOK
     }
 
     return (

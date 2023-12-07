@@ -5,13 +5,14 @@ import UserProjects from "./UserProjects";
 import UserTasks from "./UserTasks";
 
 function UserHome() {
-    const {user} = useOutletContext();
-    // const params = useParams();
+    const {user, checkOK} = useOutletContext();
     const navigate = useNavigate();
 
     function handleClick() {
         navigate(`/users/account/${user.id}`)
     }
+
+    if (!checkOK) return <div>Loading...</div>
 
     return (
         <div>
