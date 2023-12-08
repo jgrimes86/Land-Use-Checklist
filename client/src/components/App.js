@@ -6,14 +6,13 @@ import { Button } from '@chakra-ui/react';
 import SignIn from "./SignIn";
 import UserHome from "./UserHome";
 import EditUser from "./EditUser";
-import TaskTable from "./TaskTable";
 
 function App() {
     const [user, setUser] = useState(null);
     const [signup, setSignup] = useState(false);
     const navigate = useNavigate();
 
-    console.log(user)
+    // console.log(user)
     
     
     useEffect(() => {
@@ -46,7 +45,6 @@ function App() {
                 <UserHome user={user} />
                 <EditUser user={user} />
                 {user && <Button colorScheme="blue" onClick={handleLogout} >Log Out</Button>}
-                <TaskTable />
             </ChakraProvider>
         )
     }

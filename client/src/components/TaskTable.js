@@ -1,81 +1,125 @@
-import { useMemo } from "react";
-import { useTable, useSortBy } from "react-table";
+import React, { useMemo, useState } from "react";
+import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, useReactTable, } from '@tanstack/react-table';
 import { Table, Thead, Tbody, Tr, Th, Td, } from '@chakra-ui/react';
 
-function TaskTable() {
+function TaskTable({user}) {
 
-    const data = useMemo(
-        () => [
+    const [data, setData] = useState([
         {
-            first_name: "John",
-            last_name: "Doe",
-        },
-        {
-            first_name: "Sally",
-            last_name: "Mae",
-        },
-        {
-            first_name: "Freddie",
-            last_name: "Mac",
-        },
-        ], []
-    );
+            projectName: "",
+            start_date: "",
+            end_date: "",
+            status: "",
+        }
+    ])
+
+    useMemo(() => {
+        fetch('/tasks/users/'+user.id)
+        .then((r) => r.json())
+        .then(data => setData(data.map(task => {
+            return {
+                projectName: task.project.name,
+                start_date: task.start_date,
+                end_date: task.end_date,
+                status: task.status            
+            }
+        })))
+    }, [])
+
+    const columnHelper = createColumnHelper()
 
     const columns = useMemo(
         () => [
-        {
-            Header: 'First Name',
-            accessor: 'first_name',
-        },
-        {
-            Header: 'Last Name',
-            accessor: 'last_name'
-        }
+            columnHelper.accessor('projectName', {
+                id: 'projectName',
+                cell: info => info.getValue(),
+                header: () => 'Project Name',
+            }),
+            columnHelper.accessor('start_date', {
+                id: 'start_date',
+                cell: info => info.getValue(),
+                header: () => 'Start Date',
+            }),
+            columnHelper.accessor('end_date', {
+                id: 'end_date',
+                cell: info => info.getValue(),
+                header: () => 'Due Date',
+            }),
+            columnHelper.accessor('status', {
+                id: 'status',
+                cell: info => info.getValue(),
+                header: () => 'Status',
+            })
         ], []
-    );
-
-    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
-        {
-          data,
-          columns,
-        },
-        useSortBy
     )
 
+    const table = useReactTable({
+        data,
+        columns,
+        getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        debugTable: true,
+    })
+
     return (
-        <Table {...getTableProps()}>
-            <Thead>
-                {headerGroups.map(headerGroup => (
-                    <Tr {...headerGroup.getHeaderGroupProps()}>
-                        {headerGroup.headers.map(column => (
-                            <Th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                                {column.render('Header')}
-                                {/* <span>
-                                    {column.isSorted ? (column.isSortedDesc? ' 🔽' : ' 🔼') : ' '}
-                                </span> */}
-                            </Th>
-                        ))}
-                    </Tr>
-                ))}
-            </Thead>
-            <Tbody {...getTableBodyProps()}>
-                {rows.map(
-                    (row, i) => {
-                        prepareRow(row);
-                        return (
-                            <Tr {...row.getRowProps()}>
-                                {row.cells.map(cell => {
-                                    return <Td {...cell.getCellProps()}>
-                                        {cell.render('Cell')}
-                                    </Td>
-                                })}
-                            </Tr>
-                        )
+        <div>
+            <div>Sortable Table</div>
+            <Table>
+                <Thead>
+                    {table.getHeaderGroups().map(headerGroup => (
+                        <Tr key={headerGroup.id} >
+                            {headerGroup.headers.map(header => {
+                                return (
+                                    <Th key={header.id} colSpan={header.colSpan}>
+                                        {header.isPlaceholder? null : (
+                                            <div
+                                                {...{
+                                                    className: header.column.getCanSort()
+                                                        ? 'cursor-pointer select-none'
+                                                        : '',
+                                                    onClick: header.column.getToggleSortingHandler(),
+                                                }}
+                                            >
+                                                {flexRender(
+                                                    header.column.columnDef.header,
+                                                    header.getContext()
+                                                )}
+                                                {{
+                                                    asc: ' 🔼',
+                                                    desc: ' 🔽',
+                                                }[header.column.getIsSorted().toString()] ?? null}
+                                            </div>
+                                        )}
+                                    </Th>
+                                )
+                            })}
+                        </Tr>
+                    ))}
+                </Thead>
+                <Tbody>
+                    {table
+                        .getRowModel()
+                        .rows.slice(0, 10)
+                        .map(row => {
+                            return (
+                                <Tr key={row.id}>
+                                    {row.getVisibleCells().map(cell => {
+                                        return (
+                                            <Td key={cell.id}>
+                                                {flexRender(
+                                                    cell.column.columnDef.cell,
+                                                    cell.getContext()
+                                                )}
+                                            </Td>
+                                        )
+                                    })}
+                                </Tr>
+                            )
+                        })
                     }
-                )}
-            </Tbody>
-        </Table>
-    )   
+                </Tbody>
+            </Table>
+        </div>)
 }
 
 export default TaskTable

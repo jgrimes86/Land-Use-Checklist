@@ -19,7 +19,7 @@ function UserTasks({user}) {
         })
     }, [])
 
-    console.log("User Tasks: ", userTasks)
+    // console.log("User Tasks: ", userTasks)
 
     // const taskList = userTasks.map(task => {
     //         return <TaskItem key={task.id} task={task}/>
@@ -48,8 +48,6 @@ function UserTasks({user}) {
                     {taskTableRows}
                 </Tbody>
             </Table>
-
-
 
         </div>
     )
