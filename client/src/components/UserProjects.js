@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from '@chakra-ui/react';
 
 function UserProjects({user}) {
-    const [userProjects, setUserProjects] = useState([])
+    const [userProjects, setUserProjects] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch('/roles/users/'+user.id)
@@ -16,10 +18,14 @@ function UserProjects({user}) {
         })
     }, [])
 
+    function handleNavigate(projectId) {
+        navigate(`/projects/${projectId}`)
+    }
+
     const projectList = userProjects.map(project => {
         const {id, name, client, property_address, property_block, property_lot, municipality, county, state} = project
         return (
-            <Button key={id} colorScheme="blue" >
+            <Button key={id} colorScheme="blue" onClick={() => handleNavigate(id)} >
                 <h3>{name}</h3>
                 <p>{client}, {property_address}</p>
                 <p>{property_block}, {property_lot}, {municipality}, {county}, {state}</p>

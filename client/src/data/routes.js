@@ -3,6 +3,7 @@ import App from "../components/App";
 import SignIn from "../components/SignIn";
 import UserHome from "../components/UserHome";
 import EditUser from "../components/EditUser";
+import Project from "../components/Project";
 
 const routes = [
     {
@@ -20,6 +21,10 @@ const routes = [
             {
                 path: "/users/:id/accounts",
                 element: <EditUser />
+            },
+            {
+                path: "/projects/:id",
+                element: <Project />
             }
         ]
     }

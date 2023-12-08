@@ -3,9 +3,10 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { ChakraProvider } from '@chakra-ui/react';
 import { Button } from '@chakra-ui/react';
 
-import SignIn from "./SignIn";
-import UserHome from "./UserHome";
-import EditUser from "./EditUser";
+// import SignIn from "./SignIn";
+// import UserHome from "./UserHome";
+// import EditUser from "./EditUser";
+import NavBar from "./Navbar";
 
 function App() {
     const [user, setUser] = useState(null);
@@ -33,7 +34,7 @@ function App() {
             method: 'DELETE'
         })
         .then((r) => {
-            if (r.ok) {setUser(null); setSignup(false); navigate("/login")}
+            if (r.ok) {setUser(null); setSignup(false)}
         })
     }
 
@@ -48,18 +49,11 @@ function App() {
     
     return (
         <ChakraProvider>
+            {user && <NavBar userId={user.id} handleLogout={handleLogout} />}
             <Outlet context={context} />
-            {user && <Button colorScheme="blue" onClick={handleLogout} >Log Out</Button>}
+            {/* {user && <Button colorScheme="blue" onClick={handleLogout} >Log Out</Button>} */}
         </ChakraProvider>
     )
-    
-    // else {
-    //     return (
-    //         <ChakraProvider>
-    //             <SignIn setUser={setUser} signup={signup} setSignup={setSignup} />
-    //         </ChakraProvider>
-    //     )
-    // }
 }
 
 export default App;

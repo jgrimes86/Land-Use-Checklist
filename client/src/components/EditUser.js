@@ -143,7 +143,7 @@ function EditUser() {
             <p style={{ color: "red" }}>{formik.errors.password}</p>
             <p style={{ color: "red" }}>{formik.errors.confirmPassword}</p>
 
-            <Button colorScheme="blue" onClick={handleHomeClick} >Home</Button>
+            {/* <Button colorScheme="blue" onClick={handleHomeClick} >Home</Button> */}
         </div>
     )
 }
