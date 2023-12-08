@@ -9,6 +9,8 @@ function EditProject() {
     const [project, setProject] = useState("");
     const [error, setError] = useState(null);
 
+    console.log(project)
+
     const params = useParams();
     const navigate = useNavigate();
 
@@ -21,9 +23,9 @@ function EditProject() {
     const formikSchema = yup.object().shape({
         name: yup.string().required("Must enter a project name"),
         client: yup.string(),
-        property_address: yup.string(),
-        property_lot: yup.string(),
-        property_block: yup.string(),
+        propertyAddress: yup.string(),
+        propertyLot: yup.string(),
+        propertyBlock: yup.string(),
         municipality: yup.string(),
         county: yup.string(),
         state: yup.string(),
@@ -33,9 +35,9 @@ function EditProject() {
         initialValues: {
           name: project ? project.name : "",
           client: project ? project.client : "",
-          property_address: project ? project.property_address : "",
-          property_lot: project ? project.property_lot : "",
-          property_block: project ? project.property_block : "",
+          propertyAddress: project ? project.property_address : "",
+          propertyLot: project ? project.property_lot : "",
+          propertyBlock: project ? project.property_block : "",
           municipality: project ? project.municipality : "",
           county: project ? project.county : "",
           state: project ? project.state : "",
@@ -92,25 +94,25 @@ function EditProject() {
                         value={formik.values.client} 
                         onChange={formik.handleChange}
                     />
-                    <FormLabel htmlFor="property_address">Property Address</FormLabel>
+                    <FormLabel htmlFor="propertyAddress">Property Address</FormLabel>
                     <Input 
-                        id="property_address" 
-                        name="property_address" 
-                        value={formik.values.property_address} 
+                        id="propertyAddress" 
+                        name="propertyAddress" 
+                        value={formik.values.propertyAddress} 
                         onChange={formik.handleChange}
                     />
-                    <FormLabel htmlFor="property_lot">Lot</FormLabel>
+                    <FormLabel htmlFor="propertyLot">Lot</FormLabel>
                     <Input 
-                        id="property_lot" 
-                        name="property_lot" 
-                        value={formik.values.property_lot} 
+                        id="propertyLot" 
+                        name="propertyLot" 
+                        value={formik.values.propertyLot} 
                         onChange={formik.handleChange}
                     />
-                    <FormLabel htmlFor="property_block">Block</FormLabel>
+                    <FormLabel htmlFor="propertyBlock">Block</FormLabel>
                     <Input 
-                        id="property_block" 
-                        name="property_block" 
-                        value={formik.values.property_block} 
+                        id="propertyBlock" 
+                        name="propertyBlock" 
+                        value={formik.values.propertyBlock} 
                         onChange={formik.handleChange}
                     />
                     <FormLabel htmlFor="municipality">Municipality</FormLabel>

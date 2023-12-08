@@ -158,14 +158,15 @@ class Projects(Resource):
         data = request.json
         # try:
         newProject = Project(
-            name=data['name'], 
-            client=data['client'], 
-            property_address=data['propertyAddress'], 
-            property_lot=data['propertyLot'], 
-            property_block=data['propertyBlock'], 
-            municipality=data['municipality'], 
-            county=data['county'], 
-            state=['state'])
+            name = data["name"],
+            client = data["client"],
+            property_address = data["propertyAddress"],
+            property_lot = data["propertyLot"],
+            property_block = data["propertyBlock"],
+            municipality = data["municipality"],
+            county = data["county"],
+            state = data["state"],
+        )
         db.session.add(newProject)
         db.session.commit()
         return make_response(newProject.to_dict(), 202)
