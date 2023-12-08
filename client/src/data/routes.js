@@ -4,6 +4,7 @@ import SignIn from "../components/SignIn";
 import UserHome from "../components/UserHome";
 import EditUser from "../components/EditUser";
 import Project from "../components/Project";
+import EditProject from "../components/EditProject";
 
 const routes = [
     {
@@ -25,6 +26,10 @@ const routes = [
             {
                 path: "/projects/:id",
                 element: <Project />
+            },
+            {
+                path: "/projects/:id/edit",
+                element: <EditProject />
             }
         ]
     }

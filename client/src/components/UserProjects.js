@@ -22,6 +22,10 @@ function UserProjects({user}) {
         navigate(`/projects/${projectId}`)
     }
 
+    function handleCreateProject() {
+        navigate('/projects/0/edit')
+    }
+
     const projectList = userProjects.map(project => {
         const {id, name, client, property_address, property_block, property_lot, municipality, county, state} = project
         return (
@@ -37,7 +41,7 @@ function UserProjects({user}) {
         <div>
             <h2>My Projects</h2>
             {projectList}
-            <Button colorScheme="blue" >Create New Project</Button>
+            <Button colorScheme="yellow" onClick={handleCreateProject}>Create New Project</Button>
         </div>
     )
 }

@@ -152,6 +152,39 @@ class TasksById(Resource):
 api.add_resource(TasksById, '/tasks/<int:id>')
 
 
+class Projects(Resource):
+    
+    def post(self):
+        data = request.json
+        # try:
+        newProject = Project(
+            name=data['name'], 
+            client=data['client'], 
+            property_address=data['propertyAddress'], 
+            property_lot=data['propertyLot'], 
+            property_block=data['propertyBlock'], 
+            municipality=data['municipality'], 
+            county=data['county'], 
+            state=['state'])
+        db.session.add(newProject)
+        db.session.commit()
+        return make_response(newProject.to_dict(), 202)
+        # except:
+        #     return make_response({"error": "Error saving project"}, 400)
+
+api.add_resource(Projects, '/projects')
+
+
+    # name = db.Column(db.Text)
+    # client = db.Column(db.Text)
+    # property_address = db.Column(db.Text)
+    # property_lot = db.Column(db.Text)
+    # property_block = db.Column(db.Text)
+    # municipality = db.Column(db.Text)
+    # county = db.Column(db.Text)
+    # state = db.Column(db.Text)
+
+
 
 
 if __name__ == '__main__':
