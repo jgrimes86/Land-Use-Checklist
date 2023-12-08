@@ -6,12 +6,15 @@ import UserProjects from "./UserProjects";
 import UserTasks from "./UserTasks";
 import TaskTable from './TaskTable';
 
-function UserHome({user}) {
+function UserHome() {
+    const {user} = useOutletContext()
     const navigate = useNavigate();
 
     function handleClick() {
-        navigate(`/users/account/${user.id}`)
+        navigate(`/users/${user.id}/accounts`)
     }
+
+    if (!user) return <p>Loading...</p>
 
     return (
         <div>

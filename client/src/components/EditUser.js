@@ -4,13 +4,13 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { Button, FormControl, FormLabel, Input } from "@chakra-ui/react"
 
-function EditUser({user, setUser}) {
+function EditUser() {
     const [error, setError] = useState(null);
-    // const {user, setUser, checkOK} = useOutletContext();
+    const {user, setUser} = useOutletContext();
     const navigate = useNavigate();
 
     function handleHomeClick() {
-        navigate(`/users/home/${user.id}`)
+        navigate(`/users/${user.id}`)
     }
 
     const formikSchema = yup.object().shape({
@@ -25,10 +25,10 @@ function EditUser({user, setUser}) {
 
       const formik = useFormik({
         initialValues: {
-          name: user.name,
-          company: user.company,
-          phoneNumber: user.phone_number,
-          email: user.email,
+          name: user ? user.name : "",
+          company: user ? user.company : "",
+          phoneNumber: user ? user.phone_number : "",
+          email: user ? user.email : "",
         //   oldPassword: "",
         //   newpassword: "",
         //   confirmPassword: ""
@@ -60,6 +60,7 @@ function EditUser({user, setUser}) {
         },
       });
 
+    if (!user) return <p>Loading...</p>;
 
     return (
         <div>

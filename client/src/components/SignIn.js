@@ -6,10 +6,10 @@ import { Navigate, useNavigate, useOutletContext } from "react-router-dom";
 import { Button, FormControl, FormLabel, Input } from '@chakra-ui/react';
 
 
-function SignIn({setUser, signup, setSignup}) {  
+function SignIn() {  
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  // const {setUser, signup, setSignup} = useOutletContext();
+  const {setUser, signup, setSignup} = useOutletContext();
 
   const signupSchema = yup.object().shape({
       name: yup.string().required("Must enter a first name").max(15),
@@ -54,7 +54,7 @@ function SignIn({setUser, signup, setSignup}) {
           r.json().then((user) => {
             setUser(user);
             setError(null);
-            navigate(`/users/home/${user.id}`)
+            navigate(`/users/${user.id}`)
           });
         }
         else {

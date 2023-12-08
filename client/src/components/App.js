@@ -12,7 +12,7 @@ function App() {
     const [signup, setSignup] = useState(false);
     const navigate = useNavigate();
 
-    // console.log(user)
+    console.log(user)
     
     
     useEffect(() => {
@@ -22,7 +22,7 @@ function App() {
                 r.json().then((user) => {setUser(user)});
             }
             else {
-                r.json().then(({error}) => navigate('/login'))
+                r.json().then(() => navigate('/login'))
             }
           });
     }, [])
@@ -37,24 +37,29 @@ function App() {
         })
     }
 
+    const context = {
+        user,
+        setUser,
+        signup,
+        setSignup
+    }
 
 
-    if (user) {
-        return (
-            <ChakraProvider>
-                <UserHome user={user} />
-                <EditUser user={user} />
-                {user && <Button colorScheme="blue" onClick={handleLogout} >Log Out</Button>}
-            </ChakraProvider>
-        )
-    }
-    else {
-        return (
-            <ChakraProvider>
-                <SignIn setUser={setUser} signup={signup} setSignup={setSignup} />
-            </ChakraProvider>
-        )
-    }
+    
+    return (
+        <ChakraProvider>
+            <Outlet context={context} />
+            {user && <Button colorScheme="blue" onClick={handleLogout} >Log Out</Button>}
+        </ChakraProvider>
+    )
+    
+    // else {
+    //     return (
+    //         <ChakraProvider>
+    //             <SignIn setUser={setUser} signup={signup} setSignup={setSignup} />
+    //         </ChakraProvider>
+    //     )
+    // }
 }
 
 export default App;
