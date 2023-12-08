@@ -175,17 +175,14 @@ class Projects(Resource):
 
 api.add_resource(Projects, '/projects')
 
+class ProjectsById(Resource):
 
-    # name = db.Column(db.Text)
-    # client = db.Column(db.Text)
-    # property_address = db.Column(db.Text)
-    # property_lot = db.Column(db.Text)
-    # property_block = db.Column(db.Text)
-    # municipality = db.Column(db.Text)
-    # county = db.Column(db.Text)
-    # state = db.Column(db.Text)
+    def get(self, id):
+        project = Project.query.filter_by(id=id).first().to_dict()
+        return make_response(project, 200)
 
 
+api.add_resource(ProjectsById, '/projects/<int:id>')
 
 
 if __name__ == '__main__':

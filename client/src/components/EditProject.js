@@ -9,14 +9,20 @@ function EditProject() {
     const [project, setProject] = useState("");
     const [error, setError] = useState(null);
 
-    console.log(project)
+    console.log("project", project)
 
     const params = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
         if (params.id !== 0) {
-            // fetch project info
+            fetch(`/projects/${params.id}`)
+            .then((r) => {
+                if (r.ok) {
+                    r.json()
+                    .then(data => setProject(data))
+                }
+            })
         }
     }, [])
 
