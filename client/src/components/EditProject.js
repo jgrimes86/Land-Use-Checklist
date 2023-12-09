@@ -1,20 +1,31 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Button, FormControl, FormLabel, Input } from "@chakra-ui/react"
+import { Button, FormControl, FormLabel, Input, Select } from "@chakra-ui/react"
 
 
 function EditProject() {
-    const {project, setProject} = useOutletContext()
+    const {project, setProject, team, setTeam, users, setUsers} = useOutletContext()
     const [error, setError] = useState(null);
 
-    console.log("project: ", project)
+    useEffect(() => {
+        fetch('/users')
+        .then((r) => {
+            if (r.ok) {
+                r.json()
+                .then(data => setUsers(data))
+            }
+        })
+    }, [])
 
+    // console.log("project: ", project)
+
+////////////////////////// PROJECT FORMIK START /////////////////////////////////
     const params = useParams();
     const navigate = useNavigate();
   
-    const formikSchema = yup.object().shape({
+    const projectSchema = yup.object().shape({
         name: yup.string().required("Must enter a project name"),
         client: yup.string(),
         propertyAddress: yup.string(),
@@ -25,7 +36,7 @@ function EditProject() {
         state: yup.string(),
       });
 
-      const formik = useFormik({
+      const projectFormik = useFormik({
         initialValues: {
           name: project ? project.name : "",
           client: project ? project.client : "",
@@ -36,7 +47,7 @@ function EditProject() {
           county: project ? project.county : "",
           state: project ? project.state : "",
       },
-        validationSchema: formikSchema,
+        validationSchema: projectSchema,
         // validateOnChange: false,
         onSubmit: (values) => {
             
@@ -53,9 +64,9 @@ function EditProject() {
             .then((r) => {
             if (r.ok) {
                 r.json().then((newProject) => {
-                setProject(newProject);
-                setError(null);
-                navigate(`/projects/${newProject.id}`)
+                    setProject(newProject);
+                    setError(null);
+                    // navigate(`/projects/${newProject.id}`)
                 });
             }
             else {
@@ -67,89 +78,168 @@ function EditProject() {
       });
 
     const createEditButton = project ? "Save Changes" : "Create Project";
+////////////////////////// PROJECT FORMIK END /////////////////////////////////////
+
+////////////////////////// TEAM FORMIK START ///////////////////////////////////
+
+    const teamFormik = useFormik({
+        initialValues: {
+            role: "",
+            teamMember: "Select Team Member",
+            project_id: params.id
+        },
+
+        onSubmit: (values) => {
+            fetch('/roles', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(values, null, 2),
+            })
+            .then((r) => {
+                if (r.ok) {
+                    r.json()
+                    .then(newMember => {
+                        setTeam([...team, newMember]);
+                        setError(null)
+                    })
+                }
+            })
+        }
+    })
+
+    // Serializer_mixin recursion error preventing Role from including user info.  If fixed, can avoid the userId map
+    const currentTeamMembers = team ? users.map((u) => {
+        const teamIds = team.map(tm => tm.id)
+        if (teamIds.includes(u.id)){
+            return <div>{u.name}</div>
+        }
+    }) : null
+
+    // console.log("team", team)
+
+    const teamOptions = users.map(u => {
+        return <option key={u.id} value={u.name}>{u.name}</option>
+    });
+////////////////////////// TEAM FORMIK END /////////////////////////////////////
 
     return (
         <div>
             <p>Project Page</p>
 
-            <form onSubmit={formik.handleSubmit}>
+            <form onSubmit={projectFormik.handleSubmit}>
                 <FormControl >
                     <FormLabel htmlFor="name">Name</FormLabel>
                     <Input 
                         id="name" 
                         name="name"
-                        value={formik.values.name} 
-                        onChange={formik.handleChange} 
+                        value={projectFormik.values.name} 
+                        onChange={projectFormik.handleChange} 
                     />
                     <FormLabel htmlFor="client">Client</FormLabel>
                     <Input 
                         id="client" 
                         name="client" 
-                        value={formik.values.client} 
-                        onChange={formik.handleChange}
+                        value={projectFormik.values.client} 
+                        onChange={projectFormik.handleChange}
                     />
                     <FormLabel htmlFor="propertyAddress">Property Address</FormLabel>
                     <Input 
                         id="propertyAddress" 
                         name="propertyAddress" 
-                        value={formik.values.propertyAddress} 
-                        onChange={formik.handleChange}
+                        value={projectFormik.values.propertyAddress} 
+                        onChange={projectFormik.handleChange}
                     />
                     <FormLabel htmlFor="propertyLot">Lot</FormLabel>
                     <Input 
                         id="propertyLot" 
                         name="propertyLot" 
-                        value={formik.values.propertyLot} 
-                        onChange={formik.handleChange}
+                        value={projectFormik.values.propertyLot} 
+                        onChange={projectFormik.handleChange}
                     />
                     <FormLabel htmlFor="propertyBlock">Block</FormLabel>
                     <Input 
                         id="propertyBlock" 
                         name="propertyBlock" 
-                        value={formik.values.propertyBlock} 
-                        onChange={formik.handleChange}
+                        value={projectFormik.values.propertyBlock} 
+                        onChange={projectFormik.handleChange}
                     />
                     <FormLabel htmlFor="municipality">Municipality</FormLabel>
                     <Input 
                         id="municipality" 
                         name="municipality" 
-                        value={formik.values.municipality} 
-                        onChange={formik.handleChange}
+                        value={projectFormik.values.municipality} 
+                        onChange={projectFormik.handleChange}
                     />
                     <FormLabel htmlFor="county">County</FormLabel>
                     <Input 
                         id="county" 
                         name="county" 
-                        value={formik.values.county} 
-                        onChange={formik.handleChange}
+                        value={projectFormik.values.county} 
+                        onChange={projectFormik.handleChange}
                     />
                     <FormLabel htmlFor="state">State</FormLabel>
                     <Input 
                         id="state" 
                         name="state" 
-                        value={formik.values.state} 
-                        onChange={formik.handleChange}
+                        value={projectFormik.values.state} 
+                        onChange={projectFormik.handleChange}
                     />
 
-
-                    <Button colorScheme='blue' type="submit" >
-                        {createEditButton}
-                    </Button>
-                    
-                    
                     <Button
-                        colorScheme="blue" 
+                        colorScheme="orange" 
                         onClick={() => {
-                            formik.resetForm({
-                                values: formik.initialValues
+                            projectFormik.resetForm({
+                                values: projectFormik.initialValues
                             })
                         }}
                         type="reset"
                     >
                         Discard Changes
                     </Button>
+
+                    <Button colorScheme='green' type="submit" >
+                        {createEditButton}
+                    </Button>
+
                 </FormControl>
             </form>
+
+            {/* {currentTeamMembers} */}
+            <form>
+                <FormControl>
+                    <div>Team Members</div>
+
+                    {/* <FormLabel htmlFor='role'>Role</FormLabel> */}
+                    <Input 
+                        id='role'
+                        name='role'
+                        placeholder="Team Member Role"
+                        value={teamFormik.values.role}
+                        onChange={teamFormik.handleChange}
+                    />
+
+                    <Select 
+                        id="teamMember"
+                        name="teamMember"
+                        placeholder="Select Team Member"
+                        value={teamFormik.values.teamMember}
+                        onChange={teamFormik.handleChange}
+                    >
+                        {teamOptions}
+                    </Select>
+
+                    <Button colorScheme='green' type="submit">
+                        Add Team Member
+                    </Button>
+
+                </FormControl>
+            </form>
+
+
+
+
         </div>
     )
 }

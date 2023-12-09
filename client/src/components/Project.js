@@ -6,7 +6,7 @@ import { Button } from "@chakra-ui/react";
 function Project() {
     const params = useParams();
     const navigate = useNavigate();
-    const {project, setProject} = useOutletContext()
+    const {project, setProject, team, setTeam, users, setUsers} = useOutletContext()
 
     useEffect(() => {
         fetch(`/projects/${params.id}`)
@@ -14,6 +14,14 @@ function Project() {
             if (r.ok) {
                 r.json()
                 .then(data => setProject(data))
+            }
+        })
+
+        fetch(`/roles/${params.id}`)
+        .then((r) => {
+            if (r.ok) {
+                r.json()
+                .then(data => setTeam(data))
             }
         })
     }, [])

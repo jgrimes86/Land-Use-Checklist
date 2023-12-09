@@ -12,9 +12,11 @@ function App() {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [signup, setSignup] = useState(false);
-    const [project, setProject] = useState("")
+    const [project, setProject] = useState("");
+    const [team, setTeam] = useState("");
+    const [users, setUsers] = useState([]);
 
-    console.log(user)
+    // console.log(user)
     
     
     useEffect(() => {
@@ -45,7 +47,11 @@ function App() {
         signup,
         setSignup,
         project,
-        setProject
+        setProject,
+        team,
+        setTeam,
+        users,
+        setUsers
     }
 
 

@@ -113,6 +113,14 @@ api.add_resource(UserProjects, '/roles/users/<int:id>')
 
 
 
+class Users(Resource):
+    
+    def get(self):
+        users = [user.to_dict() for user in User.query.all()]
+        return make_response(users, 200)
+
+api.add_resource(Users, '/users')
+
 class UserTasks(Resource):
 
     def get(self, id):
@@ -184,8 +192,23 @@ class ProjectsById(Resource):
             project = Project.query.filter_by(id=id).first().to_dict()
             return make_response(project, 200)
 
-
 api.add_resource(ProjectsById, '/projects/<int:id>')
+
+class Roles(Resource):
+
+    def post(self):
+        data = request.json
+        pass
+
+api.add_resource(Roles, '/roles')
+
+class RolesByProjectID(Resource):
+    
+    def get(self, id):
+        roles = [role.to_dict() for role in Role.query.filter_by(project_id=id).all()]
+        return make_response(roles, 200)
+
+api.add_resource(RolesByProjectID, '/roles/<int:id>')
 
 
 if __name__ == '__main__':

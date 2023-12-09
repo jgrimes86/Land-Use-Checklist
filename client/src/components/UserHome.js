@@ -6,7 +6,7 @@ import UserProjects from "./UserProjects";
 import UserTasks from "./UserTasks";
 
 function UserHome() {
-    const {user} = useOutletContext()
+    const {user, setProject, setTeam} = useOutletContext()
     const navigate = useNavigate();
 
     function handleClick() {
@@ -18,7 +18,7 @@ function UserHome() {
     return (
         <div>
             <h1>{user.name}</h1>
-            <UserProjects user={user} />
+            <UserProjects user={user} setProject={setProject} setTeam={setTeam} />
             <UserTasks user={user} />
             {/* <Button colorScheme="blue" onClick={handleClick} >Edit User</Button> */}
         </div>

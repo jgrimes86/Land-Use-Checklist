@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from '@chakra-ui/react';
 
-function UserProjects({user}) {
+function UserProjects({user, setProject, setTeam}) {
     const [userProjects, setUserProjects] = useState([]);
     const navigate = useNavigate();
 
@@ -23,7 +23,9 @@ function UserProjects({user}) {
     }
 
     function handleCreateProject() {
-        navigate('/projects/0/edit')
+        setProject("");
+        setTeam("");
+        navigate('/projects/0/edit');
     }
 
     const projectList = userProjects.map(project => {
