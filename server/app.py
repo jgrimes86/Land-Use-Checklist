@@ -178,8 +178,11 @@ api.add_resource(Projects, '/projects')
 class ProjectsById(Resource):
 
     def get(self, id):
-        project = Project.query.filter_by(id=id).first().to_dict()
-        return make_response(project, 200)
+        if id == 0:
+            return make_response({}, 204)
+        else:
+            project = Project.query.filter_by(id=id).first().to_dict()
+            return make_response(project, 200)
 
 
 api.add_resource(ProjectsById, '/projects/<int:id>')

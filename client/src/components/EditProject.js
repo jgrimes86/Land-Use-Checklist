@@ -1,31 +1,19 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Button, FormControl, FormLabel, Input } from "@chakra-ui/react"
 
 
 function EditProject() {
-    const [project, setProject] = useState("");
+    const {project, setProject} = useOutletContext()
     const [error, setError] = useState(null);
 
-    console.log("project", project)
+    console.log("project: ", project)
 
     const params = useParams();
     const navigate = useNavigate();
-
-    useEffect(() => {
-        if (params.id !== 0) {
-            fetch(`/projects/${params.id}`)
-            .then((r) => {
-                if (r.ok) {
-                    r.json()
-                    .then(data => setProject(data))
-                }
-            })
-        }
-    }, [])
-
+  
     const formikSchema = yup.object().shape({
         name: yup.string().required("Must enter a project name"),
         client: yup.string(),
@@ -160,8 +148,6 @@ function EditProject() {
                     >
                         Discard Changes
                     </Button>
-
-
                 </FormControl>
             </form>
         </div>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Table, Thead, Tbody, Tr, Th, Td, } from '@chakra-ui/react';
 
-import TaskItem from "./TaskItem";
+// import TaskItem from "./TaskItem";
 import TaskTableItem from "./TaskTableItem";
 
 function UserTasks({user}) {

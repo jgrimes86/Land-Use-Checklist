@@ -1,12 +1,12 @@
 
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { Button } from "@chakra-ui/react";
 
 function Project() {
     const params = useParams();
     const navigate = useNavigate();
-    const [project, setProject] = useState("");
+    const {project, setProject} = useOutletContext()
 
     useEffect(() => {
         fetch(`/projects/${params.id}`)
@@ -25,7 +25,7 @@ function Project() {
     return (
         <>
             <p>This will be for project {params.id}</p>
-            <Button onClick={handleEditClick}>Edit Project</Button>
+            <Button onClick={handleEditClick} >Edit Project</Button>
         </>
     )
 }

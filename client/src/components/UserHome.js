@@ -4,7 +4,6 @@ import { Button } from '@chakra-ui/react';
 
 import UserProjects from "./UserProjects";
 import UserTasks from "./UserTasks";
-import TaskTable from './TaskTable';
 
 function UserHome() {
     const {user} = useOutletContext()
@@ -22,7 +21,6 @@ function UserHome() {
             <UserProjects user={user} />
             <UserTasks user={user} />
             {/* <Button colorScheme="blue" onClick={handleClick} >Edit User</Button> */}
-            <TaskTable user={user} />
         </div>
     )
 }

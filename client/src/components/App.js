@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { ChakraProvider } from '@chakra-ui/react';
-import { Button } from '@chakra-ui/react';
+// import { Button } from '@chakra-ui/react';
 
 // import SignIn from "./SignIn";
 // import UserHome from "./UserHome";
@@ -9,9 +9,10 @@ import { Button } from '@chakra-ui/react';
 import NavBar from "./Navbar";
 
 function App() {
+    const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [signup, setSignup] = useState(false);
-    const navigate = useNavigate();
+    const [project, setProject] = useState("")
 
     console.log(user)
     
@@ -42,7 +43,9 @@ function App() {
         user,
         setUser,
         signup,
-        setSignup
+        setSignup,
+        project,
+        setProject
     }
 
 
