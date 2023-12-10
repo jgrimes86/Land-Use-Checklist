@@ -39,7 +39,8 @@ class User(db.Model, SerializerMixin):
     @validates('email')
     def validate_email(self, key, new_email):
         emails = [user.email for user in User.query.all()]
-        if new_email in emails:
+        userWithEmail = User.query.filter_by(email=new_email).first()
+        if (new_email in emails) and (userWithEmail.id != self.id):
             raise ValueError("Email already in use")
         else:
             return new_email

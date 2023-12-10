@@ -16,7 +16,7 @@ function EditUser() {
   }
 
   const formikSchema = yup.object().shape({
-      name: yup.string().required("Must enter a first name").max(15),
+      name: yup.string().required("Must enter a first name"),
       company: yup.string(),
       phoneNumber: yup.string(),
       email: yup.string().email("Invalid email").required("Must enter an email"),
@@ -46,7 +46,7 @@ function EditUser() {
             r.json().then((user) => {
               setUser(user);
               setError(null);
-              // navigate(`/users/home/${user.id}`)
+              navigate(`/users/${user.id}`)
             });
           }
           else {
