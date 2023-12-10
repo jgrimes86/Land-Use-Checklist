@@ -5,7 +5,6 @@ import * as yup from "yup";
 import { Navigate, useNavigate, useOutletContext } from "react-router-dom";
 
 import { Box, Button, Checkbox, Container, CssBaseline, FormControlLabel, Grid, Link, TextField, ThemeProvider, Typography } from '@mui/material';
-import { LockOutlinedIcon } from '@mui/icons-material';
 
 
 function SignIn() {  

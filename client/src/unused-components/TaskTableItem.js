@@ -62,9 +62,9 @@ function TaskTableItem({task, userTasks, setUserTasks}) {
                 <Td>{task.start_date}</Td>
                 <Td>{task.end_date}</Td>
                 <Td>{task.status}</Td>
-            </Tr>
+            </Tr> */}
 
-            <Modal isOpen={isOpen} onClose={onClose}>
+            {/* <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                     <ModalContent>
                     <ModalHeader>{task.project.name}</ModalHeader>

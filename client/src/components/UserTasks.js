@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
+import { Box, Button, Typography, Modal } from '@mui/material';
+import { DataGrid } from '@mui/x-data-grid';
 
-// import TaskItem from "./TaskItem";
-import TaskTableItem from "./TaskTableItem";
+import TaskModal from "./TaskModal";
 
 function UserTasks({user}) {
     const [userTasks, setUserTasks] = useState([])
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     useEffect(() => {
         fetch('/tasks/users/'+user.id)
@@ -19,36 +23,85 @@ function UserTasks({user}) {
     }, [])
 
     // console.log("User Tasks: ", userTasks)
-
-    // const taskList = userTasks.map(task => {
-    //         return <TaskItem key={task.id} task={task}/>
-    // })
     
-    const taskTableRows = userTasks.map(task => {
-        return <TaskTableItem key={task.id} task={task} userTasks={userTasks} setUserTasks={setUserTasks} />
+    const columns = [
+        {
+            field: 'task',
+            headerName: 'Task',
+            width: 500,
+        },
+        {
+            field: 'startDate',
+            headerName: 'Start Date',
+            width: 150,
+        },
+        {
+            field: 'endDate',
+            headerName: 'Due Date',
+            width: 150,
+        },
+        {
+            field: 'status',
+            headerName: 'Status',
+            width: 100,
+        },
+        {
+            field: 'edit',
+            headerName: 'Edit Task',
+            sortable: false,
+            width: 100,
+            renderCell: (params) => (
+                <span>
+                    <TaskModal task={params.row.taskDetail} userTasks={userTasks} setUserTasks={setUserTasks} />
+                    {/* <Button onClick={(e) => {
+                        e.stopPropagation();
+                        console.log(params.row.taskDetail)
+                    }}>Edit</Button> */}
+                </span>
+            )
+        }
+    ]
+
+    const rows = userTasks.map(task => {
+        return ({
+            id: task.id,
+            taskDetail: task,
+            task: `${task.project.name}: ${task.name}`,
+            startDate: task.start_date,
+            endDate: task.end_date,
+            status: task.status,
+        })
     })
 
     return (
-        <div >
-            {/* <h2>My Task List</h2> */}
-            {/* {taskList} */}
+        <Box sx={{ height: 400, width: '100%'}} >
+            <DataGrid 
+                rows={rows}
+                columns={columns}
+                initialState={{
+                    pagination: {
+                        paginationModel: {
+                            pageSize: 10,
+                        },
+                    },
+                }}
+                pageSizeOptions={[10]}
+            />
 
-            <h2>My Task Table</h2>
-            {/* <Table variant='simple'>
-                <Thead>
-                    <Tr>
-                        <Th>Project</Th>
-                        <Th>Start Date</Th>
-                        <Th>End Date</Th>
-                        <Th>Status</Th>
-                    </Tr>
-                </Thead>
-                <Tbody>
-                    {taskTableRows}
-                </Tbody>
-            </Table> */}
+            {/* <Modal
+                open={open}
+                onClose={handleClose}
+            >
+                <Box sx={modalStyle}>
+                    <Typography>
+                        
+                    </Typography>
 
-        </div>
+                </Box>
+
+            </Modal> */}
+
+        </Box>
     )
 }
 
