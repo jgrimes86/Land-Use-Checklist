@@ -133,7 +133,7 @@ function SignIn() {
                 value={formik.values.email} 
                 onChange={formik.handleChange}
                 error={formik.errors.email}
-                helperText={formik.handleChange}
+                helperText={formik.errors.email}
             />
             {/* <label htmlFor="password">Password</label> */}
             <TextField 

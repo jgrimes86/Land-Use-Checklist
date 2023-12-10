@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
-import { useFormik } from "formik";
+import { Formik, useFormik } from "formik";
 import * as yup from "yup";
+
+import { Box, Button, Checkbox, Container, CssBaseline, FormControl, FormControlLabel, Grid, InputLabel, Link, MenuItem, Select, Stack, TextField, ThemeProvider, Typography } from '@mui/material';
 
 
 function EditProject() {
@@ -28,17 +30,18 @@ function EditProject() {
 
       const projectFormik = useFormik({
         initialValues: {
-          name: project ? project.name : "",
-          client: project ? project.client : "",
-          propertyAddress: project ? project.property_address : "",
-          propertyLot: project ? project.property_lot : "",
-          propertyBlock: project ? project.property_block : "",
-          municipality: project ? project.municipality : "",
-          county: project ? project.county : "",
-          state: project ? project.state : "",
+            name: project ? project.name : "",
+            client: project ? project.client : "",
+            propertyAddress: project ? project.property_address : "",
+            propertyLot: project ? project.property_lot : "",
+            propertyBlock: project ? project.property_block : "",
+            municipality: project ? project.municipality : "",
+            county: project ? project.county : "",
+            state: project ? project.state : "",
       },
+        enableReinitialize: true,
         validationSchema: projectSchema,
-        // validateOnChange: false,
+        validateOnChange: false,
         onSubmit: (values) => {
             
             const method = project ? "PATCH" : "POST";
@@ -75,10 +78,10 @@ function EditProject() {
     const teamFormik = useFormik({
         initialValues: {
             role: "",
-            user_id: 0,
+            user_id: "",
             project_id: params.id
         },
-
+        enableReinitialize: true,
         onSubmit: (values) => {
             fetch('/roles', {
                 method: 'POST',
@@ -110,122 +113,201 @@ function EditProject() {
     console.log("current team", currentTeamMembers)
 
     const teamOptions = users.map(u => {
-        return <option key={u.id} value={u.id}>{u.name}</option>
+        return <MenuItem key={u.id} value={u.id}>{u.name}</MenuItem>
     });
 ////////////////////////// TEAM FORMIK END /////////////////////////////////////
 
     return (
-        <div>
-            <p>Project Page</p>
+        <Container>
 
-            <form onSubmit={projectFormik.handleSubmit}>
-                    <label htmlFor="name">Name</label>
-                    <input 
-                        id="name" 
-                        name="name"
-                        value={projectFormik.values.name} 
-                        onChange={projectFormik.handleChange} 
-                    />
-                    <label htmlFor="client">Client</label>
-                    <input 
-                        id="client" 
-                        name="client" 
-                        value={projectFormik.values.client} 
-                        onChange={projectFormik.handleChange}
-                    />
-                    <label htmlFor="propertyAddress">Property Address</label>
-                    <input 
-                        id="propertyAddress" 
-                        name="propertyAddress" 
-                        value={projectFormik.values.propertyAddress} 
-                        onChange={projectFormik.handleChange}
-                    />
-                    <label htmlFor="propertyLot">Lot</label>
-                    <input 
-                        id="propertyLot" 
-                        name="propertyLot" 
-                        value={projectFormik.values.propertyLot} 
-                        onChange={projectFormik.handleChange}
-                    />
-                    <label htmlFor="propertyBlock">Block</label>
-                    <input 
-                        id="propertyBlock" 
-                        name="propertyBlock" 
-                        value={projectFormik.values.propertyBlock} 
-                        onChange={projectFormik.handleChange}
-                    />
-                    <label htmlFor="municipality">Municipality</label>
-                    <input 
-                        id="municipality" 
-                        name="municipality" 
-                        value={projectFormik.values.municipality} 
-                        onChange={projectFormik.handleChange}
-                    />
-                    <label htmlFor="county">County</label>
-                    <input 
-                        id="county" 
-                        name="county" 
-                        value={projectFormik.values.county} 
-                        onChange={projectFormik.handleChange}
-                    />
-                    <label htmlFor="state">State</label>
-                    <input 
-                        id="state" 
-                        name="state" 
-                        value={projectFormik.values.state} 
-                        onChange={projectFormik.handleChange}
-                    />
+            <Typography>Project Page</Typography>
 
-                    <button
-                        onClick={() => {
-                            projectFormik.resetForm({
-                                values: projectFormik.initialValues
-                            })
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                }}
+            >
+                <Box
+                    sx={{
+                        marginTop: 8,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        width: '50%'
+                    }}
+                >
+                    <Typography>
+                        Project Details
+                    </Typography>
+                    <Box onSubmit={projectFormik.handleSubmit}>
+                            <TextField 
+                                margin="normal"
+                                fullWidth
+                                id="name" 
+                                name="name"
+                                label="Name"
+                                value={projectFormik.values.name} 
+                                onChange={projectFormik.handleChange} 
+                                error={projectFormik.errors.name}
+                                helperText={projectFormik.errors.name}
+                            />
+                            <TextField 
+                                margin="normal"
+                                fullWidth
+                                id="client" 
+                                name="client"
+                                label="Client" 
+                                value={projectFormik.values.client} 
+                                onChange={projectFormik.handleChange}
+                            />
+                            <TextField 
+                                margin="normal"
+                                fullWidth
+                                id="propertyAddress" 
+                                name="propertyAddress" 
+                                label="Property Address"
+                                value={projectFormik.values.propertyAddress} 
+                                onChange={projectFormik.handleChange}
+                            />
+                            <TextField 
+                                margin="normal"
+                                fullWidth
+                                id="propertyLot" 
+                                name="propertyLot" 
+                                label="Lot"
+                                value={projectFormik.values.propertyLot} 
+                                onChange={projectFormik.handleChange}
+                            />
+                            <TextField 
+                                margin="normal"
+                                fullWidth
+                                id="propertyBlock" 
+                                name="propertyBlock" 
+                                label="Block"
+                                value={projectFormik.values.propertyBlock} 
+                                onChange={projectFormik.handleChange}
+                            />
+                            <TextField 
+                                margin="normal"
+                                fullWidth
+                                id="municipality" 
+                                name="municipality" 
+                                label="Municipality"
+                                value={projectFormik.values.municipality} 
+                                onChange={projectFormik.handleChange}
+                            />
+                            <TextField 
+                                margin="normal"
+                                fullWidth
+                                id="county" 
+                                name="county" 
+                                label="County"
+                                value={projectFormik.values.county} 
+                                onChange={projectFormik.handleChange}
+                            />
+                            <TextField 
+                                margin="normal"
+                                fullWidth
+                                id="state" 
+                                name="state" 
+                                label="State"
+                                value={projectFormik.values.state} 
+                                onChange={projectFormik.handleChange}
+                            />
+
+                            <button
+                                onClick={() => {
+                                    projectFormik.resetForm({
+                                        values: projectFormik.initialValues
+                                    })
+                                }}
+                                type="reset"
+                            >
+                                Discard Changes
+                            </button>
+
+                            <button type="submit" >
+                                {createEditButton}
+                            </button>
+
+                    </Box>
+                </Box>
+
+                <Box
+                    sx={{
+                        marginTop: 8,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        width: '50%'
+                    }}
+                >
+                    <Typography>Team Members</Typography>
+
+                    {currentTeamMembers}
+                    
+                    <Box 
+                        component="form"
+                        onSubmit={teamFormik.handleSubmit}
+                        noValidate
+                        sx={{ 
+                            mt: 1,
+                            width: '90%'
                         }}
-                        type="reset"
                     >
-                        Discard Changes
-                    </button>
 
-                    <button type="submit" >
-                        {createEditButton}
-                    </button>
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexDirection: "row",
+                                flexWrap: 'nowrap',
+                            }}
+                        >
+                            <TextField 
+                                id='role'
+                                name='role'
+                                placeholder="Team Member Role"
+                                value={teamFormik.values.role}
+                                onChange={teamFormik.handleChange}
+                                sx={{
+                                    width: '50%'
+                                }}
+                            />
+                            
+                            <FormControl 
+                                sx={{
+                                    width: '50%'
+                                }}
+                            >
+                                <InputLabel id="team-member-label">Select a Team Member</InputLabel>
+                                <Select 
+                                    labelId="team-member-label"
+                                    id="user_id"
+                                    name="user_id"
+                                    label="Select a Team Member"
+                                    value={teamFormik.values.user_id}
+                                    onChange={teamFormik.handleChange}
+                                >
+                                    {teamOptions}
+                                </Select>
 
-            </form>
+                            </FormControl>
+                        </Box>
+                        <Button 
+                            type="submit"
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                        >
+                            Add Team Member
+                        </Button>
+                    </Box>
 
-            {currentTeamMembers}
-            <form onSubmit={teamFormik.handleSubmit}>
-                    <div>Team Members</div>
+                </Box>
 
-                    {/* <label htmlFor='role'>Role</label> */}
-                    <input 
-                        id='role'
-                        name='role'
-                        placeholder="Team Member Role"
-                        value={teamFormik.values.role}
-                        onChange={teamFormik.handleChange}
-                    />
+            </Box>
+        </Container>
 
-                    <select 
-                        id="teamMember"
-                        name="user_id"
-                        placeholder="Select Team Member"
-                        value={teamFormik.values.teamMember}
-                        onChange={teamFormik.handleChange}
-                    >
-                        {teamOptions}
-                    </select>
-
-                    <button type="submit">
-                        Add Team Member
-                    </button>
-
-            </form>
-
-
-
-
-        </div>
     )
 }
 

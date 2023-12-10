@@ -7,6 +7,8 @@ function Project() {
     const navigate = useNavigate();
     const {project, setProject, team, setTeam, users, setUsers} = useOutletContext()
 
+    console.log("team: ", team)
+
     useEffect(() => {
         fetch(`/projects/${params.id}`)
         .then((r) => {

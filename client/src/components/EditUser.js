@@ -78,87 +78,84 @@ function EditUser() {
           noValidate
           sx={{ mt: 1 }}
         >
-                <TextField
-                  margin="normal"
-                  fullWidth 
-                  id="name" 
-                  name="name"
-                  label="Name"
-                  value={formik.values.name} 
-                  onChange={formik.handleChange} 
-                  error={formik.errors.name}
-                  helperText={formik.errors.name}
-                />
+          <TextField
+            margin="normal"
+            fullWidth 
+            id="name" 
+            name="name"
+            label="Name"
+            value={formik.values.name} 
+            onChange={formik.handleChange} 
+            error={formik.errors.name}
+            helperText={formik.errors.name}
+          />
 
-                <TextField
-                  margin="normal"
-                  fullWidth 
-                  id="company" 
-                  name="company"
-                  label="Company" 
-                  value={formik.values.company} 
-                  onChange={formik.handleChange}
-                />
+          <TextField
+            margin="normal"
+            fullWidth 
+            id="company" 
+            name="company"
+            label="Company" 
+            value={formik.values.company} 
+            onChange={formik.handleChange}
+          />
 
-                <TextField
-                  margin="normal"
-                  fullWidth 
-                  id="phoneNumber" 
-                  name="phoneNumber" 
-                  label="Phone Number"
-                  value={formik.values.phoneNumber} 
-                  onChange={formik.handleChange}
-                />
+          <TextField
+            margin="normal"
+            fullWidth 
+            id="phoneNumber" 
+            name="phoneNumber" 
+            label="Phone Number"
+            value={formik.values.phoneNumber} 
+            onChange={formik.handleChange}
+          />
 
-                <TextField
-                  margin="normal"
-                  fullWidth 
-                  id="email" 
-                  name="email" 
-                  label="email"
-                  value={formik.values.email} 
-                  onChange={formik.handleChange}
-                  error={formik.errors.email}
-                  helperText={formik.errors.email}
-                />
+          <TextField
+            margin="normal"
+            fullWidth 
+            id="email" 
+            name="email" 
+            label="email"
+            value={formik.values.email} 
+            onChange={formik.handleChange}
+            error={formik.errors.email}
+            helperText={formik.errors.email}
+          />
 
-                <Button
-                  sx={{ mt: 3, mb: 2 }}
-                >
-                  Change password
-                </Button>
+{/* ADD FUNCTIONALITY TO CHANGE PASSWORD BUTTON */}
+          <Button
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Change password
+          </Button>
 
-                <Stack spacing={2} direction="row">
-                  <Button 
-                    type="submit"
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
-                  >
-                    Save Changes
-                  </Button>
+          <Stack spacing={2} direction="row">
+            <Button 
+              type="submit"
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Save Changes
+            </Button>
 
-                  <Button
-                    onClick={() => {
-                      formik.resetForm({
-                        values: formik.initialValues
-                      })
-                    }}
-                    type="reset"
-                    variant="outlined"
-                    sx={{ mt: 3, mb: 2 }}
-                  >
-                    Undo Changes
-                  </Button>
-
-
-                </Stack>
+            <Button
+              onClick={() => {
+                formik.resetForm({
+                  values: formik.initialValues
+                })
+              }}
+              type="reset"
+              variant="outlined"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Undo Changes
+            </Button>
+          </Stack>
         </Box>
 
         {error && <p style={{ color: "red" }}>{error}</p>}
 
       </Box>
-
-                  {/* ADD BUTTON FOR CHANGING PASSWORD */}
 
     </Container>
   )

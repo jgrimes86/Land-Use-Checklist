@@ -14,7 +14,7 @@ function App() {
     const [team, setTeam] = useState("");
     const [users, setUsers] = useState([]);
 
-    console.log(user)
+    // console.log(user)
     
     
     useEffect(() => {
