@@ -198,7 +198,14 @@ class Roles(Resource):
 
     def post(self):
         data = request.json
-        pass
+        newRole = Role(
+            name=data['role'],
+            user_id=data['user_id'],
+            project_id=data['project_id'],
+        )
+        db.session.add(newRole)
+        db.session.commit()
+        return make_response(newRole.to_dict(), 202)
 
 api.add_resource(Roles, '/roles')
 

@@ -24,6 +24,15 @@ function Project() {
                 .then(data => setTeam(data))
             }
         })
+
+        fetch('/users')
+        .then((r) => {
+            if (r.ok) {
+                r.json()
+                .then(data => setUsers(data))
+            }
+        })
+        
     }, [])
 
     function handleEditClick() {

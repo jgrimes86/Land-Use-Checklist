@@ -9,15 +9,6 @@ function EditProject() {
     const {project, setProject, team, setTeam, users, setUsers} = useOutletContext()
     const [error, setError] = useState(null);
 
-    useEffect(() => {
-        fetch('/users')
-        .then((r) => {
-            if (r.ok) {
-                r.json()
-                .then(data => setUsers(data))
-            }
-        })
-    }, [])
 
     // console.log("project: ", project)
 
@@ -85,7 +76,7 @@ function EditProject() {
     const teamFormik = useFormik({
         initialValues: {
             role: "",
-            teamMember: "Select Team Member",
+            user_id: 0,
             project_id: params.id
         },
 
@@ -110,17 +101,17 @@ function EditProject() {
     })
 
     // Serializer_mixin recursion error preventing Role from including user info.  If fixed, can avoid the userId map
-    const currentTeamMembers = team ? users.map((u) => {
+    const currentTeamMembers = users.map((u) => {
         const teamIds = team.map(tm => tm.id)
         if (teamIds.includes(u.id)){
-            return <div>{u.name}</div>
+            return <div key={u.id}>{u.name}</div>
         }
-    }) : null
+    })
 
-    // console.log("team", team)
+    console.log("current team", currentTeamMembers)
 
     const teamOptions = users.map(u => {
-        return <option key={u.id} value={u.name}>{u.name}</option>
+        return <option key={u.id} value={u.id}>{u.name}</option>
     });
 ////////////////////////// TEAM FORMIK END /////////////////////////////////////
 
@@ -206,8 +197,8 @@ function EditProject() {
                 </FormControl>
             </form>
 
-            {/* {currentTeamMembers} */}
-            <form>
+            {currentTeamMembers}
+            <form onSubmit={teamFormik.handleSubmit}>
                 <FormControl>
                     <div>Team Members</div>
 
@@ -222,7 +213,7 @@ function EditProject() {
 
                     <Select 
                         id="teamMember"
-                        name="teamMember"
+                        name="user_id"
                         placeholder="Select Team Member"
                         value={teamFormik.values.teamMember}
                         onChange={teamFormik.handleChange}
