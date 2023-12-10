@@ -192,6 +192,14 @@ class ProjectsById(Resource):
             project = Project.query.filter_by(id=id).first().to_dict()
             return make_response(project, 200)
 
+    def patch(self, id):
+        project = Project.query.filter_by(id=id).first()
+        data = request.json
+        for attr in data:
+            setattr(project, attr, data[attr])
+        db.session.commit()
+        return make_response(project.to_dict(), 202)
+
 api.add_resource(ProjectsById, '/projects/<int:id>')
 
 class Roles(Resource):
