@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Button, FormControl, FormLabel, Input, Select } from "@chakra-ui/react"
 
 
 function EditProject() {
@@ -120,66 +119,64 @@ function EditProject() {
             <p>Project Page</p>
 
             <form onSubmit={projectFormik.handleSubmit}>
-                <FormControl >
-                    <FormLabel htmlFor="name">Name</FormLabel>
-                    <Input 
+                    <label htmlFor="name">Name</label>
+                    <input 
                         id="name" 
                         name="name"
                         value={projectFormik.values.name} 
                         onChange={projectFormik.handleChange} 
                     />
-                    <FormLabel htmlFor="client">Client</FormLabel>
-                    <Input 
+                    <label htmlFor="client">Client</label>
+                    <input 
                         id="client" 
                         name="client" 
                         value={projectFormik.values.client} 
                         onChange={projectFormik.handleChange}
                     />
-                    <FormLabel htmlFor="propertyAddress">Property Address</FormLabel>
-                    <Input 
+                    <label htmlFor="propertyAddress">Property Address</label>
+                    <input 
                         id="propertyAddress" 
                         name="propertyAddress" 
                         value={projectFormik.values.propertyAddress} 
                         onChange={projectFormik.handleChange}
                     />
-                    <FormLabel htmlFor="propertyLot">Lot</FormLabel>
-                    <Input 
+                    <label htmlFor="propertyLot">Lot</label>
+                    <input 
                         id="propertyLot" 
                         name="propertyLot" 
                         value={projectFormik.values.propertyLot} 
                         onChange={projectFormik.handleChange}
                     />
-                    <FormLabel htmlFor="propertyBlock">Block</FormLabel>
-                    <Input 
+                    <label htmlFor="propertyBlock">Block</label>
+                    <input 
                         id="propertyBlock" 
                         name="propertyBlock" 
                         value={projectFormik.values.propertyBlock} 
                         onChange={projectFormik.handleChange}
                     />
-                    <FormLabel htmlFor="municipality">Municipality</FormLabel>
-                    <Input 
+                    <label htmlFor="municipality">Municipality</label>
+                    <input 
                         id="municipality" 
                         name="municipality" 
                         value={projectFormik.values.municipality} 
                         onChange={projectFormik.handleChange}
                     />
-                    <FormLabel htmlFor="county">County</FormLabel>
-                    <Input 
+                    <label htmlFor="county">County</label>
+                    <input 
                         id="county" 
                         name="county" 
                         value={projectFormik.values.county} 
                         onChange={projectFormik.handleChange}
                     />
-                    <FormLabel htmlFor="state">State</FormLabel>
-                    <Input 
+                    <label htmlFor="state">State</label>
+                    <input 
                         id="state" 
                         name="state" 
                         value={projectFormik.values.state} 
                         onChange={projectFormik.handleChange}
                     />
 
-                    <Button
-                        colorScheme="orange" 
+                    <button
                         onClick={() => {
                             projectFormik.resetForm({
                                 values: projectFormik.initialValues
@@ -188,22 +185,20 @@ function EditProject() {
                         type="reset"
                     >
                         Discard Changes
-                    </Button>
+                    </button>
 
-                    <Button colorScheme='green' type="submit" >
+                    <button type="submit" >
                         {createEditButton}
-                    </Button>
+                    </button>
 
-                </FormControl>
             </form>
 
             {currentTeamMembers}
             <form onSubmit={teamFormik.handleSubmit}>
-                <FormControl>
                     <div>Team Members</div>
 
-                    {/* <FormLabel htmlFor='role'>Role</FormLabel> */}
-                    <Input 
+                    {/* <label htmlFor='role'>Role</label> */}
+                    <input 
                         id='role'
                         name='role'
                         placeholder="Team Member Role"
@@ -211,7 +206,7 @@ function EditProject() {
                         onChange={teamFormik.handleChange}
                     />
 
-                    <Select 
+                    <select 
                         id="teamMember"
                         name="user_id"
                         placeholder="Select Team Member"
@@ -219,13 +214,12 @@ function EditProject() {
                         onChange={teamFormik.handleChange}
                     >
                         {teamOptions}
-                    </Select>
+                    </select>
 
-                    <Button colorScheme='green' type="submit">
+                    <button type="submit">
                         Add Team Member
-                    </Button>
+                    </button>
 
-                </FormControl>
             </form>
 
 

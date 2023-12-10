@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { ChakraProvider } from '@chakra-ui/react';
-// import { Button } from '@chakra-ui/react';
 
 // import SignIn from "./SignIn";
 // import UserHome from "./UserHome";
@@ -57,11 +55,11 @@ function App() {
 
     
     return (
-        <ChakraProvider>
+        <div>
             {user && <NavBar userId={user.id} handleLogout={handleLogout} />}
             <Outlet context={context} />
-            {/* {user && <Button colorScheme="blue" onClick={handleLogout} >Log Out</Button>} */}
-        </ChakraProvider>
+            {/* {user && <button onClick={handleLogout} >Log Out</button>} */}
+        </div>
     )
 }
 

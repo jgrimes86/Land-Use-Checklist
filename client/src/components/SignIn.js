@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Navigate, useNavigate, useOutletContext } from "react-router-dom";
-import { Button, FormControl, FormLabel, Input } from '@chakra-ui/react';
 
 
 function SignIn() {  
@@ -71,60 +70,59 @@ function SignIn() {
 
   return (
     <div>
-      <form onSubmit={formik.handleSubmit}>
-        <FormControl >
-          {signup && <FormLabel htmlFor="name">Name</FormLabel>}
-          {signup && <Input 
+      <form onSubmit={formik.handleSubmit} layerStyle='signin'>
+          {signup && <label htmlFor="name">Name</label>}
+          {signup && <input 
               id="name" 
               name="name"
               value={formik.values.name} 
               onChange={formik.handleChange} 
           />}
-          {signup && <FormLabel htmlFor="company">Company</FormLabel>}
-          {signup && <Input 
+          {signup && <label htmlFor="company">Company</label>}
+          {signup && <input 
               id="company" 
               name="company" 
               value={formik.values.company} 
               onChange={formik.handleChange}
           />}
-          {signup && <FormLabel htmlFor="phoneNumber">Phone Number</FormLabel>}
-          {signup && <Input 
+          {signup && <label htmlFor="phoneNumber">Phone Number</label>}
+          {signup && <input 
               id="phoneNumber" 
               name="phoneNumber" 
               value={formik.values.phoneNumber} 
               onChange={formik.handleChange}
           />}
-          <FormLabel htmlFor="email">Email</FormLabel>
-          <Input 
+          <label htmlFor="email">Email</label>
+          <input 
               id="email" 
               name="email" 
               value={formik.values.email} 
               onChange={formik.handleChange}
           />
-          <FormLabel htmlFor="password">Password</FormLabel>
-          <Input 
+          <label htmlFor="password">Password</label>
+          <input 
               id="password" 
               name="password" 
               type="password"
               value={formik.values.password} 
               onChange={formik.handleChange}
           />
-          {signup && <FormLabel htmlFor="confirmPassword">Confirm Password</FormLabel>}
-          {signup && <Input 
+          {signup && <label htmlFor="confirmPassword">Confirm Password</label>}
+          {signup && <input 
               id="confirmPassword" 
               name="confirmPassword"
               type="password"
               value={formik.values.confirmPassword} 
               onChange={formik.handleChange}
           />}
-          <Button colorScheme='blue' type="submit" >
+          <button type="submit" >
               Submit
-          </Button>
-        </FormControl>
+          </button>
       </form>
-      <Button colorScheme='blue' onClick={toggleForm} >
+
+      <button onClick={toggleForm} >
         {signup ? 'Log In' : 'Sign Up'}
-      </Button>
+      </button>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
       <p style={{ color: "red" }}>{formik.errors.name}</p>

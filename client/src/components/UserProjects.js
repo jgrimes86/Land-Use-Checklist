@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from '@chakra-ui/react';
 
 function UserProjects({user, setProject, setTeam}) {
     const [userProjects, setUserProjects] = useState([]);
@@ -31,11 +30,11 @@ function UserProjects({user, setProject, setTeam}) {
     const projectList = userProjects.map(project => {
         const {id, name, client, property_address, property_block, property_lot, municipality, county, state} = project
         return (
-            <Button key={id} colorScheme="blue" onClick={() => handleNavigate(id)} >
+            <button key={id} onClick={() => handleNavigate(id)} >
                 <h3>{name}</h3>
                 <p>{client}, {property_address}</p>
                 <p>{property_block}, {property_lot}, {municipality}, {county}, {state}</p>
-            </Button>
+            </button>
         )
     })
 
@@ -43,7 +42,7 @@ function UserProjects({user, setProject, setTeam}) {
         <div>
             <h2>My Projects</h2>
             {projectList}
-            <Button colorScheme="yellow" onClick={handleCreateProject}>Create New Project</Button>
+            <button onClick={handleCreateProject}>Create New Project</button>
         </div>
     )
 }
