@@ -101,7 +101,7 @@ function SignIn() {
                 value={formik.values.name} 
                 onChange={formik.handleChange} 
                 error = {formik.errors.name}
-                helperText = {formik.errors.name ? formik.errors.name : null}
+                helperText = {formik.errors.name}
             />}
             {/* {signup && <label htmlFor="company">Company</label>} */}
             {signup && <TextField 

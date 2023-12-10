@@ -39,10 +39,24 @@ function Project() {
     }
 
     return (
-        <>
-            <p>This will be for project {params.id}</p>
-            <button onClick={handleEditClick} >Edit Project</button>
-        </>
+        <div>
+            <div>
+                <h2>{project.name}</h2>
+
+                <button onClick={handleEditClick} >Edit Project</button>
+            </div>
+            <div>
+                <div>
+                    {/* project details */}
+                </div>
+                <div>
+                    {/* team members */}
+                </div>
+            </div>
+            <div>
+                {/* project tasks */}
+            </div>
+        </div>
     )
 }
 

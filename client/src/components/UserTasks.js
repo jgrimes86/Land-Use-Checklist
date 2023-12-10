@@ -53,10 +53,6 @@ function UserTasks({user}) {
             renderCell: (params) => (
                 <span>
                     <TaskModal task={params.row.taskDetail} userTasks={userTasks} setUserTasks={setUserTasks} />
-                    {/* <Button onClick={(e) => {
-                        e.stopPropagation();
-                        console.log(params.row.taskDetail)
-                    }}>Edit</Button> */}
                 </span>
             )
         }
@@ -87,20 +83,6 @@ function UserTasks({user}) {
                 }}
                 pageSizeOptions={[10]}
             />
-
-            {/* <Modal
-                open={open}
-                onClose={handleClose}
-            >
-                <Box sx={modalStyle}>
-                    <Typography>
-                        
-                    </Typography>
-
-                </Box>
-
-            </Modal> */}
-
         </Box>
     )
 }
