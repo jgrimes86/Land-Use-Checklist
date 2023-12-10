@@ -1,11 +1,9 @@
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Tr, Td, } from '@chakra-ui/react';
-import { Button, FormLabel, Input, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Select, Textarea, useDisclosure } from '@chakra-ui/react';
 
 
 function TaskTableItem({task, userTasks, setUserTasks}) {
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    // const { isOpen, onOpen, onClose } = useDisclosure()
 
     const formik = useFormik({
         initialValues: {
@@ -34,7 +32,7 @@ function TaskTableItem({task, userTasks, setUserTasks}) {
                                 return updatedTask
                             } else return task
                         }));
-                        onClose()
+                        // onClose()
                 })
                 }
             })
@@ -50,7 +48,7 @@ function TaskTableItem({task, userTasks, setUserTasks}) {
                 setUserTasks(userTasks.filter(t => {
                     if (t.id !== task.id) return t
                 }));
-                onClose()
+                // onClose()
             } else {
                 r.json().then(({error}) => console.log(error))
             }
@@ -59,7 +57,7 @@ function TaskTableItem({task, userTasks, setUserTasks}) {
 
     return (
         <>
-            <Tr onClick={onOpen} >
+            {/* <Tr onClick={onOpen} >
                 <Td>{task.project.name}</Td>
                 <Td>{task.start_date}</Td>
                 <Td>{task.end_date}</Td>
@@ -138,7 +136,7 @@ function TaskTableItem({task, userTasks, setUserTasks}) {
                         </form>
                     </ModalBody>
                 </ModalContent>
-            </Modal>
+            </Modal> */}
         </>
 
     )

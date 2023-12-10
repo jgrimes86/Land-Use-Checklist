@@ -4,6 +4,9 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { Navigate, useNavigate, useOutletContext } from "react-router-dom";
 
+import { Box, Button, Checkbox, Container, CssBaseline, FormControlLabel, Grid, Link, TextField, ThemeProvider, Typography } from '@mui/material';
+import { LockOutlinedIcon } from '@mui/icons-material';
+
 
 function SignIn() {  
   const [error, setError] = useState(null);
@@ -38,7 +41,7 @@ function SignIn() {
     },
 
     validationSchema: schema,
-    // validateOnChange: false,
+    validateOnChange: false,
     onSubmit: (values) => {
       const url = signup ? "/signup" : "/login";
       fetch(url, {
@@ -69,68 +72,120 @@ function SignIn() {
   }
 
   return (
-    <div>
-      <form onSubmit={formik.handleSubmit} layerStyle='signin'>
-          {signup && <label htmlFor="name">Name</label>}
-          {signup && <input 
-              id="name" 
-              name="name"
-              value={formik.values.name} 
-              onChange={formik.handleChange} 
-          />}
-          {signup && <label htmlFor="company">Company</label>}
-          {signup && <input 
-              id="company" 
-              name="company" 
-              value={formik.values.company} 
-              onChange={formik.handleChange}
-          />}
-          {signup && <label htmlFor="phoneNumber">Phone Number</label>}
-          {signup && <input 
-              id="phoneNumber" 
-              name="phoneNumber" 
-              value={formik.values.phoneNumber} 
-              onChange={formik.handleChange}
-          />}
-          <label htmlFor="email">Email</label>
-          <input 
-              id="email" 
-              name="email" 
-              value={formik.values.email} 
-              onChange={formik.handleChange}
-          />
-          <label htmlFor="password">Password</label>
-          <input 
-              id="password" 
-              name="password" 
-              type="password"
-              value={formik.values.password} 
-              onChange={formik.handleChange}
-          />
-          {signup && <label htmlFor="confirmPassword">Confirm Password</label>}
-          {signup && <input 
-              id="confirmPassword" 
-              name="confirmPassword"
-              type="password"
-              value={formik.values.confirmPassword} 
-              onChange={formik.handleChange}
-          />}
-          <button type="submit" >
-              Submit
-          </button>
-      </form>
+    <Container>
+      <CssBaseline />
+      <Box
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Typography component="h1" varian="h5">
+          {signup ? "Sign Up" : "Sign In"}
+        </Typography>
+        <Box 
+          component="form" 
+          onSubmit={formik.handleSubmit} 
+          noValidate 
+          sx={{ mt: 1 }}
+        >
+            {/* {signup && <label htmlFor="name">Name</label>} */}
+            {signup && <TextField 
+                margin="normal"
+                fullWidth
+                id="name" 
+                name="name"
+                label="Name"
+                autoFocus
+                value={formik.values.name} 
+                onChange={formik.handleChange} 
+                error = {formik.errors.name}
+                helperText = {formik.errors.name ? formik.errors.name : null}
+            />}
+            {/* {signup && <label htmlFor="company">Company</label>} */}
+            {signup && <TextField 
+                margin="normal"
+                fullWidth
+                id="company" 
+                name="company" 
+                label="Company"
+                value={formik.values.company} 
+                onChange={formik.handleChange}
+            />}
+            {/* {signup && <label htmlFor="phoneNumber">Phone Number</label>} */}
+            {signup && <TextField 
+                margin="normal"
+                fullWidth
+                id="phoneNumber" 
+                name="phoneNumber" 
+                label="Phone Number"
+                value={formik.values.phoneNumber} 
+                onChange={formik.handleChange}
+            />}
+            {/* <label htmlFor="email">Email</label> */}
+            <TextField 
+                margin="normal"
+                fullWidth
+                id="email" 
+                name="email" 
+                label="Email Address"
+                value={formik.values.email} 
+                onChange={formik.handleChange}
+                error={formik.errors.email}
+                helperText={formik.handleChange}
+            />
+            {/* <label htmlFor="password">Password</label> */}
+            <TextField 
+                margin="normal"
+                fullWidth
+                id="password" 
+                name="password" 
+                type="password"
+                label="Password"
+                value={formik.values.password} 
+                onChange={formik.handleChange}
+                error={formik.errors.password}
+                helperText={formik.errors.password}
+            />
+            {/* {signup && <label htmlFor="confirmPassword">Confirm Password</label>} */}
+            {signup && <TextField 
+                margin="normal"
+                fullWidth
+                id="confirmPassword" 
+                name="confirmPassword"
+                type="password"
+                label="Confirm Password"
+                value={formik.values.confirmPassword} 
+                onChange={formik.handleChange}
+                error={formik.errors.confirmPassword}
+                helperText={formik.errors.confirmPassword}
+            />}
+            <Button 
+              type="submit" 
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+                {signup ? 'Create Account' : 'Log In'}
+            </Button>
+        </Box>
 
-      <button onClick={toggleForm} >
-        {signup ? 'Log In' : 'Sign Up'}
-      </button>
+                <Button 
+                  onClick={() => {
+                    toggleForm();
+                    formik.resetForm({values: formik.initialValues});
+                    setError(null)
+                  }} 
+                >
+                  {signup ? 'Already have an account? Sign in' : "Don't Have an Account? Sign Up"}
+                </Button>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <p style={{ color: "red" }}>{formik.errors.name}</p>
-      <p style={{ color: "red" }}>{formik.errors.email}</p>
-      <p style={{ color: "red" }}>{formik.errors.password}</p>
-      <p style={{ color: "red" }}>{formik.errors.confirmPassword}</p>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+      </Box>
 
-    </div>
+    </Container>
   )
 }
 

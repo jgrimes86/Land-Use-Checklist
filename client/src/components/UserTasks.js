@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Table, Thead, Tbody, Tr, Th, Td, } from '@chakra-ui/react';
 
 // import TaskItem from "./TaskItem";
 import TaskTableItem from "./TaskTableItem";
@@ -35,7 +34,7 @@ function UserTasks({user}) {
             {/* {taskList} */}
 
             <h2>My Task Table</h2>
-            <Table variant='simple'>
+            {/* <Table variant='simple'>
                 <Thead>
                     <Tr>
                         <Th>Project</Th>
@@ -47,7 +46,7 @@ function UserTasks({user}) {
                 <Tbody>
                     {taskTableRows}
                 </Tbody>
-            </Table>
+            </Table> */}
 
         </div>
     )
