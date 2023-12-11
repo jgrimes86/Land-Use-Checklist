@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLocation, useParams } from 'react-router-dom';
 import { useFormik } from "formik";
 
 import { Box, Button, Container, FormControl, InputLabel, MenuItem, Modal, Select, Stack, TextField, Typography } from '@mui/material';
@@ -19,7 +20,9 @@ const modalStyle = {
     overflow: 'scroll',
 }
 
-function TaskModal({task, userTasks, setUserTasks}) {
+function TaskModal({task, tasks, setTasks}) {
+    const location = useLocation();
+    const params = useParams();
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -46,7 +49,7 @@ function TaskModal({task, userTasks, setUserTasks}) {
                 if (r.ok) {
                     r.json()
                     .then((updatedTask) => {
-                        setUserTasks(userTasks.map(task => {
+                        setTasks(tasks.map(task => {
                             if (updatedTask.id === task.id) {
                                 return updatedTask
                             } else return task
@@ -64,7 +67,7 @@ function TaskModal({task, userTasks, setUserTasks}) {
         })
         .then((r) => {
             if (r.ok) {
-                setUserTasks(userTasks.filter(t => {
+                setTasks(tasks.filter(t => {
                     if (t.id !== task.id) return t
                 }));
                 handleClose()
@@ -74,6 +77,7 @@ function TaskModal({task, userTasks, setUserTasks}) {
         })
     }
 
+    const taskTitle = (location.pathname===`/users/${params.id}`) ? task.project.name : task.name;
 
     return (
         <div>
@@ -90,7 +94,7 @@ function TaskModal({task, userTasks, setUserTasks}) {
             >
                     <Box sx={modalStyle}>
                         <Typography>
-                            {task.project.name}
+                            {taskTitle}
                         </Typography>
                         <Box 
                             component="form"

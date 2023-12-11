@@ -1,8 +1,10 @@
-
+import { useLocation, useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { Box, Button, Typography, Modal, Tab } from '@mui/material';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
 function TeamList({team}) {
+    const location = useLocation();
+    const params = useParams();
 
     const columns=[
         {
@@ -26,6 +28,10 @@ function TeamList({team}) {
         })
     }) : [];
 
+    function handleClick(row) {
+        console.log(row)
+    }
+
     return (
         <TableContainer>
             <Table>
@@ -40,7 +46,7 @@ function TeamList({team}) {
                         <TableRow
                             key={row.id}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            onClick={() => console.log(row)}
+                            onClick={() => handleClick(row)}
                         >
                             <TableCell component='th' scope='row'>
                                 {row.role}

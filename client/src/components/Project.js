@@ -1,6 +1,11 @@
 
 import { useEffect, useMemo } from "react";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { Box, Button, Paper, Typography } from '@mui/material';
+
+
+import ProjectTasks from "./ProjectTasks";
+import TeamList from "./TeamList";
 
 function Project() {
     const params = useParams();
@@ -18,7 +23,7 @@ function Project() {
             }
         })
 
-        fetch(`/roles/${params.id}`)
+        fetch(`/projects/${params.id}/roles`)
         .then((r) => {
             if (r.ok) {
                 r.json()
@@ -41,24 +46,27 @@ function Project() {
     }
 
     return (
-        <div>
-            <div>
+        <Box>
+            <Box>
                 <h2>{project.name}</h2>
 
                 <button onClick={handleEditClick} >Edit Project</button>
-            </div>
-            <div>
-                <div>
-                    {/* project details */}
-                </div>
-                <div>
-                    {/* team members */}
-                </div>
-            </div>
-            <div>
-                {/* project tasks */}
-            </div>
-        </div>
+            </Box>
+            <Box>
+                <Paper>
+                    <Typography>{project.client}</Typography>
+                    <Typography>{project.property_address}</Typography>
+                    <Typography>{`Block ${project.property_block}, Lot ${project.property_lot}`}</Typography>
+                    <Typography>{`${project.municipality}, ${project.county}, ${project.state}`}</Typography>
+                </Paper>
+                <Box>
+                    <TeamList team={team} />
+                </Box>
+            </Box>
+            <Box>
+                <ProjectTasks team={team} />
+            </Box>
+        </Box>
     )
 }
 

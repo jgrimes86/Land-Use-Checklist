@@ -64,6 +64,13 @@ api.add_resource(CheckSession, '/check_session')
 
 
 
+class Users(Resource):
+    
+    def get(self):
+        users = [user.to_dict(rules=('tasks', '-tasks.user', 'roles', '-roles.user')) for user in User.query.all()]
+        return make_response(users, 200)
+
+api.add_resource(Users, '/users')
 
 class UserById(Resource):
     
@@ -80,8 +87,6 @@ class UserById(Resource):
 
 api.add_resource(UserById, '/users/<int:id>')
 
-
-
 class UserProjects(Resource):
     
     def get(self, id):
@@ -96,16 +101,6 @@ class UserProjects(Resource):
 
 api.add_resource(UserProjects, '/users/roles/<int:id>')
 
-
-
-class Users(Resource):
-    
-    def get(self):
-        users = [user.to_dict(rules=('tasks', '-tasks.user', 'roles', '-roles.user')) for user in User.query.all()]
-        return make_response(users, 200)
-
-api.add_resource(Users, '/users')
-
 class UserTasks(Resource):
 
     def get(self, id):
@@ -115,7 +110,7 @@ class UserTasks(Resource):
         else:
             return make_response({"error": "User not found"}, 404)
 
-api.add_resource(UserTasks, '/tasks/users/<int:id>')
+api.add_resource(UserTasks, '/users/tasks/<int:id>')
 
 
 
@@ -143,6 +138,14 @@ class TasksById(Resource):
 
 
 api.add_resource(TasksById, '/tasks/<int:id>')
+
+class TasksByProject(Resource):
+    
+    def get(self, id):
+        tasks = [task.to_dict(rules=('user', '-user.tasks')) for task in Task.query.filter_by(project_id=id).all()]
+        return make_response(tasks, 200)
+
+api.add_resource(TasksByProject, '/projects/<int:id>/tasks')
 
 
 class Projects(Resource):
@@ -187,6 +190,7 @@ class ProjectsById(Resource):
 
 api.add_resource(ProjectsById, '/projects/<int:id>')
 
+
 class Roles(Resource):
 
     def post(self):
@@ -202,13 +206,13 @@ class Roles(Resource):
 
 api.add_resource(Roles, '/roles')
 
-class RolesByProjectID(Resource):
+class RolesByProject(Resource):
     
     def get(self, id):
         roles = [role.to_dict(rules=('user', '-user.roles', )) for role in Role.query.filter_by(project_id=id).all()]
         return make_response(roles, 200)
 
-api.add_resource(RolesByProjectID, '/roles/<int:id>')
+api.add_resource(RolesByProject, '/projects/<int:id>/roles')
 
 
 if __name__ == '__main__':

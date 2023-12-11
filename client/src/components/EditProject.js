@@ -218,7 +218,7 @@ function EditProject() {
                                 onClick={() => {
                                     projectFormik.resetForm({
                                         values: projectFormik.initialValues
-                                    })
+                                    });
                                 }}
                                 type="reset"
                             >
