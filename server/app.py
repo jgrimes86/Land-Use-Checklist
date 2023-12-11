@@ -85,14 +85,16 @@ api.add_resource(UserById, '/users/<int:id>')
 class UserProjects(Resource):
     
     def get(self, id):
-        roles = Role.query.filter_by(user_id=id).all()
+        roles = Role.query.filter_by(user_id=id).distinct()
         if roles:
-            projects = [role.project.to_dict(rules=('tasks', '-tasks.project', 'roles', '-roles.project')) for role in roles]
-            return make_response(projects, 200)
+            allProjects = [role.project.to_dict(rules=('tasks', '-tasks.project', 'roles', '-roles.project')) for role in roles]
+            uniqueProjects = []
+            [uniqueProjects.append(project) for project in allProjects if project not in uniqueProjects]
+            return make_response(uniqueProjects, 200)
         else:
             return make_response({"error": "User not found"}, 404)
 
-api.add_resource(UserProjects, '/roles/users/<int:id>')
+api.add_resource(UserProjects, '/users/roles/<int:id>')
 
 
 
@@ -203,7 +205,7 @@ api.add_resource(Roles, '/roles')
 class RolesByProjectID(Resource):
     
     def get(self, id):
-        roles = [role.to_dict(rules=('user', '-user.roles', 'project', '-project.roles')) for role in Role.query.filter_by(project_id=id).all()]
+        roles = [role.to_dict(rules=('user', '-user.roles', )) for role in Role.query.filter_by(project_id=id).all()]
         return make_response(roles, 200)
 
 api.add_resource(RolesByProjectID, '/roles/<int:id>')

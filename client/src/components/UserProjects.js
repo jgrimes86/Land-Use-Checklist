@@ -7,8 +7,10 @@ function UserProjects({user, setProject, setTeam}) {
     const [userProjects, setUserProjects] = useState([]);
     const navigate = useNavigate();
 
+    // console.log(userProjects)
+
     useEffect(() => {
-        fetch('/roles/users/'+user.id)
+        fetch('/users/roles/'+user.id)
         .then((r) => {
             if (r.ok) {
                 r.json().then(projects => setUserProjects(projects))
@@ -31,21 +33,15 @@ function UserProjects({user, setProject, setTeam}) {
 
     const projectList = userProjects.map(project => {
         const {id, name, client, property_address, property_block, property_lot, municipality, county, state} = project;
-        const projectDetails = () => (
-            <div>
-                <p>{`${client}, ${property_address}`}</p>
-                <p>{`Block ${property_block}, Lot ${property_lot}, ${municipality}, ${county}, ${state}`}</p>
-            </div>
-        );
         return (
-            <ListItem key={id} onClick={() => handleNavigate(id)} >
+            <ListItem key={id} >
                 <ListItemText 
                     primary={name}
-                    secondary={projectDetails()}
+                    secondary={`${client}, ${property_address} Block ${property_block}, Lot ${property_lot}, ${municipality}, ${county}, ${state}`}
+                    secondaryTypographyProps={{ style: { whiteSpace: "normal" } }}
                 />
                 <Button onClick={() => handleNavigate(id)}>Go to project</Button>
             </ListItem>
-
         )
     })
 

@@ -6,12 +6,13 @@ import * as yup from "yup";
 import { Box, Button, Checkbox, Container, CssBaseline, FormControl, FormControlLabel, Grid, InputLabel, Link, MenuItem, Select, Stack, TextField, ThemeProvider, Typography } from '@mui/material';
 
 
+import TeamList from "./TeamList";
+
 function EditProject() {
     const {project, setProject, team, setTeam, users, setUsers} = useOutletContext()
     const [error, setError] = useState(null);
+    const [teamFormData, setTeamFormData] = useState([])
 
-
-    // console.log("project: ", project)
 
 ////////////////////////// PROJECT FORMIK START /////////////////////////////////
     const params = useParams();
@@ -59,7 +60,7 @@ function EditProject() {
                 r.json().then((newProject) => {
                     setProject(newProject);
                     setError(null);
-                    // navigate(`/projects/${newProject.id}`)
+                    navigate(`/projects/${newProject.id}`)
                 });
             }
             else {
@@ -73,9 +74,9 @@ function EditProject() {
     const createEditButton = project ? "Save Changes" : "Create Project";
 ////////////////////////// PROJECT FORMIK END /////////////////////////////////////
 
-////////////////////////// TEAM FORMIK START ///////////////////////////////////
+////////////////////// NEW TEAM MEMBER FORMIK START ////////////////////////////
 
-    const teamFormik = useFormik({
+    const addTeamFormik = useFormik({
         initialValues: {
             role: "",
             user_id: "",
@@ -102,20 +103,13 @@ function EditProject() {
         }
     })
 
-    // Serializer_mixin recursion error preventing Role from including user info.  If fixed, can avoid the userId map
-    const currentTeamMembers = users.map((u) => {
-        const teamIds = team.map(tm => tm.id)
-        if (teamIds.includes(u.id)){
-            return <div key={u.id}>{u.name}</div>
-        }
-    })
 
-    console.log("current team", currentTeamMembers)
-
+    
     const teamOptions = users.map(u => {
         return <MenuItem key={u.id} value={u.id}>{u.name}</MenuItem>
     });
-////////////////////////// TEAM FORMIK END /////////////////////////////////////
+////////////////////// NEW TEAM MEMBER FORMIK End ////////////////////////////
+    
 
     return (
         <Container>
@@ -238,6 +232,9 @@ function EditProject() {
                     </Box>
                 </Box>
 
+{/* form for adding and editing team members */}
+
+
                 <Box
                     sx={{
                         marginTop: 8,
@@ -246,14 +243,14 @@ function EditProject() {
                         alignItems: 'center',
                         width: '50%'
                     }}
-                >
+                    >
                     <Typography>Team Members</Typography>
 
-                    {currentTeamMembers}
+                    {team ? <TeamList team={team} /> : null}
                     
                     <Box 
                         component="form"
-                        onSubmit={teamFormik.handleSubmit}
+                        onSubmit={addTeamFormik.handleSubmit}
                         noValidate
                         sx={{ 
                             mt: 1,
@@ -272,8 +269,8 @@ function EditProject() {
                                 id='role'
                                 name='role'
                                 placeholder="Team Member Role"
-                                value={teamFormik.values.role}
-                                onChange={teamFormik.handleChange}
+                                value={addTeamFormik.values.role}
+                                onChange={addTeamFormik.handleChange}
                                 sx={{
                                     width: '50%'
                                 }}
@@ -290,8 +287,8 @@ function EditProject() {
                                     id="user_id"
                                     name="user_id"
                                     label="Select a Team Member"
-                                    value={teamFormik.values.user_id}
-                                    onChange={teamFormik.handleChange}
+                                    value={addTeamFormik.values.user_id}
+                                    onChange={addTeamFormik.handleChange}
                                 >
                                     {teamOptions}
                                 </Select>
@@ -306,10 +303,11 @@ function EditProject() {
                             Add Team Member
                         </Button>
                     </Box>
-
                 </Box>
-
             </Box>
+
+            <TeamList />
+
         </Container>
 
     )

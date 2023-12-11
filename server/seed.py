@@ -17,7 +17,7 @@ with app.app_context():
     Project.query.delete()
 
     p1 = Project(name="Sunny Vineyards Use Variance and Site Plan", client="A&L Holdings, LLC", property_address="586 Maple Road, Skillman", property_lot="59", property_block="26002", municipality="Montgomery Township", county="Somerset", state="New Jersey")
-    p2 = Project(name="Grace Figeuroa Conditional Use", client="Grace Figueroa", property_address="12 Washington Court", property_lot="35", property_block="19", municipality="Readington Township", county="Hunterdon", state="New Jersey")
+    p2 = Project(name="Grace Figueroa Conditional Use", client="Grace Figueroa", property_address="12 Washington Court", property_lot="35", property_block="19", municipality="Readington Township", county="Hunterdon", state="New Jersey")
 
     db.session.add_all([p1, p2])
     db.session.commit()

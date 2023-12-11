@@ -1,5 +1,5 @@
 
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 
 function Project() {
@@ -7,9 +7,9 @@ function Project() {
     const navigate = useNavigate();
     const {project, setProject, team, setTeam, users, setUsers} = useOutletContext()
 
-    console.log("team: ", team)
+    // console.log("team: ", team)
 
-    useEffect(() => {
+    useMemo(() => {
         fetch(`/projects/${params.id}`)
         .then((r) => {
             if (r.ok) {
