@@ -1,17 +1,22 @@
 import { useState, useEffect } from "react";
 import { useFormik } from "formik";
-import { Box, Button, Modal, Typography } from '@mui/material';
+
+import { Box, Button, Container, FormControl, InputLabel, MenuItem, Modal, Select, Stack, TextField, Typography } from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers';
+import dayjs from "dayjs";
 
 const modalStyle = {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: 500,
+    maxHeight: "75%",
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
+    overflow: 'scroll',
 }
 
 function TaskModal({task, userTasks, setUserTasks}) {
@@ -23,10 +28,10 @@ function TaskModal({task, userTasks, setUserTasks}) {
         initialValues: {
             name: task.name,
             description: task.description,
-            start_date: task.start_date,
-            end_date: task.end_date,
+            start_date: dayjs(task.start_date),
+            end_date: dayjs(task.end_date),
             status: task.status,
-            comments: task.comments,
+            comments: task.comments ? task.comments : "",
         },
 
         onSubmit: (values) => {
@@ -70,8 +75,6 @@ function TaskModal({task, userTasks, setUserTasks}) {
     }
 
 
-
-
     return (
         <div>
             <Button 
@@ -82,86 +85,114 @@ function TaskModal({task, userTasks, setUserTasks}) {
             >
                 Edit
             </Button>
-
             <Modal
                 open={open}
-                // onClose={handleClose}
             >
-                <Box sx={modalStyle}>
-
-
-                <form onSubmit={formik.handleSubmit}>
-                        <label htmlFor="name">Name</label>
-                        <input
-                            id="name"
-                            name="name"
-                            value={formik.values.name}
-                            onChange={formik.handleChange}
-                        />
-
-                        <label htmlFor="description">Description</label>
-                        <input
-                            id="description"
-                            name="description"
-                            value={formik.values.description}
-                            onChange={formik.handleChange}
-                        />
-
-                        <label htmlFor="comments">Comments</label>
-                        <input
-                        // should be text area or multi-line input
-                            id="comments"
-                            name="comments"
-                            value={formik.values.comments}
-                            onChange={formik.handleChange}
-                        />
-
-                        <label htmlFor="start_date">Start Date</label>
-                        <input
-                            id="start_date"
-                            name="start_date"
-                            value={formik.values.start_date}
-                            onChange={formik.handleChange}
-                        />
-
-                        <label htmlFor="end_date">Due Date</label>
-                        <input
-                            id="end_date"
-                            name="end_date"
-                            value={formik.values.end_date}
-                            onChange={formik.handleChange}
-                        />
-
-                        <label htmlFor="status">status</label>
-                        <select
-                            id="status"
-                            name="status"
-                            value={formik.values.status}
-                            onChange={formik.handleChange}
+                    <Box sx={modalStyle}>
+                        <Typography>
+                            {task.project.name}
+                        </Typography>
+                        <Box 
+                            component="form"
+                            onSubmit={formik.handleSubmit}
                         >
-                            <option value='open'>Open</option>
-                            <option value='complete'>Complete</option>
-                            <option value='waiver_requested'>Waiver Requested</option>
-                            <option value='not_applicable'>Not Applicable</option>
-                            <option value='incomplete'>Incomplete</option>
-                        </select>
+                            <TextField
+                                margin="normal"
+                                fullWidth
+                                id="name"
+                                name="name"
+                                label="Task Name"
+                                value={formik.values.name}
+                                onChange={formik.handleChange}
+                            />
+                            <TextField
+                                margin="normal"
+                                fullWidth
+                                id="description"
+                                name="description"
+                                label="Description"
+                                multiline
+                                value={formik.values.description}
+                                onChange={formik.handleChange}
+                            />
+                            <TextField
+                                margin="normal"
+                                fullWidth
+                                id="comments"
+                                name="comments"
+                                label="Comments"
+                                multiline
+                                value={formik.values.comments}
+                                onChange={formik.handleChange}
+                            />
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    flexWrap: 'nowrap',
+                                }}
+                            >
+                                <DatePicker 
+                                    label="Start Date"
+                                    value={formik.values.start_date}
+                                    onChange={formik.handleChange}
+                                />
 
-                        <Button type="submit" >
-                            Save Changes
-                        </Button>
-                        <Button onClick={handleClose}>
-                            Close
-                        </Button>
-                        <Button onClick={handleDelete}>
-                            Delete Task
-                        </Button>
-                    </form>
+                                <DatePicker 
+                                    label="Due Date"
+                                    value={formik.values.end_date}
+                                    onChange={formik.handleChange}
+                                />
+                            </Box>
+                            <InputLabel id="status-label">status</InputLabel>
+                            <Select
+                                margin="normal"
+                                fullWidth
+                                labelId="status-label"
+                                id="status"
+                                name="status"
+                                label='Status'
+                                value={formik.values.status}
+                                onChange={formik.handleChange}
+                            >
+                                <MenuItem value='open'>Open</MenuItem>
+                                <MenuItem value='complete'>Complete</MenuItem>
+                                <MenuItem value='waiver_requested'>Waiver Requested</MenuItem>
+                                <MenuItem value='not_applicable'>Not Applicable</MenuItem>
+                                <MenuItem value='incomplete'>Incomplete</MenuItem>
+                            </Select>
 
+                            {/* Add selection for responsible team member for project page view */}
 
-                </Box>
-
+                            <Stack 
+                                spacing={2} 
+                                direction="row"
+                            >
+                                <Button 
+                                    type="submit" 
+                                    variant="contained"
+                                    sx={{ mt: 3, mb: 2 }}
+                                >
+                                    Save Changes
+                                </Button>
+                                <Button 
+                                    variant="contained"
+                                    sx={{ mt: 3, mb: 2 }}
+                                    onClick={handleClose}
+                                >
+                                    Close
+                                </Button>
+                                <Button 
+                                    variant="contained"
+                                    sx={{ mt: 3, mb: 2 }}
+                                    onClick={handleDelete}
+                                >
+                                    Delete Task
+                                </Button>
+                            </Stack>
+                        </Box>
+                    </Box>
             </Modal>
-
         </div>
     )
 }

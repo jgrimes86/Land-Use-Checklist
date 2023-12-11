@@ -140,7 +140,11 @@ function EditProject() {
                     <Typography>
                         Project Details
                     </Typography>
-                    <Box onSubmit={projectFormik.handleSubmit}>
+                    <Box 
+                        component="form"
+                        onSubmit={projectFormik.handleSubmit}
+                        // sx={{ mt: 1 }}
+                    >
                             <TextField 
                                 margin="normal"
                                 fullWidth

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 // import SignIn from "./SignIn";
 // import UserHome from "./UserHome";
@@ -55,11 +57,13 @@ function App() {
 
     
     return (
-        <div>
-            {user && <NavBar userId={user.id} handleLogout={handleLogout} />}
-            <Outlet context={context} />
-            {/* {user && <button onClick={handleLogout} >Log Out</button>} */}
-        </div>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <div>
+                {user && <NavBar userId={user.id} handleLogout={handleLogout} />}
+                <Outlet context={context} />
+                {/* {user && <button onClick={handleLogout} >Log Out</button>} */}
+            </div>
+        </LocalizationProvider>
     )
 }
 

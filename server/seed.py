@@ -40,8 +40,8 @@ with app.app_context():
     t1 = Task(
         name="Environmental Impact Statement", 
         description="EIC must be submitted which complies with Code §148-102(C)", 
-        start_date="08-January-2024", 
-        end_date="05-February-2024", 
+        start_date="2024-01-08", 
+        end_date="2024-02-05", 
         status="open", 
         user=u1, 
         project=p1
@@ -49,8 +49,8 @@ with app.app_context():
     t2 = Task(
         name="Soil Erosion and Sediment Control Plan", 
         description="Proposals for soil erosion and sediment control as required by the Readington Township Soil Erosion and Sediment Control Ordinance, Code Chapter 197", 
-        start_date="08-January-2024", 
-        end_date="05-February-2024", 
+        start_date="2024-01-08", 
+        end_date="2024-02-05", 
         status="open", 
         comments="Topographic survey scheduled for Jan 4.", 
         user=u1, 
@@ -59,8 +59,8 @@ with app.app_context():
     t3 = Task(
         name="Notice", 
         description="Issue notice of application by publication in newspaper and by certified mail to surrounding property owners at least 10 days prior to hearing date", 
-        start_date="11-March-2024",
-        end_date="13-March-2024", 
+        start_date="2024-03-11",
+        end_date="2024-03-13", 
         status="open", 
         comments="Montgomery Township's official newspaper is the Courier News.  Notices must be submitted for publication 3 business days prior to date of publication.  Courier News does not publish print edition on Saturdays. \n Request for list of property owners within 200 feet of subject property submitted to township tax assessor.", 
         user=u2, 
@@ -69,8 +69,8 @@ with app.app_context():
     t4 = Task(
         name="Planners Report", 
         description="Properaration of report in support of application detailing conditions justifying use variance and suitability of site for intended purpose", 
-        start_date="05-February-2024", 
-        end_date="19-February-2024", 
+        start_date="2024-02-05", 
+        end_date="2024-02-19", 
         status="open", 
         user=u3, 
         project=p1
@@ -78,8 +78,8 @@ with app.app_context():
     t5 = Task(
         name="Variance Application Form", 
         description="Prepare variance application for operation of home business on property", 
-        start_date="15-January-2024", 
-        end_date="19-January-2024", 
+        start_date="2024-01-15", 
+        end_date="2024-01-19", 
         status="open", 
         user=u3, 
         project=p2
@@ -87,8 +87,8 @@ with app.app_context():
     t6 = Task(
         name="Access Easement", 
         description="Finalize and record amendment to access easement accross neighboring property", 
-        start_date="15-January-2024", 
-        end_date="15-January-2024", 
+        start_date="2024-01-15", 
+        end_date="2024-01-15", 
         status="open", 
         user=u2, 
         project=p2
