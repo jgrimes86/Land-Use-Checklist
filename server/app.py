@@ -25,7 +25,7 @@ class Signup(Resource):
         db.session.commit()
 
         session['user_id'] = user.id
-        return make_response(user.to_dict(), 202)
+        return make_response(user.to_dict(rules=('tasks', '-tasks.user', 'roles', '-roles.user')), 202)
 
 api.add_resource(Signup, '/signup')
 
@@ -38,7 +38,7 @@ class Login(Resource):
 
         if user.authenticate(password):
             session['user_id'] = user.id
-            return make_response(user.to_dict(rules=('-roles', '-tasks')), 201)
+            return make_response(user.to_dict(rules=('tasks', '-tasks.user', 'roles', '-roles.user')), 201)
         else:
             return make_response({"error": "Invalid username or password"}, 401)
 
@@ -55,7 +55,7 @@ class CheckSession(Resource):
     def get(self):
         user = User.query.filter_by(id=session.get('user_id')).first()
         if user:
-            return user.to_dict()
+            return user.to_dict(rules=('tasks', '-tasks.user', 'roles', '-roles.user'))
         else:
             return {'message': '401: Not Authorized'}, 401
 
@@ -71,31 +71,14 @@ class UserById(Resource):
         user = User.query.filter_by(id=id).first()
         if user:
             data = request.json
-            # userUpdate = {
-            #     name: data['name'],
-            #     company: data['company'],
-            #     phone_number: data['phoneNumber'],
-            #     email: data['email']
-            # }
-            # if data['newpassword']:
-            #     if not user.authenticate(data['oldPassword']):
-            #         return make_response({"error": "Incorrect password"}, 401)
             for attr in data:
                 setattr(user, attr, data[attr])
             db.session.commit()
-            return make_response(user.to_dict(), 200)
+            return make_response(user.to_dict(rules=('tasks', '-tasks.user', 'roles', '-roles.user')), 200)
         else:
             return make_response({"error": "User not found"}, 404)
 
 api.add_resource(UserById, '/users/<int:id>')
-
-            # user = User(
-            #     name=data['name'], 
-            #     company=data['company'], 
-            #     phone_number=data['phoneNumber'],
-            #     email=data['email'], 
-            #     password_hash=data['password'])
-
 
 
 
@@ -104,7 +87,7 @@ class UserProjects(Resource):
     def get(self, id):
         roles = Role.query.filter_by(user_id=id).all()
         if roles:
-            projects = [role.project.to_dict(rules=('-roles', '-tasks')) for role in roles]
+            projects = [role.project.to_dict(rules=('tasks', '-tasks.project', 'roles', '-roles.project')) for role in roles]
             return make_response(projects, 200)
         else:
             return make_response({"error": "User not found"}, 404)
@@ -116,7 +99,7 @@ api.add_resource(UserProjects, '/roles/users/<int:id>')
 class Users(Resource):
     
     def get(self):
-        users = [user.to_dict() for user in User.query.all()]
+        users = [user.to_dict(rules=('tasks', '-tasks.user', 'roles', '-roles.user')) for user in User.query.all()]
         return make_response(users, 200)
 
 api.add_resource(Users, '/users')
@@ -124,7 +107,7 @@ api.add_resource(Users, '/users')
 class UserTasks(Resource):
 
     def get(self, id):
-        tasks = [task.to_dict(rules=('-project.roles', '-user')) for task in Task.query.filter_by(user_id=id).all()]
+        tasks = [task.to_dict(rules=('user', '-user.tasks', 'project', '-project.tasks')) for task in Task.query.filter_by(user_id=id).all()]
         if tasks:
             return make_response(tasks, 200)
         else:
@@ -143,7 +126,7 @@ class TasksById(Resource):
             for attr in data:
                 setattr(task, attr, data[attr])
             db.session.commit()
-            return make_response(task.to_dict(), 202)
+            return make_response(task.to_dict(rules=('user', '-user.tasks', 'project', '-project.tasks')), 202)
         else:
             return make_response({"error": "Task not found"}, 404)
 
@@ -177,7 +160,7 @@ class Projects(Resource):
         )
         db.session.add(newProject)
         db.session.commit()
-        return make_response(newProject.to_dict(), 202)
+        return make_response(newProject.to_dict(rules=('tasks', '-tasks.project', 'roles', '-roles.project')), 202)
         # except:
         #     return make_response({"error": "Error saving project"}, 400)
 
@@ -189,7 +172,7 @@ class ProjectsById(Resource):
         if id == 0:
             return make_response({}, 204)
         else:
-            project = Project.query.filter_by(id=id).first().to_dict()
+            project = Project.query.filter_by(id=id).first().to_dict(rules=('tasks', '-tasks.project', 'roles', '-roles.project'))
             return make_response(project, 200)
 
     def patch(self, id):
@@ -198,7 +181,7 @@ class ProjectsById(Resource):
         for attr in data:
             setattr(project, attr, data[attr])
         db.session.commit()
-        return make_response(project.to_dict(), 202)
+        return make_response(project.to_dict(rules=('tasks', '-tasks.project', 'roles', '-roles.project')), 202)
 
 api.add_resource(ProjectsById, '/projects/<int:id>')
 
@@ -213,14 +196,14 @@ class Roles(Resource):
         )
         db.session.add(newRole)
         db.session.commit()
-        return make_response(newRole.to_dict(), 202)
+        return make_response(newRole.to_dict(rules=('user', '-user.roles', 'project', '-project.roles')), 202)
 
 api.add_resource(Roles, '/roles')
 
 class RolesByProjectID(Resource):
     
     def get(self, id):
-        roles = [role.to_dict() for role in Role.query.filter_by(project_id=id).all()]
+        roles = [role.to_dict(rules=('user', '-user.roles', 'project', '-project.roles')) for role in Role.query.filter_by(project_id=id).all()]
         return make_response(roles, 200)
 
 api.add_resource(RolesByProjectID, '/roles/<int:id>')

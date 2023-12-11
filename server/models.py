@@ -15,11 +15,11 @@ class User(db.Model, SerializerMixin):
     _password_hash = db.Column(db.Text, nullable=False)
 
     tasks = db.relationship('Task', back_populates='user')
-    roles = db.relationship('Role', back_populates='user', cascade='all, delete-orphan')
+    roles = db.relationship('Role', back_populates='user')
 
     projects = association_proxy('roles', 'users')
 
-    serialize_rules = ('-_password_hash', '-tasks.user', '-roles.user')
+    serialize_rules = ('-_password_hash', '-tasks', '-roles')
 
     def __repr__(self):
         return f"<User {self.id}: {self.name}>"
@@ -59,12 +59,12 @@ class Project(db.Model, SerializerMixin):
     county = db.Column(db.Text)
     state = db.Column(db.Text)
 
-    tasks = db.relationship('Task', back_populates='project', cascade='all, delete-orphan')
-    roles = db.relationship('Role', back_populates='project', cascade='all, delete-orphan')
+    tasks = db.relationship('Task', back_populates='project')
+    roles = db.relationship('Role', back_populates='project')
 
     users = association_proxy('roles', 'projects')
 
-    serialize_rules = ('-tasks.project', '-roles.project')
+    serialize_rules = ('-tasks', '-roles')
 
     def __repr__(self):
         return f'<Project {self.id}: {self.name}>'
@@ -101,19 +101,7 @@ class Task(db.Model, SerializerMixin):
 
     user = db.relationship('User', back_populates='tasks')
     project = db.relationship('Project', back_populates='tasks')
-    # comments = db.relationship('Comment', back_populates='task', cascade='all, delete-orphan')
 
-    serialize_rules = ('-user.tasks', '-project.tasks')
+    serialize_rules = ('-user', '-project')
 
 
-# class Comment(db.Model, SerializerMixin):
-#     __tablename__ = 'comments'
-
-#     id = db.Column(db.Integer, primary_key=True)
-#     comment = db.Column(db.Text)
-
-#     task_id = db.Column(db.Integer, db.ForeignKey('tasks.id'))
-
-#     task = db.relationship('Task', back_populates='comments')
-
-#     serialize_rules = ('-task',)
