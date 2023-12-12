@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useLocation, useParams } from 'react-router-dom';
 import { useFormik } from "formik";
+import * as yup from "yup";
+
 
 import { Box, Button, Container, FormControl, InputLabel, MenuItem, Modal, Select, Stack, TextField, Typography } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
@@ -27,20 +29,33 @@ function TaskModal({task, tasks, setTasks, team}) {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+    const formikSchema = yup.object().shape({
+        name: yup.string().required('Must enter a task name'),
+        description: yup.string(),
+        start_date: yup.date(),
+        end_date: yup.date().min(yup.ref('start_date')),
+        status: yup.string(),
+        comments: yup.string(),
+    })
+
     const formik = useFormik({
         initialValues: {
             name: task.name ? task.name : "",
             description: task.description ? task.description : "",
-            start_date: dayjs(task.start_date) ? dayjs(task.start_date) : "",
-            end_date: dayjs(task.end_date) ? dayjs(task.end_date) : "",
+            start_date: dayjs(task.start_date) ? dayjs(task.start_date) : dayjs(),
+            end_date: dayjs(task.end_date) ? dayjs(task.end_date) : dayjs(),
             status: task.status ? task.status : "",
             comments: task.comments ? task.comments : "",
             user_id: task.user_id ? task.user_id : "",
         },
-
+        enableReinitialize: true,
+        validationSchema: formikSchema,
+        validateOnChange: false,
         onSubmit: (values) => {
-            fetch(`/tasks/${task.id}`, {
-                method: "PATCH",
+            const url = task ? `/tasks/${task.id}` : `/tasks`;
+            const method = task ? 'PATCH' : 'POST';
+            fetch(url, {
+                method: method,
                 headers: {
                     "Content-Type": "application/json",
                   },
@@ -87,16 +102,21 @@ function TaskModal({task, tasks, setTasks, team}) {
 
 
     // console.log("team options: ", teamOptions)
+    // console.log("Task: ", task)
+
+    const buttonText = task ? "Edit" : "Add Task";
+    const saveButtonText = task ? "Save Changes" : "Create Task";
 
     return (
         <div>
             <Button 
+                variant = "contained"
                 onClick={(e) => {
                     e.stopPropagation();
                     handleOpen()
                 }}
             >
-                Edit
+                {buttonText}
             </Button>
             <Modal
                 open={open}
@@ -117,6 +137,8 @@ function TaskModal({task, tasks, setTasks, team}) {
                                 label="Task Name"
                                 value={formik.values.name}
                                 onChange={formik.handleChange}
+                                error={formik.errors.name}
+                                helperText={formik.errors.name}
                             />
                             <TextField
                                 margin="normal"
@@ -148,15 +170,22 @@ function TaskModal({task, tasks, setTasks, team}) {
                                 <DatePicker 
                                     label="Start Date"
                                     value={formik.values.start_date}
-                                    onChange={formik.handleChange}
+                                    onChange={(value) => {
+                                        formik.setFieldValue('start_date', dayjs(value).format('YYYY-MM-DD'));
+                                        }}
                                 />
 
                                 <DatePicker 
                                     label="Due Date"
                                     value={formik.values.end_date}
-                                    onChange={formik.handleChange}
+                                    onChange={(value) => {
+                                        formik.setFieldValue('end_date', dayjs(value).format('YYYY-MM-DD'));
+                                        }}
+                                    // error={formik.errors.end_date}
+                                    // helperText={formik.errors.end_date}
                                 />
                             </Box>
+                            {formik.errors.end_date ? <Typography sx={{color:"red"}}>Due Date cannot be earlier than Start Date</Typography> : null}
 
                             {/* Add selection for responsible team member for project page view */}
                             <InputLabel id="team-member-label">Resonsible Team Member</InputLabel>
@@ -198,22 +227,27 @@ function TaskModal({task, tasks, setTasks, team}) {
                                     variant="contained"
                                     sx={{ mt: 3, mb: 2 }}
                                 >
-                                    Save Changes
+                                    {saveButtonText}
                                 </Button>
                                 <Button 
                                     variant="contained"
                                     sx={{ mt: 3, mb: 2 }}
-                                    onClick={handleClose}
+                                    onClick={() => {
+                                        handleClose();
+                                        formik.resetForm({
+                                            values: formik.initialValues
+                                        })
+                                    }}
                                 >
                                     Close
                                 </Button>
-                                <Button 
+                                {task && <Button 
                                     variant="contained"
                                     sx={{ mt: 3, mb: 2 }}
                                     onClick={handleDelete}
                                 >
                                     Delete Task
-                                </Button>
+                                </Button>}
                             </Stack>
                         </Box>
                     </Box>

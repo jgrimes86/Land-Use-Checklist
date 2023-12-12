@@ -44,12 +44,6 @@ function ProjectTasks() {
             field: 'task',
             headerName: 'Task',
             width: 400,
-            // cellClassName: (params) =>
-            //     clsx('task-title', {
-            //         // whiteSpace: 'normal',
-            //         // wordWrap: 'break-word',
-            //         // display: "inline-block"
-            //       }),
         },
         {
             field: 'startDate',
@@ -96,6 +90,10 @@ function ProjectTasks() {
         })
     }) : [];
 
+    function handleAddTask() {
+        console.log("Add Task clicked")
+    }
+
     return (
         <Box sx={{ height: 400, width: '100%'}} >
             <DataGrid 
@@ -111,6 +109,7 @@ function ProjectTasks() {
                 pageSizeOptions={[10]}
                 disableRowSelectionOnClick 
             />
+            <TaskModal task={""} tasks={tasks} setTasks={setTasks} team={team} />
         </Box>
     )
 }
