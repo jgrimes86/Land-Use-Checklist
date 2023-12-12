@@ -20,7 +20,7 @@ const modalStyle = {
     overflow: 'scroll',
 }
 
-function TaskModal({task, tasks, setTasks}) {
+function TaskModal({task, tasks, setTasks, team}) {
     const location = useLocation();
     const params = useParams();
     const [open, setOpen] = useState(false);
@@ -35,6 +35,7 @@ function TaskModal({task, tasks, setTasks}) {
             end_date: dayjs(task.end_date) ? dayjs(task.end_date) : "",
             status: task.status ? task.status : "",
             comments: task.comments ? task.comments : "",
+            user_id: task.user_id ? task.user_id : "",
         },
 
         onSubmit: (values) => {
@@ -78,6 +79,14 @@ function TaskModal({task, tasks, setTasks}) {
     }
 
     const taskTitle = (location.pathname===`/users/${params.id}`) ? task.project.name : task.name;
+
+
+    const teamOptions = team ? team.map(tm => {
+            return <MenuItem key={tm.id} value={tm.id}>{tm.name}</MenuItem>
+        }) : [];
+
+
+    // console.log("team options: ", teamOptions)
 
     return (
         <div>
@@ -148,14 +157,26 @@ function TaskModal({task, tasks, setTasks}) {
                                     onChange={formik.handleChange}
                                 />
                             </Box>
+
+                            {/* Add selection for responsible team member for project page view */}
+                            <InputLabel id="team-member-label">Resonsible Team Member</InputLabel>
+                            <Select
+                                fullWidth
+                                labelId="team-member-label"
+                                id="user_id"
+                                name="user_id"
+                                value={formik.values.user_id}
+                                onChange={formik.handleChange}
+                            >
+                                {teamOptions}
+                            </Select>
+
                             <InputLabel id="status-label">status</InputLabel>
                             <Select
-                                margin="normal"
                                 fullWidth
                                 labelId="status-label"
                                 id="status"
                                 name="status"
-                                label='Status'
                                 value={formik.values.status}
                                 onChange={formik.handleChange}
                             >
@@ -166,7 +187,7 @@ function TaskModal({task, tasks, setTasks}) {
                                 <MenuItem value='incomplete'>Incomplete</MenuItem>
                             </Select>
 
-                            {/* Add selection for responsible team member for project page view */}
+                            
 
                             <Stack 
                                 spacing={2} 

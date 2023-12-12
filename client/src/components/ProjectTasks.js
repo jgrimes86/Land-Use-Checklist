@@ -8,9 +8,10 @@ import clsx from 'clsx';
 
 import TaskModal from "./TaskModal";
 
-function ProjectTasks({team}) {
+function ProjectTasks() {
     const params = useParams();
     const [tasks, setTasks] = useState([]);
+    const [team, setTeam] = useState([])
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -20,14 +21,23 @@ function ProjectTasks({team}) {
         .then((r) => {
             if (r.ok) {
                 r.json().then(tasks => setTasks(tasks))
+            } else {
+                r.json().then(({error}) => console.log(error))
             }
-            else {
+        })
+
+        fetch(`/projects/${params.id}/team-members`)
+        .then((r) => {
+            if (r.ok) {
+                r.json().then(teamMembers => setTeam(teamMembers))
+            } else {
                 r.json().then(({error}) => console.log(error))
             }
         })
     }, [])
 
-    console.log("tasks: ", tasks)
+    // console.log("tasks: ", tasks)
+    // console.log("team: ", team)
 
     const columns = [
         {

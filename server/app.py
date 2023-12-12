@@ -214,6 +214,15 @@ class RolesByProject(Resource):
 
 api.add_resource(RolesByProject, '/projects/<int:id>/roles')
 
+class TeamMembers(Resource):
+
+    def get(self, id):
+        team = db.session.query(User).join(Role, User.id == Role.user_id).filter(Role.project_id == id).all()
+        team_list = [user.to_dict() for user in team]
+        return make_response(team_list, 200)
+
+api.add_resource(TeamMembers, '/projects/<int:id>/team-members')
+
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

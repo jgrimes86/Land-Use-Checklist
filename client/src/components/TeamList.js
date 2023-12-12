@@ -2,7 +2,7 @@ import { useLocation, useNavigate, useOutletContext, useParams } from "react-rou
 import { Box, Button, Typography, Modal, Tab } from '@mui/material';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
-function TeamList({team}) {
+function TeamList({roles}) {
     const location = useLocation();
     const params = useParams();
 
@@ -19,7 +19,7 @@ function TeamList({team}) {
         },
     ]
 
-    const rows= team ? team.map(role => {
+    const rows= roles ? roles.map(role => {
         return ({
             id: role.id,
             role: role.name,

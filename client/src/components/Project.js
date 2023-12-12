@@ -10,9 +10,9 @@ import TeamList from "./TeamList";
 function Project() {
     const params = useParams();
     const navigate = useNavigate();
-    const {project, setProject, team, setTeam, users, setUsers} = useOutletContext()
+    const {project, setProject, roles, setRoles, users, setUsers} = useOutletContext()
 
-    // console.log("team: ", team)
+    // console.log("roles: ", roles)
 
     useMemo(() => {
         fetch(`/projects/${params.id}`)
@@ -27,7 +27,7 @@ function Project() {
         .then((r) => {
             if (r.ok) {
                 r.json()
-                .then(data => setTeam(data))
+                .then(data => setRoles(data))
             }
         })
 
@@ -60,11 +60,11 @@ function Project() {
                     <Typography>{`${project.municipality}, ${project.county}, ${project.state}`}</Typography>
                 </Paper>
                 <Box>
-                    <TeamList team={team} />
+                    <TeamList roles={roles} />
                 </Box>
             </Box>
             <Box>
-                <ProjectTasks team={team} />
+                <ProjectTasks />
             </Box>
         </Box>
     )

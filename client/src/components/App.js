@@ -13,7 +13,7 @@ function App() {
     const [user, setUser] = useState(null);
     const [signup, setSignup] = useState(false);
     const [project, setProject] = useState("");
-    const [team, setTeam] = useState("");
+    const [roles, setRoles] = useState("");
     const [users, setUsers] = useState([]);
 
     // console.log(user)
@@ -48,8 +48,8 @@ function App() {
         setSignup,
         project,
         setProject,
-        team,
-        setTeam,
+        roles,
+        setRoles,
         users,
         setUsers
     }
