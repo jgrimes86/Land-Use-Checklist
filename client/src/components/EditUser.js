@@ -70,7 +70,7 @@ function EditUser() {
           alignItems: 'center',
         }}
       >
-        <h1>This is for editing the user info</h1>
+        <Typography variant="h4">Account Information</Typography>
 
         <Box 
           component="form"

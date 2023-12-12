@@ -20,7 +20,7 @@ const routes = [
                 element: <UserHome />
             },
             {
-                path: "/users/:id/accounts",
+                path: "/users/:id/account",
                 element: <EditUser />
             },
             {

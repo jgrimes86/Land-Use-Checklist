@@ -47,32 +47,71 @@ function Project() {
     }
 
     return (
-        <Box>
-            <Box>
-                <h2>{project.name}</h2>
+        <Box sx={{m:0.5}}>
+            <Paper
+                elevation={2} 
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    mt: 2
+                }}
+            >
+                <Typography 
+                    variant="h4"
+                    sx={{ ml: 2 }}
+                >
+                    {project.name}
+                </Typography>
 
                 <Button 
                     variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
+                    sx={{ mt: 3, mb: 2, mr: 2 }}
                     onClick={handleEditClick} 
                 >
                     Edit Project
                 </Button>
-            </Box>
-            <Box>
-                <Paper>
-                    <Typography>{project.client}</Typography>
-                    <Typography>{project.property_address}</Typography>
-                    <Typography>{`Block ${project.property_block}, Lot ${project.property_lot}`}</Typography>
-                    <Typography>{`${project.municipality}, ${project.county}, ${project.state}`}</Typography>
+            </Paper>
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    width: '100%'
+                }}
+            >
+                <Paper
+                    elevation={2}
+                    sx={{
+                        mt: 2,
+                        mr: 1,
+                        width: '50%'
+                    }}
+                >
+                    <Box sx={{ml:2}}>
+                        <Typography>{project.client}</Typography>
+                        <Typography>{project.property_address}</Typography>
+                        <Typography>{`Block ${project.property_block}, Lot ${project.property_lot}`}</Typography>
+                        <Typography>{`${project.municipality}, ${project.county}, ${project.state}`}</Typography>
+                    </Box>
                 </Paper>
-                <Box>
-                    <TeamList roles={roles} setRoles={setRoles} users={users} />
-                </Box>
+                <Paper
+                    elevation={2}
+                    sx={{
+                        mt: 2,
+                        ml: 1,
+                        width: '50%'
+                    }}
+                >
+                    <TeamList roles={roles} setRoles={setRoles} users={users} sx={{mr:2}}/>
+                </Paper>
             </Box>
-            <Box>
+            <Paper
+                elevation={2}
+                sx={{mt:2}}
+            >
                 <ProjectTasks />
-            </Box>
+            </Paper>
         </Box>
     )
 }

@@ -17,10 +17,10 @@ function NavBar({user, handleLogout}) {
             </MenuItem>
             <MenuItem 
                 onClick={() => {
-                    navigate(`/users/${user.id}/accounts`)
+                    navigate(`/users/${user.id}/account`)
                 }}
             >
-                Edit Account
+                Account
             </MenuItem>
             <MenuItem 
                 onClick={() => {
