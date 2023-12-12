@@ -27,6 +27,8 @@ function ProjectTasks({team}) {
         })
     }, [])
 
+    console.log("tasks: ", tasks)
+
     const columns = [
         {
             field: 'task',
@@ -80,7 +82,7 @@ function ProjectTasks({team}) {
             startDate: task.start_date,
             endDate: task.end_date,
             status: task.status,
-            user: task.user.name
+            user: task.user ? task.user.name : ""
         })
     }) : [];
 

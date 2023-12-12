@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { Formik, useFormik } from "formik";
 import * as yup from "yup";
 
@@ -9,14 +9,18 @@ import { Box, Button, Checkbox, Container, CssBaseline, FormControl, FormControl
 import TeamList from "./TeamList";
 
 function EditProject() {
-    const {project, setProject, team, setTeam, users, setUsers} = useOutletContext()
+    const {project, setProject, team, setTeam, user, users, setUsers} = useOutletContext()
     const [error, setError] = useState(null);
     const [teamFormData, setTeamFormData] = useState([])
 
 
-////////////////////////// PROJECT FORMIK START /////////////////////////////////
     const params = useParams();
+    const location = useLocation();
     const navigate = useNavigate();
+
+    const priorURL = (location.pathname===`/projects/${params.id}/edit`) ? `/projects/${params.id}` : `/users/${user.id}`;
+
+    ////////////////////////// PROJECT FORMIK START /////////////////////////////////
   
     const projectSchema = yup.object().shape({
         name: yup.string().required("Must enter a project name"),
@@ -219,6 +223,7 @@ function EditProject() {
                                     projectFormik.resetForm({
                                         values: projectFormik.initialValues
                                     });
+                                    navigate(priorURL)
                                 }}
                                 type="reset"
                             >

@@ -29,11 +29,11 @@ function TaskModal({task, tasks, setTasks}) {
 
     const formik = useFormik({
         initialValues: {
-            name: task.name,
-            description: task.description,
-            start_date: dayjs(task.start_date),
-            end_date: dayjs(task.end_date),
-            status: task.status,
+            name: task.name ? task.name : "",
+            description: task.description ? task.description : "",
+            start_date: dayjs(task.start_date) ? dayjs(task.start_date) : "",
+            end_date: dayjs(task.end_date) ? dayjs(task.end_date) : "",
+            status: task.status ? task.status : "",
             comments: task.comments ? task.comments : "",
         },
 
