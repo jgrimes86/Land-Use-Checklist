@@ -209,8 +209,12 @@ api.add_resource(Roles, '/roles')
 class RolesById(Resource):
     
     def patch(self, id):
-        data = request.json
         role = Role.query.filter_by(id=id).first()
+        params = request.json
+        data = {
+            'name': params['name'],
+            'user_id': int(params['user_id'])
+        }
         for attr in data:
             setattr(role, attr, data[attr])
         db.session.commit()

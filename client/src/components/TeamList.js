@@ -20,6 +20,8 @@ function TeamList({roles, setRoles, users}) {
         })
     }) : [];
 
+    console.log(roles)
+
     return (
         <Box>
             <TableContainer>

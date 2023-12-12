@@ -36,7 +36,7 @@ function TeamListModal({row, roles, setRoles, users}) {
             user: row.user_name,
             user_id: row.user_id,
         },
-        enableReinitialize: true,
+        // enableReinitialize: true,
         validationSchema: formikSchema,
         validateOnChange: false,
         onSubmit: (values) => {
@@ -50,9 +50,9 @@ function TeamListModal({row, roles, setRoles, users}) {
             .then((r) => {
                 if (r.ok) {
                     r.json()
-                    .then(updatedRole => {
+                    .then((updatedRole) => {
                         setRoles(roles.map(role => {
-                            if (updatedRole.id === row.id) {
+                            if (updatedRole.id === role.id) {
                                 return updatedRole
                             } else return role
                         }));

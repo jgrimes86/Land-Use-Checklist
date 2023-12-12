@@ -48,7 +48,7 @@ function TaskModal({task, tasks, setTasks, team}) {
             comments: task.comments ? task.comments : "",
             user_id: task.user_id ? task.user_id : "",
         },
-        enableReinitialize: true,
+        // enableReinitialize: true,
         validationSchema: formikSchema,
         validateOnChange: false,
         onSubmit: (values) => {

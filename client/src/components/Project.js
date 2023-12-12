@@ -1,5 +1,5 @@
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { Box, Button, Paper, Typography } from '@mui/material';
 
@@ -11,6 +11,7 @@ function Project() {
     const params = useParams();
     const navigate = useNavigate();
     const {project, setProject, roles, setRoles, users, setUsers} = useOutletContext()
+    // const [roles, setRoles] = useState()
 
     // console.log("roles: ", roles)
 
@@ -66,7 +67,7 @@ function Project() {
                     <Typography>{`${project.municipality}, ${project.county}, ${project.state}`}</Typography>
                 </Paper>
                 <Box>
-                    <TeamList roles={roles} users={users} />
+                    <TeamList roles={roles} setRoles={setRoles} users={users} />
                 </Box>
             </Box>
             <Box>
