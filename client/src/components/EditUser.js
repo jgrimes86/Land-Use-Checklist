@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom"
 import { useFormik } from "formik";
 import * as yup from "yup";
-
 import { Box, Button, Checkbox, Container, CssBaseline, FormControlLabel, Grid, Link, Stack, TextField, ThemeProvider, Typography } from '@mui/material';
 
+import ChangePassword from "./ChangePassword";
 
 function EditUser() {
   const [error, setError] = useState(null);
@@ -122,12 +122,16 @@ function EditUser() {
             helperText={formik.errors.email}
           />
 
+          {error && <p style={{ color: "red" }}>{error}</p>}
+
 {/* ADD FUNCTIONALITY TO CHANGE PASSWORD BUTTON */}
-          <Button
-            sx={{ mt: 3, mb: 2 }}
+          {/* <Button
+            sx={{ mt: 1, mb: 2 }}
           >
             Change password
-          </Button>
+          </Button> */}
+          <ChangePassword setUser={setUser} />
+
 
           <Stack spacing={2} direction="row">
             <Button 
@@ -152,11 +156,7 @@ function EditUser() {
             </Button>
           </Stack>
         </Box>
-
-        {error && <p style={{ color: "red" }}>{error}</p>}
-
       </Box>
-
     </Container>
   )
 }
