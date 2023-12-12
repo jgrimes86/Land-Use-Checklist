@@ -1,27 +1,36 @@
 
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { MenuItem } from '@mui/material';
 
-function NavBar({userId, handleLogout}) {
+
+function NavBar({user, handleLogout}) {
+    const navigate = useNavigate();
 
     return (
-        <nav>
-            <NavLink 
-                to={`/users/${userId}/accounts`}
-            >
-                Edit Account
-            </NavLink>
-            <NavLink 
-                to={`/users/${userId}`}
+        <>
+            <MenuItem 
+                onClick={() => {
+                    navigate(`/users/${user.id}`)
+                }}
             >
                 Home
-            </NavLink>
-            <NavLink 
-                to="/login" 
-                onClick={handleLogout} 
+            </MenuItem>
+            <MenuItem 
+                onClick={() => {
+                    navigate(`/users/${user.id}/accounts`)
+                }}
+            >
+                Edit Account
+            </MenuItem>
+            <MenuItem 
+                onClick={() => {
+                    navigate("/login")
+                    handleLogout()
+                }} 
             >
                 Log Out
-            </NavLink>
-        </nav>
+            </MenuItem>
+        </>
     )
 }
 

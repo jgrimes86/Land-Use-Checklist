@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Box } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
-// import SignIn from "./SignIn";
-// import UserHome from "./UserHome";
-// import EditUser from "./EditUser";
-import NavBar from "./Navbar";
+import Banner from "./Banner";
 
 function App() {
+    const location = useLocation();
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [signup, setSignup] = useState(false);
@@ -16,9 +15,6 @@ function App() {
     const [roles, setRoles] = useState("");
     const [users, setUsers] = useState([]);
 
-    // console.log(user)
-    
-    
     useEffect(() => {
         fetch('/check_session')
         .then((r) => {
@@ -51,18 +47,18 @@ function App() {
         roles,
         setRoles,
         users,
-        setUsers
+        setUsers,
     }
 
 
     
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <div>
-                {user && <NavBar userId={user.id} handleLogout={handleLogout} />}
+            <Box>
+                {user && (location.pathname !== '/login') && <Banner user={user} handleLogout={handleLogout}/>}
+                {/* {user && (location.pathname !== '/login') && <NavBar userId={user.id} handleLogout={handleLogout} />} */}
                 <Outlet context={context} />
-                {/* {user && <button onClick={handleLogout} >Log Out</button>} */}
-            </div>
+            </Box>
         </LocalizationProvider>
     )
 }
