@@ -64,7 +64,19 @@ function TeamListModal({row, roles, setRoles, users}) {
     })
 
     function handleDelete() {
-        console.log('delete')
+        fetch(`/roles/${row.id}`, {
+            method: "DELETE"
+        })
+        .then((r) => {
+            if (r.ok) {
+                setRoles(roles.filter(role => {
+                    if (role.id !== row.id) return role
+                }));
+                handleClose()
+            } else {
+                r.json().then(({error}) => console.log(error))
+            }
+        })
     }
 
     const teamOptions = users ? users.map(user => {

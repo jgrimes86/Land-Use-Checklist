@@ -220,6 +220,15 @@ class RolesById(Resource):
         db.session.commit()
         return make_response(role.to_dict(rules=('user', '-user.roles')), 202)
 
+    def delete(self, id):
+        role = Role.query.filter_by(id=id).first()
+        if role:
+            db.session.delete(role)
+            db.session.commit()
+            return make_response({}, 204)
+        else:
+            return make_response({"error": "Role not found"}, 404)
+
 api.add_resource(RolesById, '/roles/<int:id>')
 
 class RolesByProject(Resource):
