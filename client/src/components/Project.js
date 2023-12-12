@@ -50,7 +50,13 @@ function Project() {
             <Box>
                 <h2>{project.name}</h2>
 
-                <button onClick={handleEditClick} >Edit Project</button>
+                <Button 
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                    onClick={handleEditClick} 
+                >
+                    Edit Project
+                </Button>
             </Box>
             <Box>
                 <Paper>
@@ -60,7 +66,7 @@ function Project() {
                     <Typography>{`${project.municipality}, ${project.county}, ${project.state}`}</Typography>
                 </Paper>
                 <Box>
-                    <TeamList roles={roles} />
+                    <TeamList roles={roles} users={users} />
                 </Box>
             </Box>
             <Box>

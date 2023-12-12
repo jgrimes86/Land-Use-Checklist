@@ -1,23 +1,15 @@
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useOutletContext, useParams } from "react-router-dom";
-import { Box, Button, Typography, Modal, Tab } from '@mui/material';
+import { Formik, useFormik } from "formik";
+import * as yup from "yup";
+import { Box, Button, Typography, Modal, Stack, Tab, TextField } from '@mui/material';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
-function TeamList({roles}) {
+import TeamListModal from "./TeamListModal";
+
+function TeamList({roles, setRoles, users}) {
     const location = useLocation();
     const params = useParams();
-
-    const columns=[
-        {
-            field: 'role',
-            headerName: 'Role',
-            // width: '50%',
-        },
-        {
-            field: 'user_name',
-            headerName: 'Team Member',
-            // width: '50%',
-        },
-    ]
 
     const rows= roles ? roles.map(role => {
         return ({
@@ -28,37 +20,39 @@ function TeamList({roles}) {
         })
     }) : [];
 
-    function handleClick(row) {
-        console.log(row)
-    }
-
     return (
-        <TableContainer>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Role</TableCell>
-                        <TableCell>Team Member</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows.map(row => (
-                        <TableRow
-                            key={row.id}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            onClick={() => handleClick(row)}
-                        >
-                            <TableCell component='th' scope='row'>
-                                {row.role}
-                            </TableCell>
-                            <TableCell>{row.user_name}</TableCell>
+        <Box>
+            <TableContainer>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Role</TableCell>
+                            <TableCell>Team Member</TableCell>
+                            <TableCell></TableCell>
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+                    </TableHead>
+                    <TableBody>
+                        {rows.map(row => (
+                            <TableRow
+                                key={row.id}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell component='th' scope='row'>
+                                    {row.role}
+                                </TableCell>
+                                <TableCell>{row.user_name}</TableCell>
+                                <TableCell>
+                                    <span>
+                                        <TeamListModal row={row} roles={roles} setRoles={setRoles} users={users}/>
+                                    </span>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </Box>
     )
-
 }
 
 export default TeamList

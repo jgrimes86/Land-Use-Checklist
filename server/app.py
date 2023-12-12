@@ -206,10 +206,22 @@ class Roles(Resource):
 
 api.add_resource(Roles, '/roles')
 
+class RolesById(Resource):
+    
+    def patch(self, id):
+        data = request.json
+        role = Role.query.filter_by(id=id).first()
+        for attr in data:
+            setattr(role, attr, data[attr])
+        db.session.commit()
+        return make_response(role.to_dict(rules=('user', '-user.roles')), 202)
+
+api.add_resource(RolesById, '/roles/<int:id>')
+
 class RolesByProject(Resource):
     
     def get(self, id):
-        roles = [role.to_dict(rules=('user', '-user.roles', )) for role in Role.query.filter_by(project_id=id).all()]
+        roles = [role.to_dict(rules=('user', '-user.roles')) for role in Role.query.filter_by(project_id=id).all()]
         return make_response(roles, 200)
 
 api.add_resource(RolesByProject, '/projects/<int:id>/roles')

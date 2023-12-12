@@ -9,7 +9,7 @@ import { Box, Button, Checkbox, Container, CssBaseline, FormControl, FormControl
 import TeamList from "./TeamList";
 
 function EditProject() {
-    const {project, setProject, team, setTeam, user, users, setUsers} = useOutletContext()
+    const {project, setProject, roles, setRoles, user, users, setUsers} = useOutletContext()
     const [error, setError] = useState(null);
     const [teamFormData, setTeamFormData] = useState([])
 
@@ -23,7 +23,7 @@ function EditProject() {
     ////////////////////////// PROJECT FORMIK START /////////////////////////////////
   
     const projectSchema = yup.object().shape({
-        name: yup.string().required("Must enter a project name"),
+        name: yup.string().required("You must enter a project name"),
         client: yup.string(),
         propertyAddress: yup.string(),
         propertyLot: yup.string(),
@@ -33,7 +33,7 @@ function EditProject() {
         state: yup.string(),
       });
 
-      const projectFormik = useFormik({
+    const projectFormik = useFormik({
         initialValues: {
             name: project ? project.name : "",
             client: project ? project.client : "",
@@ -43,7 +43,7 @@ function EditProject() {
             municipality: project ? project.municipality : "",
             county: project ? project.county : "",
             state: project ? project.state : "",
-      },
+        },
         enableReinitialize: true,
         validationSchema: projectSchema,
         validateOnChange: false,
@@ -79,7 +79,6 @@ function EditProject() {
 ////////////////////////// PROJECT FORMIK END /////////////////////////////////////
 
 ////////////////////// NEW TEAM MEMBER FORMIK START ////////////////////////////
-
     const addTeamFormik = useFormik({
         initialValues: {
             role: "",
@@ -99,7 +98,7 @@ function EditProject() {
                 if (r.ok) {
                     r.json()
                     .then(newMember => {
-                        setTeam([...team, newMember]);
+                        setRoles([...roles, newMember]);
                         setError(null)
                     })
                 }
@@ -107,11 +106,10 @@ function EditProject() {
         }
     })
 
-
-    
-    const teamOptions = users.map(u => {
+    const teamOptions = users ? users.map(u => {
         return <MenuItem key={u.id} value={u.id}>{u.name}</MenuItem>
-    });
+    }) : [];
+
 ////////////////////// NEW TEAM MEMBER FORMIK End ////////////////////////////
     
 
@@ -218,21 +216,29 @@ function EditProject() {
                                 onChange={projectFormik.handleChange}
                             />
 
-                            <button
-                                onClick={() => {
-                                    projectFormik.resetForm({
-                                        values: projectFormik.initialValues
-                                    });
-                                    navigate(priorURL)
-                                }}
-                                type="reset"
-                            >
-                                Discard Changes
-                            </button>
+                            <Stack spacing={2} direction="row">
+                                <Button 
+                                    type="submit" 
+                                    variant="contained"
+                                    sx={{ mt: 3, mb: 2 }}
+                                >
+                                    {createEditButton}
+                                </Button>
 
-                            <button type="submit" >
-                                {createEditButton}
-                            </button>
+                                <Button
+                                    onClick={() => {
+                                        projectFormik.resetForm({
+                                            values: projectFormik.initialValues
+                                        });
+                                        navigate(priorURL)
+                                    }}
+                                    type="reset"
+                                    variant="outlined"
+                                    sx={{ mt: 3, mb: 2 }}
+                                >
+                                    Discard Changes
+                                </Button>
+                            </Stack>
 
                     </Box>
                 </Box>
@@ -251,7 +257,7 @@ function EditProject() {
                     >
                     <Typography>Team Members</Typography>
 
-                    {team ? <TeamList team={team} /> : null}
+                    {roles ? <TeamList roles={roles} setRoles={setRoles} users={users}/> : null}
                     
                     <Box 
                         component="form"
@@ -310,8 +316,6 @@ function EditProject() {
                     </Box>
                 </Box>
             </Box>
-
-            <TeamList />
 
         </Container>
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 
 import { Box, Button, Typography, Modal } from '@mui/material';
@@ -109,7 +109,7 @@ function ProjectTasks() {
                 pageSizeOptions={[10]}
                 disableRowSelectionOnClick 
             />
-            <TaskModal task={""} tasks={tasks} setTasks={setTasks} team={team} />
+            {tasks && team ? <TaskModal task={""} tasks={tasks} setTasks={setTasks} team={team} /> : null}
         </Box>
     )
 }
