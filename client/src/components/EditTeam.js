@@ -58,7 +58,7 @@ function EditTeam({setError, roles, setRoles, users}) {
             >
             <Typography>Team Members</Typography>
 
-            {roles ? <TeamList roles={roles} setRoles={setRoles} users={users}/> : null}
+            {roles ? <TeamList roles={roles} setRoles={setRoles} users={users} setError={setError} /> : null}
             
             <Box 
                 component="form"

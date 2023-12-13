@@ -88,13 +88,21 @@ api.add_resource(Users, '/users')
 class UserById(Resource):
     
     def patch(self, id):
+
+        if id != session.get('user_id'):
+            return make_response({"error":"Unauthorized user"}, 401)
+
         user = User.query.filter_by(id=id).first()
         if user:
-            data = request.json
-            for attr in data:
-                setattr(user, attr, data[attr])
-            db.session.commit()
-            return make_response(user.to_dict(rules=('tasks', '-tasks.user', 'roles', '-roles.user')), 200)
+            try:
+
+                data = request.json
+                for attr in data:
+                    setattr(user, attr, data[attr])
+                db.session.commit()
+                return make_response(user.to_dict(rules=('tasks', '-tasks.user', 'roles', '-roles.user')), 200)
+            except ValueError as v_error:
+                return make_response({"error": str(v_error)}, 400)
         else:
             return make_response({"error": "User not found"}, 404)
 

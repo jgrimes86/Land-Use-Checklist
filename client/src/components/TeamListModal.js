@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Select, Stack, TextField } from '@mui/material';
+import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Select, Stack, TextField, Typography } from '@mui/material';
 
 const modalStyle = {
     position: 'absolute',
@@ -18,7 +18,8 @@ const modalStyle = {
     overflow: 'scroll',
 }
 
-function TeamListModal({row, roles, setRoles, users}) {
+function TeamListModal({setError, row, roles, setRoles, users}) {
+    const [modalError, setModalError] = useState(null)
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -53,7 +54,8 @@ function TeamListModal({row, roles, setRoles, users}) {
                                 return updatedRole
                             } else return role
                         }));
-                        handleClose()
+                        handleClose();
+                        setModalError(null)
                     })
                 }
             })
@@ -61,19 +63,24 @@ function TeamListModal({row, roles, setRoles, users}) {
     })
 
     function handleDelete() {
-        fetch(`/roles/${row.id}`, {
-            method: "DELETE"
-        })
-        .then((r) => {
-            if (r.ok) {
-                setRoles(roles.filter(role => {
-                    if (role.id !== row.id) return role
-                }));
-                handleClose()
-            } else {
-                r.json().then(({error}) => console.log(error))
-            }
-        })
+        if (roles.length > 1) {
+            fetch(`/roles/${row.id}`, {
+                method: "DELETE"
+            })
+            .then((r) => {
+                if (r.ok) {
+                    setRoles(roles.filter(role => {
+                        if (role.id !== row.id) return role
+                    }));
+                    handleClose();
+                    setModalError(null)
+                } else {
+                    r.json().then(({error}) => console.log(error))
+                }
+            })
+        } else {
+            setModalError("Unable to remove team member. There must be at least one team member associated with a project.")
+        }
     }
 
     const teamOptions = users ? users.map(user => {
@@ -143,7 +150,8 @@ function TeamListModal({row, roles, setRoles, users}) {
                                     handleClose();
                                     formik.resetForm({
                                         values: formik.initialValues
-                                    })
+                                    });
+                                    setModalError(null)
                                 }}
                             >
                                 Close
@@ -157,6 +165,7 @@ function TeamListModal({row, roles, setRoles, users}) {
                             </Button>
                         </Stack>
                     </Box>
+                    <Typography sx={{color:"red"}}>{modalError}</Typography>
                 </Box>
             </Modal>
         </Box>

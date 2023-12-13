@@ -103,7 +103,8 @@ function EditProject() {
     return (
         <Container>
 
-            <Typography>{project ? project.name : "Create a New Project"}</Typography>
+            <Typography variant="h4">{project ? project.name : "Create a New Project"}</Typography>
+            <Typography sx={{color: "red"}} variant="h6">{error}</Typography>
 
             <Box
                 sx={{

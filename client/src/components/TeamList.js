@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from
 
 import TeamListModal from "./TeamListModal";
 
-function TeamList({roles, setRoles, users}) {
+function TeamList({setError, roles, setRoles, users}) {
     const location = useLocation();
     const params = useParams();
     const rows= roles ? roles.map(role => {
@@ -39,7 +39,7 @@ function TeamList({roles, setRoles, users}) {
                                 <TableCell>{row.user_name}</TableCell>
                                 {(location.pathname === `/projects/${params.id}/edit`) && <TableCell>
                                     <span>
-                                        <TeamListModal row={row} roles={roles} setRoles={setRoles} users={users}/>
+                                        <TeamListModal row={row} roles={roles} setRoles={setRoles} users={users} setError={setError} />
                                     </span>
                                 </TableCell>}
                             </TableRow>
