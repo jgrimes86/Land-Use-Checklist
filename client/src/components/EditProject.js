@@ -58,18 +58,43 @@ function EditProject() {
             body: JSON.stringify(values, null, 2),
             })
             .then((r) => {
-            if (r.ok) {
-                r.json().then((newProject) => {
-                    setProject(newProject);
-                    setError(null);
-                    navigate(`/projects/${newProject.id}`)
-                });
-            }
-            else {
-                r.json()
-                .then(({error}) => setError(error))
-            }
-            });
+                if (r.ok) {
+                    r.json().then((newProject) => {
+                        if (!project) {
+                            fetch('/roles', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    role: "",
+                                    user_id: user.id,
+                                    project_id: newProject.id
+                                }),
+                            })
+                            .then((r) => {
+                                if (r.ok) {
+                                    r.json()
+                                    .then(newRole => {
+                                        setRoles([...roles, newRole])
+                                        setProject(newProject);
+                                        setError(null);
+                                        navigate(`/projects/${newProject.id}`)
+                                    })
+                                }
+                            })
+                        } else {
+                            setProject(newProject);
+                            setError(null);
+                            navigate(`/projects/${newProject.id}`)
+                        }
+                    });
+                }
+                else {
+                    r.json()
+                    .then(({error}) => setError(error))
+                }
+            })
         },
       });
 
