@@ -11,9 +11,6 @@ function Project() {
     const params = useParams();
     const navigate = useNavigate();
     const {project, setProject, roles, setRoles, users, setUsers} = useOutletContext()
-    // const [roles, setRoles] = useState()
-
-    // console.log("roles: ", roles)
 
     useMemo(() => {
         fetch(`/projects/${params.id}`)

@@ -1,16 +1,9 @@
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useOutletContext, useParams } from "react-router-dom";
-import { Formik, useFormik } from "formik";
-import * as yup from "yup";
-import { Box, Button, Typography, Modal, Stack, Tab, TextField } from '@mui/material';
+import { Box } from '@mui/material';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
 import TeamListModal from "./TeamListModal";
 
 function TeamList({roles, setRoles, users}) {
-    const location = useLocation();
-    const params = useParams();
-
     const rows= roles ? roles.map(role => {
         return ({
             id: role.id,

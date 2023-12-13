@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
-import { useLocation, useParams } from 'react-router-dom';
+import { useState } from "react";
+import { useParams } from 'react-router-dom';
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-import { Box, Button, Container, FormControl, InputLabel, MenuItem, Modal, Select, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Select, Stack, TextField } from '@mui/material';
 
 const modalStyle = {
     position: 'absolute',
@@ -36,7 +36,6 @@ function TeamListModal({row, roles, setRoles, users}) {
             user: row.user_name,
             user_id: row.user_id,
         },
-        // enableReinitialize: true,
         validationSchema: formikSchema,
         validateOnChange: false,
         onSubmit: (values) => {
@@ -162,9 +161,7 @@ function TeamListModal({row, roles, setRoles, users}) {
                     </Box>
                 </Box>
             </Modal>
-
         </Box>
-
     )
 }
 

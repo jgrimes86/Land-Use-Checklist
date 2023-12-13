@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, Button, Typography, Modal } from '@mui/material';
+import { Box } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 import TaskModal from "./TaskModal";
@@ -21,8 +21,6 @@ function UserTasks({user}) {
             }
         })
     }, [])
-
-    // console.log("User Tasks: ", userTasks)
     
     const columns = [
         {

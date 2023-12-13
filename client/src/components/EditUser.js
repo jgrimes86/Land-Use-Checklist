@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom"
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Box, Button, Checkbox, Container, CssBaseline, FormControlLabel, Grid, Link, Stack, TextField, ThemeProvider, Typography } from '@mui/material';
+import { Box, Button, Container, CssBaseline, Stack, TextField, Typography } from '@mui/material';
 
 import ChangePassword from "./ChangePassword";
 
@@ -86,7 +86,7 @@ function EditUser() {
             label="Name"
             value={formik.values.name} 
             onChange={formik.handleChange} 
-            error={formik.errors.name}
+            error={!!formik.errors.name}
             helperText={formik.errors.name}
           />
 
@@ -118,19 +118,14 @@ function EditUser() {
             label="email"
             value={formik.values.email} 
             onChange={formik.handleChange}
-            error={formik.errors.email}
+            error={!!formik.errors.email}
             helperText={formik.errors.email}
           />
 
           {error && <p style={{ color: "red" }}>{error}</p>}
 
 {/* ADD FUNCTIONALITY TO CHANGE PASSWORD BUTTON */}
-          {/* <Button
-            sx={{ mt: 1, mb: 2 }}
-          >
-            Change password
-          </Button> */}
-          <ChangePassword setUser={setUser} />
+          {/* <ChangePassword user={user} setUser={setUser} /> */}
 
 
           <Stack spacing={2} direction="row">
@@ -156,6 +151,8 @@ function EditUser() {
             </Button>
           </Stack>
         </Box>
+        <ChangePassword user={user} setUser={setUser} />
+
       </Box>
     </Container>
   )

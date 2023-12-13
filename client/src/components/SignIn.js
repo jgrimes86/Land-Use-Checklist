@@ -90,7 +90,6 @@ function SignIn() {
           noValidate 
           sx={{ mt: 1 }}
         >
-            {/* {signup && <label htmlFor="name">Name</label>} */}
             {signup && <TextField 
                 margin="normal"
                 fullWidth
@@ -103,7 +102,6 @@ function SignIn() {
                 error = {formik.errors.name}
                 helperText = {formik.errors.name}
             />}
-            {/* {signup && <label htmlFor="company">Company</label>} */}
             {signup && <TextField 
                 margin="normal"
                 fullWidth
@@ -113,7 +111,6 @@ function SignIn() {
                 value={formik.values.company} 
                 onChange={formik.handleChange}
             />}
-            {/* {signup && <label htmlFor="phoneNumber">Phone Number</label>} */}
             {signup && <TextField 
                 margin="normal"
                 fullWidth
@@ -123,7 +120,6 @@ function SignIn() {
                 value={formik.values.phoneNumber} 
                 onChange={formik.handleChange}
             />}
-            {/* <label htmlFor="email">Email</label> */}
             <TextField 
                 margin="normal"
                 fullWidth
@@ -132,10 +128,9 @@ function SignIn() {
                 label="Email Address"
                 value={formik.values.email} 
                 onChange={formik.handleChange}
-                error={formik.errors.email}
+                error={!!formik.errors.email}
                 helperText={formik.errors.email}
             />
-            {/* <label htmlFor="password">Password</label> */}
             <TextField 
                 margin="normal"
                 fullWidth
@@ -145,10 +140,9 @@ function SignIn() {
                 label="Password"
                 value={formik.values.password} 
                 onChange={formik.handleChange}
-                error={formik.errors.password}
+                error={!!formik.errors.password}
                 helperText={formik.errors.password}
             />
-            {/* {signup && <label htmlFor="confirmPassword">Confirm Password</label>} */}
             {signup && <TextField 
                 margin="normal"
                 fullWidth
@@ -158,7 +152,7 @@ function SignIn() {
                 label="Confirm Password"
                 value={formik.values.confirmPassword} 
                 onChange={formik.handleChange}
-                error={formik.errors.confirmPassword}
+                error={!!formik.errors.confirmPassword}
                 helperText={formik.errors.confirmPassword}
             />}
             <Button 
@@ -171,15 +165,15 @@ function SignIn() {
             </Button>
         </Box>
 
-                <Button 
-                  onClick={() => {
-                    toggleForm();
-                    formik.resetForm({values: formik.initialValues});
-                    setError(null)
-                  }} 
-                >
-                  {signup ? 'Already have an account? Sign in' : "Don't Have an Account? Sign Up"}
-                </Button>
+          <Button 
+            onClick={() => {
+              toggleForm();
+              formik.resetForm({values: formik.initialValues});
+              setError(null)
+            }} 
+          >
+            {signup ? 'Already have an account? Sign in' : "Don't Have an Account? Sign Up"}
+          </Button>
 
         {error && <p style={{ color: "red" }}>{error}</p>}
       </Box>

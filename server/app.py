@@ -61,7 +61,20 @@ class CheckSession(Resource):
 
 api.add_resource(CheckSession, '/check_session')
 
+class ChangePassword(Resource):
 
+    def patch(self, id):
+        data = response.json
+        user = User.query.filter_by(id=id).first()
+        if user.authenticate(data['oldPassword']):
+            try:
+                user.password_hash = data['newPassword']
+            except:
+                return make_response({"error": "Unable to resent password"}, 400)
+        else:
+            return make_response({"error": "Unauthorized. Incorrect password."}, 401)
+
+api.add_resource(ChangePassword, '/users/<int:id>/change-password')
 
 
 class Users(Resource):
@@ -113,6 +126,26 @@ class UserTasks(Resource):
 api.add_resource(UserTasks, '/users/tasks/<int:id>')
 
 
+
+class ProjectTasks(Resource):
+
+    def post(self, id):
+        data = request.json
+        newTask = Task(
+            name=data['name'],
+            description=data['description'],
+            start_date=data['start_date'],
+            end_date=data['end_date'],
+            status=data['status'],
+            comments=data['comments'],
+            user_id=data['user_id'],
+            project_id=id
+        )           
+        db.session.add(newTask)
+        db.session.commit()
+        return make_response(newTask.to_dict(rules=('user', '-user.tasks', 'project', '-project.tasks')), 202)
+
+api.add_resource(ProjectTasks, '/projects/<int:id>/tasks')
 
 class TasksById(Resource):
 

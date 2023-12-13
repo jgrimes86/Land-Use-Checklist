@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
-import { useLocation, useParams } from 'react-router-dom';
+import { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-import { Box, Button, Container, FormControl, InputLabel, MenuItem, Modal, Select, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, Modal, Stack, TextField } from '@mui/material';
 
 const modalStyle = {
     position: 'absolute',
@@ -18,7 +17,7 @@ const modalStyle = {
     p: 4,
 }
 
-function ChangePassword({setUser}) {
+function ChangePassword({user, setUser}) {
     const [error, setError] = useState(null);
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -27,19 +26,19 @@ function ChangePassword({setUser}) {
     const formikSchema = yup.object().shape({
         originalPassword: yup.string().required("Must enter current password"),
         newPassword: yup.string().required("Must enter new password"),
-        confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'Must match new password')
+        confirmPassword: yup.string().oneOf([yup.ref('newPassword'), null], 'Must match new password')
     });
 
-    const formik = useFormik({
+    const passwordFormik = useFormik({
         initialValues: {
-            originalPassword: "",
+            oldPassword: "",
             newPassword: "",
             confirmPassword: ""
         },
         validationSchema: formikSchema,
-        validateOnChange: false,
+        // validateOnChange: false,
         onSubmit: (values) => {
-            fetch('', {
+            fetch(`/users/${user.id}/change-password`, {
                 method: "PATCH",
                 headers: {
                 "Content-Type": "application/json",
@@ -51,7 +50,6 @@ function ChangePassword({setUser}) {
                 r.json().then((user) => {
                     setUser(user);
                     setError(null);
-                    // navigate(`/users/${user.id}`)
                     ////////////////// SHOW MESSAGE: PASSWORD CHANGED /////////////
                 });
                 }
@@ -68,6 +66,7 @@ function ChangePassword({setUser}) {
             <Button
                 sx={{ mt: 1, mb: 2 }}
                 onClick={(e) => {
+                    e.stopPropagation();
                     handleOpen()
                 }}
             >
@@ -76,44 +75,41 @@ function ChangePassword({setUser}) {
             <Modal open={open}>
                 <Box sx={modalStyle}>
                     <Box
-                        component='form'
-                        onSubmit={formik.handleSubmit}
+                        component="form"
+                        onSubmit={passwordFormik.handleSubmit}
                     >
                         <TextField 
                             margin="normal"
                             fullWidth
-                            id="oldPassword" 
                             name="oldPassword" 
-                            type="oldPassword"
+                            type="password"
                             label="Current Password"
-                            value={formik.values.oldPassword} 
-                            onChange={formik.handleChange}
-                            error={formik.errors.oldPassword}
-                            helperText={formik.errors.oldPassword}
+                            value={passwordFormik.values.oldPassword} 
+                            onChange={passwordFormik.handleChange}
+                            error={!!passwordFormik.errors.oldPassword}
+                            helperText={passwordFormik.errors.oldPassword}
                         />
                         <TextField 
                             margin="normal"
                             fullWidth
-                            id="newPassword" 
                             name="newPassword" 
-                            type="newPassword"
+                            type="password"
                             label="New Password"
-                            value={formik.values.newPassword} 
-                            onChange={formik.handleChange}
-                            error={formik.errors.newPassword}
-                            helperText={formik.errors.newPassword}
+                            value={passwordFormik.values.newPassword} 
+                            onChange={passwordFormik.handleChange}
+                            error={!!passwordFormik.errors.newPassword}
+                            helperText={passwordFormik.errors.newPassword}
                         />
                         <TextField 
                             margin="normal"
                             fullWidth
-                            id="confirmPassword" 
                             name="confirmPassword"
                             type="password"
                             label="Confirm Password"
-                            value={formik.values.confirmPassword} 
-                            onChange={formik.handleChange}
-                            error={formik.errors.confirmPassword}
-                            helperText={formik.errors.confirmPassword}
+                            value={passwordFormik.values.confirmPassword} 
+                            onChange={passwordFormik.handleChange}
+                            error={!!passwordFormik.errors.confirmPassword}
+                            helperText={passwordFormik.errors.confirmPassword}
                         />
 
                         {error && <p style={{ color: "red" }}>{error}</p>}
@@ -130,14 +126,13 @@ function ChangePassword({setUser}) {
                             <Button
                                 onClick={() => {
                                     handleClose();
-                                    formik.resetForm({
-                                    values: formik.initialValues
+                                    passwordFormik.resetForm({
+                                    values: passwordFormik.initialValues
                                     })
                                 }}
                                 type="reset"
                                 variant="outlined"
                                 sx={{ mt: 3, mb: 2 }}
-
                             >
                                 Cancel Changes
                             </Button>
@@ -147,7 +142,6 @@ function ChangePassword({setUser}) {
             </Modal>
         </div>
     )
-
 }
 
 export default ChangePassword

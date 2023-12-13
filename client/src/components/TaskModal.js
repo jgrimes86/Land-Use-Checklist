@@ -52,7 +52,7 @@ function TaskModal({task, tasks, setTasks, team}) {
         validationSchema: formikSchema,
         validateOnChange: false,
         onSubmit: (values) => {
-            const url = task ? `/tasks/${task.id}` : `/tasks`;
+            const url = task ? `/tasks/${task.id}` : `/projects/${params.id}/tasks`;
             const method = task ? 'PATCH' : 'POST';
             fetch(url, {
                 method: method,
@@ -64,17 +64,21 @@ function TaskModal({task, tasks, setTasks, team}) {
             .then((r) => {
                 if (r.ok) {
                     r.json()
-                    .then((updatedTask) => {
-                        setTasks(tasks.map(task => {
-                            if (updatedTask.id === task.id) {
-                                return updatedTask
-                            } else return task
-                        }));
+                    .then((data) => {
+                        if (task) {
+                            setTasks(tasks.map(task => {
+                                if (data.id === task.id) {
+                                    return data
+                                } else return task
+                            }));
+                        } else {
+                            setTasks([...tasks, data])
+                        };
                         handleClose()
-                })
+                    })
                 }
             })
-        },
+        }
     })
 
     function handleDelete() {
@@ -171,7 +175,7 @@ function TaskModal({task, tasks, setTasks, team}) {
                                 label="Start Date"
                                 value={formik.values.start_date}
                                 onChange={(value) => {
-                                    formik.setFieldValue('start_date', dayjs(value).format('YYYY-MM-DD'));
+                                    formik.setFieldValue('start_date', dayjs(value));
                                     }}
                             />
 
@@ -179,7 +183,7 @@ function TaskModal({task, tasks, setTasks, team}) {
                                 label="Due Date"
                                 value={formik.values.end_date}
                                 onChange={(value) => {
-                                    formik.setFieldValue('end_date', dayjs(value).format('YYYY-MM-DD'));
+                                    formik.setFieldValue('end_date', dayjs(value));
                                     }}
                             />
                         </Box>

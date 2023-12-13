@@ -3,11 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { Box, Button, List, ListItem, ListItemText } from '@mui/material';
 
 
-function UserProjects({user, setProject, setTeam}) {
+function UserProjects({user, setProject, setRoles}) {
     const [userProjects, setUserProjects] = useState([]);
     const navigate = useNavigate();
-
-    // console.log(userProjects)
 
     useEffect(() => {
         fetch('/users/roles/'+user.id)
@@ -27,7 +25,7 @@ function UserProjects({user, setProject, setTeam}) {
 
     function handleCreateProject() {
         setProject("");
-        setTeam("");
+        setRoles("");
         navigate('/projects/0/edit');
     }
 
