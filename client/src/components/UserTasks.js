@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Box } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
+import dayjs from "dayjs";
 
 import TaskModal from "./TaskModal";
 
@@ -61,8 +62,8 @@ function UserTasks({user, users}) {
             id: task.id,
             taskDetail: task,
             task: `${task.project.name}: ${task.name}`,
-            startDate: task.start_date,
-            endDate: task.end_date,
+            startDate: dayjs(task.start_date).format('YYYY-MM-DD'),
+            endDate: dayjs(task.end_date).format('YYYY-MM-DD'),
             status: task.status,
         })
     })
