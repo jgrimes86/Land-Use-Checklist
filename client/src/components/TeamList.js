@@ -1,9 +1,12 @@
+import { useLocation, useParams } from "react-router-dom";
 import { Box } from '@mui/material';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
 import TeamListModal from "./TeamListModal";
 
 function TeamList({roles, setRoles, users}) {
+    const location = useLocation();
+    const params = useParams();
     const rows= roles ? roles.map(role => {
         return ({
             id: role.id,
@@ -36,11 +39,11 @@ function TeamList({roles, setRoles, users}) {
                                     {row.role}
                                 </TableCell>
                                 <TableCell>{row.user_name}</TableCell>
-                                <TableCell>
+                                {(location.pathname === `/projects/${params.id}/edit`) && <TableCell>
                                     <span>
                                         <TeamListModal row={row} roles={roles} setRoles={setRoles} users={users}/>
                                     </span>
-                                </TableCell>
+                                </TableCell>}
                             </TableRow>
                         ))}
                     </TableBody>
