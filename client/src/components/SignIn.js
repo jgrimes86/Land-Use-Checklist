@@ -79,6 +79,9 @@ function SignIn() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          maxWidth: 500,
+          ml: 'auto',
+          mr: 'auto'
         }}
       >
         <Typography component="h1" varian="h5">

@@ -28,15 +28,6 @@ function Project() {
                 .then(data => setRoles(data))
             }
         })
-
-        fetch('/users')
-        .then((r) => {
-            if (r.ok) {
-                r.json()
-                .then(data => setUsers(data))
-            }
-        })
-        
     }, [])
 
     function handleEditClick() {

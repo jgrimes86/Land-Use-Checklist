@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Box } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -27,6 +27,15 @@ function App() {
           });
     }, [])
 
+    useMemo(() => {
+        fetch('/users')
+        .then((r) => {
+            if (r.ok) {
+                r.json()
+                .then(data => setUsers(data))
+            }
+        })
+    }, [])
 
     function handleLogout() {
         fetch('/logout', {

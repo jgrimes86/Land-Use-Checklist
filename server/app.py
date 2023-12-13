@@ -103,16 +103,11 @@ api.add_resource(UserById, '/users/<int:id>')
 class UserProjects(Resource):
     
     def get(self, id):
-        roles = Role.query.filter_by(user_id=id).distinct()
-        if roles:
-            allProjects = [role.project.to_dict(rules=('tasks', '-tasks.project', 'roles', '-roles.project')) for role in roles]
-            uniqueProjects = []
-            [uniqueProjects.append(project) for project in allProjects if project not in uniqueProjects]
-            return make_response(uniqueProjects, 200)
-        else:
-            return make_response({"error": "User not found"}, 404)
+        projects = db.session.query(Project).join(Role, Project.id == Role.project_id).join(User, Role.user_id == User.id).filter(User.id == id)
+        project_list = [project.to_dict(rules=('tasks', '-tasks.project', 'roles', '-roles.project')) for project in projects]
+        return make_response(project_list, 200)
 
-api.add_resource(UserProjects, '/users/roles/<int:id>')
+api.add_resource(UserProjects, '/users/<int:id>/roles')
 
 class UserTasks(Resource):
 
