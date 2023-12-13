@@ -64,6 +64,10 @@ api.add_resource(CheckSession, '/check_session')
 class ChangePassword(Resource):
 
     def patch(self, id):
+
+        if id != session.get('user_id'):
+            return make_response({"error":"Unauthorized user"}, 401)
+
         data = request.json
         user = User.query.filter_by(id=id).first()
         if user.authenticate(data['oldPassword']):

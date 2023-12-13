@@ -36,9 +36,8 @@ function ChangePassword({user, setMessage}) {
             confirmPassword: ""
         },
         validationSchema: formikSchema,
-        // validateOnChange: false,
+        validateOnChange: false,
         onSubmit: (values) => {
-            console.log('clicked')
             fetch(`/users/${user.id}/change-password`, {
                 method: "PATCH",
                 headers: {
@@ -51,9 +50,10 @@ function ChangePassword({user, setMessage}) {
                 r.json().then(({message}) => {
                     handleClose();
                     setError(null);
-                    ////////////////// SHOW MESSAGE: PASSWORD CHANGED /////////////
-                    setMessage(message)
-                    console.log("Success!", message)
+                    setMessage(message);
+                    passwordFormik.resetForm({
+                        values: passwordFormik.initialValues
+                    })
                 });
                 }
                 else {
@@ -129,7 +129,7 @@ function ChangePassword({user, setMessage}) {
                                 onClick={() => {
                                     handleClose();
                                     passwordFormik.resetForm({
-                                    values: passwordFormik.initialValues
+                                        values: passwordFormik.initialValues
                                     })
                                 }}
                                 type="reset"
