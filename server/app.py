@@ -230,6 +230,15 @@ class ProjectsById(Resource):
         db.session.commit()
         return make_response(project.to_dict(rules=('tasks', '-tasks.project', 'roles', '-roles.project')), 202)
 
+    def delete(self, id):
+        project = Project.query.filter_by(id=id).first()
+        if project:
+            db.session.delete(project)
+            db.session.commit()
+            return make_response({}, 204)
+        else:
+            return make_response({"error": "Project not found"}, 404)
+
 api.add_resource(ProjectsById, '/projects/<int:id>')
 
 

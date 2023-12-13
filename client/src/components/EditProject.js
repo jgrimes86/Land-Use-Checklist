@@ -3,6 +3,11 @@ import { useLocation, useNavigate, useOutletContext, useParams } from "react-rou
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Box, Button, Container, Stack, TextField, Typography } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 import EditTeam from "./EditTeam";
 
@@ -10,16 +15,11 @@ import EditTeam from "./EditTeam";
 function EditProject() {
     const {project, setProject, roles, setRoles, user, users, setUsers} = useOutletContext()
     const [error, setError] = useState(null);
-    // const [teamFormData, setTeamFormData] = useState([])
-
-
+    const [open, setOpen] = useState(false);
     const params = useParams();
     const location = useLocation();
     const navigate = useNavigate();
 
-    const priorURL = project ? `/projects/${params.id}` : `/users/${user.id}`;
-
-  
     const projectSchema = yup.object().shape({
         name: yup.string().required("You must enter a project name"),
         client: yup.string(),
@@ -46,10 +46,8 @@ function EditProject() {
         validationSchema: projectSchema,
         validateOnChange: false,
         onSubmit: (values) => {
-            
             const method = project ? "PATCH" : "POST";
-
-            const url = project ? `/projects/${project.id}` : `/projects`;
+            const url = project ? `/projects/${params.id}` : `/projects`;
             fetch(url, {
             method: method,
             headers: {
@@ -96,8 +94,32 @@ function EditProject() {
                 }
             })
         },
-      });
+    });
 
+    const handleClickOpen = () => {
+        setOpen(true);
+    }
+
+    const handleClose = () => {
+        setOpen(false);
+    }
+
+    function deleteProject() {
+        fetch(`/projects/${params.id}`, {
+            method: "DELETE"
+        })
+        .then((r) => {
+            if (r.ok) {
+                setProject("")
+                setRoles("")
+                navigate(`/users/${user.id}`)
+            }
+        })
+    }
+
+    if (!user) return <p>Loading...</p>
+      
+    const priorURL = project ? `/projects/${params.id}` : `/users/${user.id}`;
     const createEditButton = project ? "Save Changes" : "Create Project";
 
     return (
@@ -227,6 +249,8 @@ function EditProject() {
                                 >
                                     Discard Changes
                                 </Button>
+
+
                             </Stack>
 
                     </Box>
@@ -236,6 +260,37 @@ function EditProject() {
                 setError={setError} />}
 
             </Box>
+            
+            <>
+                <Button variant="outlined" onClick={handleClickOpen}>
+                    Delete Project
+                </Button>
+                <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        {"Delete Project?"}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            Deleting this Project will also delete all related tasks and team member roles.
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose}>Cancel</Button>
+                        <Button onClick={() => {
+                            deleteProject();
+                            handleClose();
+                        }}
+                        >
+                            Confirm
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </>
 
         </Container>
 
