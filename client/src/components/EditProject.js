@@ -1,27 +1,24 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLocation, useNavigate, useOutletContext, useParams } from "react-router-dom";
-import { Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as yup from "yup";
+import { Box, Button, Container, Stack, TextField, Typography } from '@mui/material';
 
-import { Box, Button, Checkbox, Container, CssBaseline, FormControl, FormControlLabel, Grid, InputLabel, Link, MenuItem, Select, Stack, TextField, ThemeProvider, Typography } from '@mui/material';
+import EditTeam from "./EditTeam";
 
-
-import TeamList from "./TeamList";
 
 function EditProject() {
     const {project, setProject, roles, setRoles, user, users, setUsers} = useOutletContext()
     const [error, setError] = useState(null);
-    const [teamFormData, setTeamFormData] = useState([])
+    // const [teamFormData, setTeamFormData] = useState([])
 
-    // console.log(users)
 
     const params = useParams();
     const location = useLocation();
     const navigate = useNavigate();
 
-    const priorURL = (location.pathname===`/projects/${params.id}/edit`) ? `/projects/${params.id}` : `/users/${user.id}`;
+    const priorURL = project ? `/projects/${params.id}` : `/users/${user.id}`;
 
-    ////////////////////////// PROJECT FORMIK START /////////////////////////////////
   
     const projectSchema = yup.object().shape({
         name: yup.string().required("You must enter a project name"),
@@ -45,7 +42,7 @@ function EditProject() {
             county: project ? project.county : "",
             state: project ? project.state : "",
         },
-        enableReinitialize: true,
+        // enableReinitialize: true,
         validationSchema: projectSchema,
         validateOnChange: false,
         onSubmit: (values) => {
@@ -77,52 +74,17 @@ function EditProject() {
       });
 
     const createEditButton = project ? "Save Changes" : "Create Project";
-////////////////////////// PROJECT FORMIK END /////////////////////////////////////
-
-////////////////////// NEW TEAM MEMBER FORMIK START ////////////////////////////
-    const addTeamFormik = useFormik({
-        initialValues: {
-            role: "",
-            user_id: "",
-            project_id: params.id
-        },
-        enableReinitialize: true,
-        onSubmit: (values) => {
-            fetch('/roles', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(values, null, 2),
-            })
-            .then((r) => {
-                if (r.ok) {
-                    r.json()
-                    .then(newMember => {
-                        setRoles([...roles, newMember]);
-                        setError(null)
-                    })
-                }
-            })
-        }
-    })
-
-    const teamOptions = users ? users.map(u => {
-        return <MenuItem key={u.id} value={u.id}>{u.name}</MenuItem>
-    }) : [];
-
-////////////////////// NEW TEAM MEMBER FORMIK End ////////////////////////////
-    
 
     return (
         <Container>
 
-            <Typography>Project Page</Typography>
+            <Typography>{project ? project.name : "Create a New Project"}</Typography>
 
             <Box
                 sx={{
                     display: 'flex',
                     flexDirection: 'row',
+                    justifyContent: 'center'
                 }}
             >
                 <Box
@@ -150,7 +112,7 @@ function EditProject() {
                                 label="Name"
                                 value={projectFormik.values.name} 
                                 onChange={projectFormik.handleChange} 
-                                error={projectFormik.errors.name}
+                                error={!!projectFormik.errors.name}
                                 helperText={projectFormik.errors.name}
                             />
                             <TextField 
@@ -244,78 +206,9 @@ function EditProject() {
                     </Box>
                 </Box>
 
-{/* form for adding and editing team members */}
+                {project && <EditTeam roles={roles} setRoles={setRoles} users={users}
+                setError={setError} />}
 
-
-                <Box
-                    sx={{
-                        marginTop: 8,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        width: '50%'
-                    }}
-                    >
-                    <Typography>Team Members</Typography>
-
-                    {roles ? <TeamList roles={roles} setRoles={setRoles} users={users}/> : null}
-                    
-                    <Box 
-                        component="form"
-                        onSubmit={addTeamFormik.handleSubmit}
-                        noValidate
-                        sx={{ 
-                            mt: 1,
-                            width: '90%'
-                        }}
-                    >
-
-                        <Box
-                            sx={{
-                                display: "flex",
-                                flexDirection: "row",
-                                flexWrap: 'nowrap',
-                            }}
-                        >
-                            <TextField 
-                                id='role'
-                                name='role'
-                                placeholder="Team Member Role"
-                                value={addTeamFormik.values.role}
-                                onChange={addTeamFormik.handleChange}
-                                sx={{
-                                    width: '50%'
-                                }}
-                            />
-                            
-                            <FormControl 
-                                sx={{
-                                    width: '50%'
-                                }}
-                            >
-                                <InputLabel id="team-member-label">Select a Team Member</InputLabel>
-                                <Select 
-                                    labelId="team-member-label"
-                                    id="user_id"
-                                    name="user_id"
-                                    label="Select a Team Member"
-                                    value={addTeamFormik.values.user_id}
-                                    onChange={addTeamFormik.handleChange}
-                                >
-                                    {teamOptions}
-                                </Select>
-
-                            </FormControl>
-                        </Box>
-                        <Button 
-                            type="submit"
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
-                        >
-                            Add Team Member
-                        </Button>
-                    </Box>
-                </Box>
             </Box>
 
         </Container>
