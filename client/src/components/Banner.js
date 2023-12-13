@@ -56,7 +56,7 @@ function Banner({user, handleLogout}) {
                             'aria-labelledby': "menu-button"
                         }}
                     >
-                        <NavBar user={user} handleLogout={handleLogout} />
+                        <NavBar user={user} handleLogout={handleLogout} handleClose={handleClose} />
                     </Menu>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         {bannerText()}

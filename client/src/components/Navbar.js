@@ -3,29 +3,32 @@ import { useNavigate } from 'react-router-dom';
 import { MenuItem } from '@mui/material';
 
 
-function NavBar({user, handleLogout}) {
+function NavBar({user, handleLogout, handleClose}) {
     const navigate = useNavigate();
 
     return (
         <>
             <MenuItem 
                 onClick={() => {
-                    navigate(`/users/${user.id}`)
+                    handleClose();
+                    navigate(`/users/${user.id}`);
                 }}
             >
                 Home
             </MenuItem>
             <MenuItem 
                 onClick={() => {
-                    navigate(`/users/${user.id}/account`)
+                    handleClose();
+                    navigate(`/users/${user.id}/account`);
                 }}
             >
                 Account
             </MenuItem>
             <MenuItem 
                 onClick={() => {
-                    navigate("/login")
-                    handleLogout()
+                    handleClose();
+                    navigate("/login");
+                    handleLogout();
                 }} 
             >
                 Log Out

@@ -22,12 +22,14 @@ const modalStyle = {
     overflow: 'scroll',
 }
 
-function TaskModal({task, tasks, setTasks, team}) {
+function TaskModal({task, tasks, setTasks, users}) {
     const location = useLocation();
     const params = useParams();
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    // console.log(task)
 
     const formikSchema = yup.object().shape({
         name: yup.string().required('Must enter a task name'),
@@ -99,8 +101,8 @@ function TaskModal({task, tasks, setTasks, team}) {
 
     const taskTitle = (location.pathname===`/users/${params.id}`) ? task.project.name : task.name;
 
-    const teamOptions = team ? team.map(tm => {
-            return <MenuItem key={tm.id} value={tm.id}>{tm.name}</MenuItem>
+    const teamOptions = users ? users.map(user => {
+            return <MenuItem key={user.id} value={user.id}>{user.name}</MenuItem>
     }) : [];
 
     const buttonText = task ? "Edit" : "Add Task";
@@ -168,6 +170,7 @@ function TaskModal({task, tasks, setTasks, team}) {
                         >
                             <DatePicker 
                                 label="Start Date"
+                                format="YYYY-MM-DD"
                                 value={formik.values.start_date}
                                 onChange={(value) => {
                                     formik.setFieldValue('start_date', dayjs(value));
@@ -176,6 +179,7 @@ function TaskModal({task, tasks, setTasks, team}) {
 
                             <DatePicker 
                                 label="Due Date"
+                                format="YYYY-MM-DD"
                                 value={formik.values.end_date}
                                 onChange={(value) => {
                                     formik.setFieldValue('end_date', dayjs(value));

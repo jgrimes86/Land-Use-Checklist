@@ -64,13 +64,15 @@ api.add_resource(CheckSession, '/check_session')
 class ChangePassword(Resource):
 
     def patch(self, id):
-        data = response.json
+        data = request.json
         user = User.query.filter_by(id=id).first()
         if user.authenticate(data['oldPassword']):
             try:
                 user.password_hash = data['newPassword']
+                db.session.commit()
+                return make_response({"message": "Password Changed"}, 201)
             except:
-                return make_response({"error": "Unable to resent password"}, 400)
+                return make_response({"error": "Unable to change password"}, 400)
         else:
             return make_response({"error": "Unauthorized. Incorrect password."}, 401)
 

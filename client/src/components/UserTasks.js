@@ -4,7 +4,7 @@ import { DataGrid } from '@mui/x-data-grid';
 
 import TaskModal from "./TaskModal";
 
-function UserTasks({user}) {
+function UserTasks({user, users}) {
     const [userTasks, setUserTasks] = useState([])
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -50,7 +50,7 @@ function UserTasks({user}) {
             width: 100,
             renderCell: (params) => (
                 <span>
-                    <TaskModal task={params.row.taskDetail} tasks={userTasks} setTasks={setUserTasks} />
+                    <TaskModal task={params.row.taskDetail} tasks={userTasks} setTasks={setUserTasks} users={users} />
                 </span>
             )
         }

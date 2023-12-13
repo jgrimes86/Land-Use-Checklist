@@ -2,18 +2,16 @@ import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom"
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Box, Button, Container, CssBaseline, Stack, TextField, Typography } from '@mui/material';
+import { Alert, Box, Button, Container, CssBaseline, IconButton, Stack, TextField, Typography } from '@mui/material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 import ChangePassword from "./ChangePassword";
 
 function EditUser() {
   const [error, setError] = useState(null);
+  const [message, setMessage] = useState(null);
   const {user, setUser} = useOutletContext();
   const navigate = useNavigate();
-
-  function handleHomeClick() {
-      navigate(`/users/${user.id}`)
-  }
 
   const formikSchema = yup.object().shape({
       name: yup.string().required("Must enter a first name"),
@@ -124,10 +122,6 @@ function EditUser() {
 
           {error && <p style={{ color: "red" }}>{error}</p>}
 
-{/* ADD FUNCTIONALITY TO CHANGE PASSWORD BUTTON */}
-          {/* <ChangePassword user={user} setUser={setUser} /> */}
-
-
           <Stack spacing={2} direction="row">
             <Button 
               type="submit"
@@ -151,7 +145,26 @@ function EditUser() {
             </Button>
           </Stack>
         </Box>
-        <ChangePassword user={user} setUser={setUser} />
+
+        {message && <Box >
+          <Alert
+            sx={{ 
+              alignItems: 'center', 
+              color: "green", 
+            
+            }}
+            startDecorator={<CheckCircleIcon />}
+          >
+            <div>
+              <div>Success!</div>
+              <Typography level="body-sm" color="green">
+                {message}
+              </Typography>
+            </div>
+          </Alert>
+        </Box>}
+
+        <ChangePassword user={user} setUser={setUser} setMessage={setMessage} />
 
       </Box>
     </Container>

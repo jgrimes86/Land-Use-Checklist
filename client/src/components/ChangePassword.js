@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-import { Box, Button, Modal, Stack, TextField } from '@mui/material';
+import { Box, Button, Modal, Stack, TextField, Typography } from '@mui/material';
 
 const modalStyle = {
     position: 'absolute',
@@ -17,14 +17,14 @@ const modalStyle = {
     p: 4,
 }
 
-function ChangePassword({user, setUser}) {
+function ChangePassword({user, setMessage}) {
     const [error, setError] = useState(null);
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     const formikSchema = yup.object().shape({
-        originalPassword: yup.string().required("Must enter current password"),
+        oldPassword: yup.string().required("Must enter current password"),
         newPassword: yup.string().required("Must enter new password"),
         confirmPassword: yup.string().oneOf([yup.ref('newPassword'), null], 'Must match new password')
     });
@@ -38,6 +38,7 @@ function ChangePassword({user, setUser}) {
         validationSchema: formikSchema,
         // validateOnChange: false,
         onSubmit: (values) => {
+            console.log('clicked')
             fetch(`/users/${user.id}/change-password`, {
                 method: "PATCH",
                 headers: {
@@ -47,10 +48,12 @@ function ChangePassword({user, setUser}) {
             })
             .then((r) => {
                 if (r.ok) {
-                r.json().then((user) => {
-                    setUser(user);
+                r.json().then(({message}) => {
+                    handleClose();
                     setError(null);
                     ////////////////// SHOW MESSAGE: PASSWORD CHANGED /////////////
+                    setMessage(message)
+                    console.log("Success!", message)
                 });
                 }
                 else {
@@ -62,7 +65,7 @@ function ChangePassword({user, setUser}) {
     });
 
     return (
-        <div>
+        <Box>
             <Button
                 sx={{ mt: 1, mb: 2 }}
                 onClick={(e) => {
@@ -72,6 +75,7 @@ function ChangePassword({user, setUser}) {
             >
                 Change password
             </Button>
+
             <Modal open={open}>
                 <Box sx={modalStyle}>
                     <Box
@@ -112,8 +116,6 @@ function ChangePassword({user, setUser}) {
                             helperText={passwordFormik.errors.confirmPassword}
                         />
 
-                        {error && <p style={{ color: "red" }}>{error}</p>}
-
                         <Stack spacing={2} direction="row">
                             <Button 
                                 type="submit"
@@ -138,9 +140,12 @@ function ChangePassword({user, setUser}) {
                             </Button>
                         </Stack>
                     </Box>
+
+                    {error && <Typography style={{ color: "red" }}>{error}</Typography>}
+
                 </Box>
             </Modal>
-        </div>
+        </Box>
     )
 }
 

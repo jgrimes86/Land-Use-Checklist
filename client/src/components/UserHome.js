@@ -6,7 +6,7 @@ import UserProjects from "./UserProjects";
 import UserTasks from "./UserTasks";
 
 function UserHome() {
-    const {user, setProject, setRoles} = useOutletContext()
+    const {user, users, setProject, setRoles} = useOutletContext()
 
     if (!user) return <p>Loading...</p>
 
@@ -21,7 +21,7 @@ function UserHome() {
                 <Typography variant="h4">{user.name}</Typography>
             </Paper>
             <UserProjects user={user} setProject={setProject} setRoles={setRoles} />
-            <UserTasks user={user} />
+            <UserTasks user={user} users={users} />
         </Box>
     )
 }
