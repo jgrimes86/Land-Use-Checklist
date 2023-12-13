@@ -7,8 +7,6 @@ function UserProjects({user, setProject, setRoles}) {
     const [userProjects, setUserProjects] = useState([]);
     const navigate = useNavigate();
 
-    // console.log("user", user)
-
     useEffect(() => {
         fetch(`/users/${user.id}/roles`)
         .then((r) => {

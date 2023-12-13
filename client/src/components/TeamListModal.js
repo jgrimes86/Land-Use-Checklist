@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useParams } from 'react-router-dom';
 import { useFormik } from "formik";
 import * as yup from "yup";
 
@@ -20,7 +19,6 @@ const modalStyle = {
 }
 
 function TeamListModal({row, roles, setRoles, users}) {
-    const params = useParams();
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);

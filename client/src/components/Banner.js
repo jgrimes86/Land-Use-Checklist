@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
 import { AppBar, Box, IconButton, Menu, Toolbar, Typography} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
 import NavBar from "./Navbar";
 
 function Banner({user, handleLogout}) {
+    const location = useLocation();
+    const params = useParams();
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -13,6 +16,19 @@ function Banner({user, handleLogout}) {
     const handleClose = () => {
       setAnchorEl(null);
     };
+
+    const bannerText = () => {
+        if (location.pathname === `/users/${params.id}`) {
+            return "Home"
+        } else if (location.pathname === `/users/${params.id}/account`) {
+            return "Account"
+        } 
+        else if (location.pathname === `/projects/${params.id}`) {
+            return "Project"
+        } else if (location.pathname === `/projects/${params.id}/edit`) {
+            return "Project"
+        } else return null;
+    }
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -43,7 +59,7 @@ function Banner({user, handleLogout}) {
                         <NavBar user={user} handleLogout={handleLogout} />
                     </Menu>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Banner
+                        {bannerText()}
                     </Typography>
                 </Toolbar>
             </AppBar>

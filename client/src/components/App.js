@@ -65,7 +65,6 @@ function App() {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Box>
                 {user && (location.pathname !== '/login') && <Banner user={user} handleLogout={handleLogout}/>}
-                {/* {user && (location.pathname !== '/login') && <NavBar userId={user.id} handleLogout={handleLogout} />} */}
                 <Outlet context={context} />
             </Box>
         </LocalizationProvider>

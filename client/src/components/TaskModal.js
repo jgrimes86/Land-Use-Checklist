@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useLocation, useParams } from 'react-router-dom';
 import { useFormik } from "formik";
 import * as yup from "yup";
 
 
-import { Box, Button, Container, FormControl, InputLabel, MenuItem, Modal, Select, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, InputLabel, MenuItem, Modal, Select, Stack, TextField, Typography } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from "dayjs";
 
@@ -99,14 +99,9 @@ function TaskModal({task, tasks, setTasks, team}) {
 
     const taskTitle = (location.pathname===`/users/${params.id}`) ? task.project.name : task.name;
 
-
     const teamOptions = team ? team.map(tm => {
             return <MenuItem key={tm.id} value={tm.id}>{tm.name}</MenuItem>
     }) : [];
-
-
-    // console.log("team options: ", teamOptions)
-    // console.log("Task: ", task)
 
     const buttonText = task ? "Edit" : "Add Task";
     const saveButtonText = task ? "Save Changes" : "Create Task";

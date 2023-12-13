@@ -1,9 +1,8 @@
-import { useState, useEffect, useMemo } from "react";
-import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
-import { Box, Button, Typography, Modal } from '@mui/material';
+import { Box } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import clsx from 'clsx';
 
 
 import TaskModal from "./TaskModal";
@@ -35,9 +34,6 @@ function ProjectTasks() {
             }
         })
     }, [])
-
-    // console.log("tasks: ", tasks)
-    // console.log("team: ", team)
 
     const columns = [
         {
@@ -89,10 +85,6 @@ function ProjectTasks() {
             user: task.user ? task.user.name : ""
         })
     }) : [];
-
-    function handleAddTask() {
-        console.log("Add Task clicked")
-    }
 
     return (
         <Box sx={{ height: 400, width: '100%'}} >
