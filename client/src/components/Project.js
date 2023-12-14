@@ -3,7 +3,6 @@ import { useMemo } from "react";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { Box, Button, Paper, Typography } from '@mui/material';
 
-
 import ProjectTasks from "./ProjectTasks";
 import TeamList from "./TeamList";
 
@@ -100,7 +99,7 @@ function Project() {
                 elevation={2}
                 sx={{mt:2}}
             >
-                <ProjectTasks />
+                <ProjectTasks users={users} />
             </Paper>
         </Box>
     )

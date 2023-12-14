@@ -51,7 +51,7 @@ function App() {
     }, [])
 
     useEffect(() => {
-        if (location.pathname === `/projects/${params.id}/edit`) {
+        if ((location.pathname === `/projects/${params.id}/edit`) && (params.id !== 0)) {
             fetch(`/projects/${params.id}`)
             .then((r) => {
                 if (r.ok) {

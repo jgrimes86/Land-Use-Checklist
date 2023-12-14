@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useLocation, useParams } from 'react-router-dom';
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Box, Button, InputLabel, MenuItem, Modal, Select, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Select, Stack, TextField, Typography } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from "dayjs";
 
@@ -14,7 +14,7 @@ const modalStyle = {
     width: 500,
     maxHeight: "75%",
     bgcolor: 'background.paper',
-    border: '2px solid #000',
+    border: '2px solid #2B2D42',
     boxShadow: 24,
     p: 4,
     overflow: 'scroll',
@@ -113,7 +113,7 @@ function TaskModal({task, tasks, setTasks, users}) {
                 }}
                 sx={{
                     width:80,
-                    m:0.5
+                    m:0.5,
                 }}
             >
                 {buttonText}
@@ -122,7 +122,7 @@ function TaskModal({task, tasks, setTasks, users}) {
                 open={open}
             >
                 <Box sx={modalStyle}>
-                    <Typography>
+                    <Typography variant="h6" align='center'>
                         {taskTitle}
                     </Typography>
                     <Box 
@@ -160,11 +160,13 @@ function TaskModal({task, tasks, setTasks, users}) {
                             value={formik.values.comments}
                             onChange={formik.handleChange}
                         />
+
                         <Box
                             sx={{
                                 display: 'flex',
                                 flexDirection: 'row',
                                 flexWrap: 'nowrap',
+                                mt:2
                             }}
                         >
                             <DatePicker 
@@ -185,40 +187,59 @@ function TaskModal({task, tasks, setTasks, users}) {
                                     }}
                             />
                         </Box>
+
                         {formik.errors.end_date ? <Typography sx={{color:"red"}}>Due Date cannot be earlier than Start Date</Typography> : null}
 
-                        <InputLabel id="team-member-label">Resonsible Team Member</InputLabel>
-                        <Select
+                        <FormControl
                             fullWidth
-                            labelId="team-member-label"
-                            id="user_id"
-                            name="user_id"
-                            value={formik.values.user_id}
-                            onChange={formik.handleChange}
+                            sx={{
+                                mt: 3
+                            }}
                         >
-                            {teamOptions}
-                        </Select>
+                            <InputLabel id="team-member-label">Responsible Team Member</InputLabel>
+                            <Select
+                                fullWidth
+                                labelId="team-member-label"
+                                id="user_id"
+                                name="user_id"
+                                label="Responsible Team Member"
+                                value={formik.values.user_id}
+                                onChange={formik.handleChange}
+                            >
+                                {teamOptions}
+                            </Select>
+                        </FormControl>
 
-                        <InputLabel id="status-label">status</InputLabel>
-                        <Select
+                        <FormControl
                             fullWidth
-                            labelId="status-label"
-                            id="status"
-                            name="status"
-                            value={formik.values.status}
-                            onChange={formik.handleChange}
+                            sx={{
+                                mt: 3
+                            }}
                         >
-                            <MenuItem value='Open'>Open</MenuItem>
-                            <MenuItem value='Complete'>Complete</MenuItem>
-                            <MenuItem value='Waiver Requested'>Waiver Requested</MenuItem>
-                            <MenuItem value='Waiver Granted'>Waiver Granted</MenuItem>
-                            <MenuItem value='Not Applicable'>Not Applicable</MenuItem>
-                            <MenuItem value='Incomplete'>Incomplete</MenuItem>
-                        </Select>
+                            <InputLabel id="status-label">Status</InputLabel>
+                            <Select
+                                fullWidth
+                                labelId="status-label"
+                                id="status"
+                                name="status"
+                                label="Status"
+                                value={formik.values.status}
+                                onChange={formik.handleChange}
+                            >
+                                <MenuItem value='Open'>Open</MenuItem>
+                                <MenuItem value='Complete'>Complete</MenuItem>
+                                <MenuItem value='Waiver Requested'>Waiver Requested</MenuItem>
+                                <MenuItem value='Waiver Granted'>Waiver Granted</MenuItem>
+                                <MenuItem value='Not Applicable'>Not Applicable</MenuItem>
+                                <MenuItem value='Incomplete'>Incomplete</MenuItem>
+                            </Select>
+                        </FormControl>
 
                         <Stack 
                             spacing={2} 
                             direction="row"
+                            justifyContent='center'
+                            sx={{mt:2}}
                         >
                             <Button 
                                 type="submit" 

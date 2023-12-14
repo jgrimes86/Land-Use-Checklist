@@ -6,7 +6,6 @@ import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogCon
 
 import EditTeam from "./EditTeam";
 
-
 function EditProject() {
     const {project, setProject, roles, setRoles, user, users, setUsers} = useOutletContext()
     const [error, setError] = useState(null);
@@ -286,9 +285,7 @@ function EditProject() {
                     </DialogActions>
                 </Dialog>
             </>
-
         </Container>
-
     )
 }
 

@@ -4,17 +4,15 @@ import { Box } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import dayjs from "dayjs";
 
-
-
 import TaskModal from "./TaskModal";
 
-function ProjectTasks() {
+function ProjectTasks({users}) {
     const params = useParams();
     const [tasks, setTasks] = useState([]);
     const [team, setTeam] = useState([])
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    // const [open, setOpen] = useState(false);
+    // const handleOpen = () => setOpen(true);
+    // const handleClose = () => setOpen(false);
 
     useEffect(() => {
         fetch(`/projects/${params.id}/tasks`)
@@ -69,7 +67,7 @@ function ProjectTasks() {
             width: 100,
             renderCell: (params) => (
                 <span>
-                    <TaskModal task={params.row.taskDetail} tasks={tasks} setTasks={setTasks} team={team} />
+                    <TaskModal task={params.row.taskDetail} tasks={tasks} setTasks={setTasks} users={users} />
                 </span>
             )
         }

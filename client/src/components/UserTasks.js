@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Box, Paper } from '@mui/material';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import dayjs from "dayjs";
 
 import TaskModal from "./TaskModal";
@@ -24,31 +24,23 @@ function UserTasks({user, users}) {
         {
             field: 'task',
             headerName: 'Task',
-            headerClassName: 'task-table-header',
             minWidth: 300,
-            // headerAlign: 'center',
             flex: 1
         },
         {
             field: 'startDate',
             headerName: 'Start Date',
-            headerClassName: 'task-table-header',
             width: 100,
-            // headerAlign: 'center'
         },
         {
             field: 'endDate',
             headerName: 'Due Date',
-            headerClassName: 'task-table-header',
             width: 100,
-            // headerAlign: 'center'
         },
         {
             field: 'status',
             headerName: 'Status',
-            headerClassName: 'task-table-header',
             width: 150,
-            // headerAlign: 'center'
         },
         {
             field: 'edit',
@@ -56,7 +48,7 @@ function UserTasks({user, users}) {
             headerClassName: 'task-table-header',
             sortable: false,
             width: 100,
-            headerAlign: 'center',
+            cellClassName: 'edit-task-button--cell',
             renderCell: (params) => (
                 <span>
                     <TaskModal task={params.row.taskDetail} tasks={userTasks} setTasks={setUserTasks} users={users} />
@@ -111,7 +103,10 @@ function UserTasks({user, users}) {
                     },
                     '.MuiDataGrid-sortIcon': {
                         color: 'white'
-                    }
+                    },
+                    '& .edit-task-button--cell': {
+                        paddingLeft: 0,
+                    },
                 }}
             />
         </Paper>

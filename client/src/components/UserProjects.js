@@ -50,7 +50,7 @@ function UserProjects({user, setProject, setRoles}) {
                 mt: 2,
             }}
         >
-            <List sx={{width:'95%',}}>
+            <List sx={{width:'100%',}}>
                 {projectList}
             </List>
             <Button 

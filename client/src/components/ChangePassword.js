@@ -13,7 +13,7 @@ const modalStyle = {
     width: 500,
     maxHeight: "75%",
     bgcolor: 'background.paper',
-    border: '2px solid #000',
+    border: '2px solid #2B2D42',
     boxShadow: 24,
     p: 4,
 }
