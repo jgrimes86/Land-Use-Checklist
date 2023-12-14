@@ -153,7 +153,6 @@ function EditUser() {
               color: "green", 
             
             }}
-            startDecorator={<CheckCircleIcon />}
           >
             <div>
               <div>Success!</div>

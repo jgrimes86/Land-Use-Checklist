@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-
-import { Box, Button, Modal, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, Modal, OutlinedInput, Stack, Typography } from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 const modalStyle = {
     position: 'absolute',
@@ -19,6 +20,9 @@ const modalStyle = {
 
 function ChangePassword({user, setMessage}) {
     const [error, setError] = useState(null);
+    const [showOldPassword, setShowOldPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -64,6 +68,22 @@ function ChangePassword({user, setMessage}) {
         },
     });
 
+    function handleShowOldPassword() {
+        setShowOldPassword((show) => !show)
+    } 
+
+    function handleShowNewPassword() {
+        setShowNewPassword((show) => !show)
+    } 
+
+    function handleShowConfirmPassword() {
+        setShowConfirmPassword((show) => !show)
+    }  
+
+    function handleMouseDownPassword(e) {
+    e.preventDefault()
+    }
+
     return (
         <Box>
             <Button
@@ -82,39 +102,85 @@ function ChangePassword({user, setMessage}) {
                         component="form"
                         onSubmit={passwordFormik.handleSubmit}
                     >
-                        <TextField 
-                            margin="normal"
-                            fullWidth
-                            name="oldPassword" 
-                            type="password"
-                            label="Current Password"
-                            value={passwordFormik.values.oldPassword} 
-                            onChange={passwordFormik.handleChange}
-                            error={!!passwordFormik.errors.oldPassword}
-                            helperText={passwordFormik.errors.oldPassword}
-                        />
-                        <TextField 
-                            margin="normal"
-                            fullWidth
-                            name="newPassword" 
-                            type="password"
-                            label="New Password"
-                            value={passwordFormik.values.newPassword} 
-                            onChange={passwordFormik.handleChange}
-                            error={!!passwordFormik.errors.newPassword}
-                            helperText={passwordFormik.errors.newPassword}
-                        />
-                        <TextField 
-                            margin="normal"
-                            fullWidth
-                            name="confirmPassword"
-                            type="password"
-                            label="Confirm Password"
-                            value={passwordFormik.values.confirmPassword} 
-                            onChange={passwordFormik.handleChange}
-                            error={!!passwordFormik.errors.confirmPassword}
-                            helperText={passwordFormik.errors.confirmPassword}
-                        />
+                        <FormControl variant="outlined" sx={{mb:1, mt:1, width:"100%"}}>
+                            <InputLabel htmlFor="oldPassword">Current Password</InputLabel>
+                            <OutlinedInput 
+                                // margin="normal"
+                                fullWidth
+                                name="oldPassword" 
+                                type={showOldPassword ? "text" : "password" }
+                                label="Current Password"
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleShowOldPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                            edge="end"
+                                        >
+                                        {showOldPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                  }
+                                value={passwordFormik.values.oldPassword} 
+                                onChange={passwordFormik.handleChange}
+                                error={!!passwordFormik.errors.oldPassword}
+                            />
+                            <FormHelperText>{passwordFormik.errors.oldPassword}</FormHelperText>
+                        </FormControl>
+
+                        <FormControl variant="outlined" sx={{mb:1, mt:1, width:"100%"}}>
+                            <InputLabel htmlFor="newPassword">New Password</InputLabel>
+                            <OutlinedInput 
+                                // margin="normal"
+                                fullWidth
+                                name="newPassword" 
+                                type={showNewPassword ? "text" : "password" }
+                                label="Current Password"
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleShowNewPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                            edge="end"
+                                        >
+                                        {showNewPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                  }
+                                value={passwordFormik.values.newPassword} 
+                                onChange={passwordFormik.handleChange}
+                                error={!!passwordFormik.errors.newPassword}
+                            />
+                            <FormHelperText>{passwordFormik.errors.newPassword}</FormHelperText>
+                        </FormControl>
+
+                        <FormControl variant="outlined" sx={{mb:1, mt:1, width:"100%"}}>
+                            <InputLabel htmlFor="confirmPassword">Current Password</InputLabel>
+                            <OutlinedInput 
+                                fullWidth
+                                name="confirmPassword" 
+                                type={showConfirmPassword ? "text" : "password" }
+                                label="Current Password"
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleShowConfirmPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                            edge="end"
+                                        >
+                                            {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                                value={passwordFormik.values.confirmPassword} 
+                                onChange={passwordFormik.handleChange}
+                                error={!!passwordFormik.errors.confirmPassword}
+                            />
+                            <FormHelperText>{passwordFormik.errors.confirmPassword}</FormHelperText>
+                        </FormControl>
 
                         <Stack spacing={2} direction="row">
                             <Button 

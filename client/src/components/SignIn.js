@@ -3,12 +3,15 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useNavigate, useOutletContext } from "react-router-dom";
-
-import { Box, Button, Container, CssBaseline, TextField, Typography } from '@mui/material';
+import { Box, Button, Container, CssBaseline, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, Typography } from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 
 function SignIn() {  
   const [error, setError] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
   const {setUser, signup, setSignup} = useOutletContext();
 
@@ -68,6 +71,18 @@ function SignIn() {
   
   function toggleForm() {
     setSignup((currentState) => !currentState)
+  }
+
+  function handleShowPassword() {
+    setShowPassword((show) => !show)
+  }
+
+  function handleShowConfirmPassword() {
+    setShowConfirmPassword((show) => !show)
+  }
+
+  function handleMouseDownPassword(e) {
+    e.preventDefault()
   }
 
   return (
@@ -134,30 +149,59 @@ function SignIn() {
                 error={!!formik.errors.email}
                 helperText={formik.errors.email}
             />
-            <TextField 
-                margin="normal"
-                fullWidth
-                id="password" 
-                name="password" 
-                type="password"
-                label="Password"
-                value={formik.values.password} 
-                onChange={formik.handleChange}
-                error={!!formik.errors.password}
-                helperText={formik.errors.password}
-            />
-            {signup && <TextField 
-                margin="normal"
-                fullWidth
-                id="confirmPassword" 
-                name="confirmPassword"
-                type="password"
-                label="Confirm Password"
-                value={formik.values.confirmPassword} 
-                onChange={formik.handleChange}
-                error={!!formik.errors.confirmPassword}
-                helperText={formik.errors.confirmPassword}
-            />}
+            <FormControl variant="outlined" sx={{width:"100%"}}>
+              <InputLabel htmlFor="password">Password</InputLabel>
+              <OutlinedInput 
+                  fullWidth
+                  id="password" 
+                  name="password" 
+                  label="Password"
+                  type={showPassword ? "text" : "password" }
+                  endAdornment={
+                    <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                  }
+                  value={formik.values.password} 
+                  onChange={formik.handleChange}
+                  error={!!formik.errors.password}
+              />
+              <FormHelperText>{formik.errors.password}</FormHelperText>
+            </FormControl>
+            {signup && <FormControl variant="outlined" sx={{width:"100%"}}>
+              <InputLabel htmlFor="confirmPassword">Confirm Password</InputLabel>
+              <OutlinedInput 
+                  fullWidth
+                  id="confirmPassword" 
+                  name="confirmPassword" 
+                  label="Confirm Password"
+                  type={showConfirmPassword ? "text" : "password" }
+                  endAdornment={
+                    <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleShowConfirmPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                  }
+                  value={formik.values.confirmPassword} 
+                  onChange={formik.handleChange}
+                  error={!!formik.errors.confirmPassword}
+              />
+              <FormHelperText>{formik.errors.confirmPassword}</FormHelperText>
+            </FormControl>}
+
             <Button 
               type="submit" 
               fullWidth
