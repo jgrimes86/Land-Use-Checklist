@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Button, List, ListItem, ListItemText } from '@mui/material';
+import { Box, Button, List, ListItem, ListItemText, Paper } from '@mui/material';
 
 
 function UserProjects({user, setProject, setRoles}) {
@@ -38,22 +38,31 @@ function UserProjects({user, setProject, setRoles}) {
                     secondary={`${client}, ${property_address} Block ${property_block}, Lot ${property_lot}, ${municipality}, ${county}, ${state}`}
                     secondaryTypographyProps={{ style: { whiteSpace: "normal" } }}
                 />
-                <Button onClick={() => handleNavigate(id)}>Go to project</Button>
+                <Button variant="contained" onClick={() => handleNavigate(id)}>Go to project</Button>
             </ListItem>
         )
     })
 
     return (
-        <Box>
+        <Paper
+            elevation={2} 
+            sx={{
+                mt: 2,
+            }}
+        >
             <List sx={{width:'95%',}}>
                 {projectList}
             </List>
             <Button 
                 onClick={handleCreateProject}
+                variant="outlined"
+                sx={{
+                    m:2,
+                }}
             >
                 Create New Project
             </Button>
-        </Box>
+        </Paper>
 
     )
 }

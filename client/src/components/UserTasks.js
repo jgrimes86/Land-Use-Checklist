@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Box } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
+import { Box, Paper } from '@mui/material';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import dayjs from "dayjs";
 
 import TaskModal from "./TaskModal";
@@ -24,28 +24,39 @@ function UserTasks({user, users}) {
         {
             field: 'task',
             headerName: 'Task',
-            width: 500,
+            headerClassName: 'task-table-header',
+            width: 400,
+            // headerAlign: 'center',
+            flex: 1
         },
         {
             field: 'startDate',
             headerName: 'Start Date',
-            width: 150,
+            headerClassName: 'task-table-header',
+            width: 100,
+            // headerAlign: 'center'
         },
         {
             field: 'endDate',
             headerName: 'Due Date',
-            width: 150,
+            headerClassName: 'task-table-header',
+            width: 100,
+            // headerAlign: 'center'
         },
         {
             field: 'status',
             headerName: 'Status',
-            width: 100,
+            headerClassName: 'task-table-header',
+            width: 150,
+            // headerAlign: 'center'
         },
         {
             field: 'edit',
             headerName: 'Edit Task',
+            headerClassName: 'task-table-header',
             sortable: false,
             width: 100,
+            headerAlign: 'center',
             renderCell: (params) => (
                 <span>
                     <TaskModal task={params.row.taskDetail} tasks={userTasks} setTasks={setUserTasks} users={users} />
@@ -66,7 +77,15 @@ function UserTasks({user, users}) {
     })
 
     return (
-        <Box sx={{ height: 400, width: '100%'}} >
+        <Paper 
+            elevation={2}
+            sx={{ 
+                mt: 2,
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+            }} 
+        >
             <DataGrid 
                 rows={rows}
                 columns={columns}
@@ -79,8 +98,23 @@ function UserTasks({user, users}) {
                 }}
                 pageSizeOptions={[10]}
                 disableRowSelectionOnClick 
+                getRowHeight={() => 'auto'}
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    '.MuiDataGrid-columnHeaders': {
+                        backgroundColor: '#2B2D42',
+                        color: 'white',
+                    },
+                    '.MuiDataGrid-menuIconButton': {
+                        color: 'white'
+                    },
+                    '.MuiDataGrid-sortIcon': {
+                        color: 'white'
+                    }
+                }}
             />
-        </Box>
+        </Paper>
     )
 }
 

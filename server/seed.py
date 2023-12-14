@@ -51,7 +51,7 @@ with app.app_context():
         description="Proposals for soil erosion and sediment control as required by the Readington Township Soil Erosion and Sediment Control Ordinance, Code Chapter 197", 
         start_date="2024-01-08", 
         end_date="2024-02-05", 
-        status="open", 
+        status="Open", 
         comments="Topographic survey scheduled for Jan 4.", 
         user=u1, 
         project=p1
@@ -61,7 +61,7 @@ with app.app_context():
         description="Issue notice of application by publication in newspaper and by certified mail to surrounding property owners at least 10 days prior to hearing date", 
         start_date="2024-03-11",
         end_date="2024-03-13", 
-        status="open", 
+        status="Open", 
         comments="Montgomery Township's official newspaper is the Courier News.  Notices must be submitted for publication 3 business days prior to date of publication.  Courier News does not publish print edition on Saturdays. \n Request for list of property owners within 200 feet of subject property submitted to township tax assessor.", 
         user=u2, 
         project=p1
@@ -71,7 +71,7 @@ with app.app_context():
         description="Properaration of report in support of application detailing conditions justifying use variance and suitability of site for intended purpose", 
         start_date="2024-02-05", 
         end_date="2024-02-19", 
-        status="open", 
+        status="Open", 
         user=u3, 
         project=p1
     )
@@ -80,7 +80,7 @@ with app.app_context():
         description="Prepare variance application for operation of home business on property", 
         start_date="2024-01-15", 
         end_date="2024-01-19", 
-        status="open", 
+        status="Open", 
         user=u3, 
         project=p2
     )
@@ -89,7 +89,7 @@ with app.app_context():
         description="Finalize and record amendment to access easement accross neighboring property", 
         start_date="2024-01-15", 
         end_date="2024-01-15", 
-        status="open", 
+        status="Open", 
         user=u2, 
         project=p2
     )

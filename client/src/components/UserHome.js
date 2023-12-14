@@ -17,7 +17,7 @@ function UserHome() {
                     mt: 2,
                 }}
             >
-                <Typography variant="h4">{user.name}</Typography>
+                <Typography sx={{m:1.5, pt:1, pb:1}} variant="h4">{user.name}</Typography>
             </Paper>
             <UserProjects user={user} setProject={setProject} setRoles={setRoles} />
             <UserTasks user={user} users={users} />

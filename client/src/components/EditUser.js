@@ -57,8 +57,7 @@ function EditUser() {
   if (!user) return <p>Loading...</p>;
 
   return (
-    <Container>
-      <CssBaseline />
+    <Box>
       <Box
         sx={{
           marginTop: 8,
@@ -165,7 +164,7 @@ function EditUser() {
         <ChangePassword user={user} setUser={setUser} setMessage={setMessage} />
 
       </Box>
-    </Container>
+    </Box>
   )
 }
 

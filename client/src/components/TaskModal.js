@@ -111,6 +111,10 @@ function TaskModal({task, tasks, setTasks, users}) {
                     e.stopPropagation();
                     handleOpen()
                 }}
+                sx={{
+                    width:80,
+                    m:0.5
+                }}
             >
                 {buttonText}
             </Button>
@@ -204,11 +208,12 @@ function TaskModal({task, tasks, setTasks, users}) {
                             value={formik.values.status}
                             onChange={formik.handleChange}
                         >
-                            <MenuItem value='open'>Open</MenuItem>
-                            <MenuItem value='complete'>Complete</MenuItem>
-                            <MenuItem value='waiver_requested'>Waiver Requested</MenuItem>
-                            <MenuItem value='not_applicable'>Not Applicable</MenuItem>
-                            <MenuItem value='incomplete'>Incomplete</MenuItem>
+                            <MenuItem value='Open'>Open</MenuItem>
+                            <MenuItem value='Complete'>Complete</MenuItem>
+                            <MenuItem value='Waiver Requested'>Waiver Requested</MenuItem>
+                            <MenuItem value='Waiver Granted'>Waiver Granted</MenuItem>
+                            <MenuItem value='Not Applicable'>Not Applicable</MenuItem>
+                            <MenuItem value='Incomplete'>Incomplete</MenuItem>
                         </Select>
 
                         <Stack 
