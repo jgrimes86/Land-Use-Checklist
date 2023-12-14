@@ -1,7 +1,7 @@
 
 import { useMemo } from "react";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
-import { Box, Button, Paper, Typography } from '@mui/material';
+import { Box, Button, Paper, Stack, Typography } from '@mui/material';
 
 import ProjectTasks from "./ProjectTasks";
 import TeamList from "./TeamList";
@@ -37,34 +37,6 @@ function Project() {
 
     return (
         <Box >
-            <Paper
-                elevation={2} 
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    mt: 2
-                }}
-            >
-                <Typography variant="h4" sx={{m:1.5}} >
-                    {project.name}
-                </Typography>
-
-                <Button 
-                    variant="contained"
-                    sx={{ 
-                        mt: 2, 
-                        mb: 2, 
-                        mr: 2, 
-                        alignSelf: 'flex-start',
-                        width: 200
-                    }}
-                    onClick={handleEditClick} 
-                >
-                    Edit Project
-                </Button>
-            </Paper>
             <Box
                 sx={{
                     display: 'flex',
@@ -76,18 +48,54 @@ function Project() {
                     elevation={2}
                     sx={{
                         mt: 2,
-                        mr: 1,
+                        display: 'flex',
+                        flexDirection: 'column',
                         width: '50%'
                     }}
                 >
+                    <Typography variant="h4" sx={{m:1.5}} >
+                        {project.name}
+                    </Typography>
+
+                    <Button 
+                        variant="contained"
+                        sx={{ 
+                            m: 2, 
+                            alignSelf: 'flex-start',
+                            width: 200
+                        }}
+                        onClick={handleEditClick} 
+                    >
+                        Edit Project
+                    </Button>
+                    
                     <Box sx={{m:2}}>
-                        <Typography>Client: {project.client}</Typography>
-                        <Typography>{project.property_address}</Typography>
-                        <Typography>Block {project.property_block}, Lot {project.property_lot}</Typography>
-                        <Typography>{project.municipality}</Typography>
-                        <Typography>{`${project.county}, ${project.state}`}</Typography>
+                        <Typography sx={{fontWeight:'bold'}}>
+                            Client: 
+                        </Typography>
+                        <Typography sx={{ml:2}}>
+                            {project.client}
+                        </Typography>
+                        <p>
+                            <Typography sx={{fontWeight:'bold'}}>
+                                Property: 
+                            </Typography>
+                            <Typography sx={{ml:2}}>
+                                {project.property_address}
+                            </Typography>
+                            <Typography sx={{ml:2}}>
+                                Block {project.property_block}, Lot {project.property_lot}
+                            </Typography>
+                            <Typography sx={{ml:2}}>
+                                {project.municipality}
+                            </Typography>
+                            <Typography sx={{ml:2}}>
+                                {`${project.county}, ${project.state}`}
+                            </Typography>
+                        </p>
                     </Box>
                 </Paper>
+
                 <Paper
                     elevation={2}
                     sx={{

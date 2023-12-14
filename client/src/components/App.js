@@ -100,6 +100,7 @@ function App() {
                 <Box>
                     {user && (location.pathname !== '/login') && <Banner user={user} handleLogout={handleLogout} setProject={setProject} />}
                     <Outlet context={context} />
+                    <Box sx={{height:5}}></Box>
                 </Box>
             </ThemeProvider>
         </LocalizationProvider>

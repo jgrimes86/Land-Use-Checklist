@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Box, Button, FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
+import { Box, Button, FormControl, FormHelperText, InputLabel, MenuItem, Paper, Select, TextField, Typography } from '@mui/material';
 
 import TeamList from "./TeamList";
 
@@ -47,18 +47,26 @@ function EditTeam({setError, roles, setRoles, users}) {
     }) : [];
 
     return (
-        <Box
+        <Paper
+            elevation={2}
             sx={{
-                marginTop: 8,
+                mt: 2,
+                ml: 1,
+                pl: 2,
+                pr: 2,
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                width: '50%'
+                width: '50%',
+                maxHeight: 850,
+                overflow: 'auto'
             }}
             >
-            <Typography>Team Members</Typography>
+            <Typography variant="h6" sx={{mt:2}}>Team Members</Typography>
 
-            {roles ? <TeamList roles={roles} setRoles={setRoles} users={users} setError={setError} /> : null}
+            <Box sx={{width: "100%", mt:4}}>
+                {roles ? <TeamList roles={roles} setRoles={setRoles} users={users} setError={setError} /> : null}
+            </Box>
             
             <Box 
                 component="form"
@@ -66,7 +74,8 @@ function EditTeam({setError, roles, setRoles, users}) {
                 noValidate
                 sx={{ 
                     mt: 1,
-                    width: '90%'
+
+                    width: '95%'
                 }}
             >
 
@@ -84,13 +93,15 @@ function EditTeam({setError, roles, setRoles, users}) {
                         value={addTeamFormik.values.role}
                         onChange={addTeamFormik.handleChange}
                         sx={{
-                            width: '50%'
+                            width: '50%',
+                            mr: 0.5,
                         }}
                     />
                     
                     <FormControl 
                         sx={{
-                            width: '50%'
+                            width: '50%',
+                            ml: 0.5,
                         }}
                         error={!!addTeamFormik.errors.user_id}
                     >
@@ -108,15 +119,17 @@ function EditTeam({setError, roles, setRoles, users}) {
                         <FormHelperText>{addTeamFormik.errors.name}</FormHelperText>
                     </FormControl>
                 </Box>
-                <Button 
-                    type="submit"
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
-                >
-                    Add Team Member
-                </Button>
+                <Box sx={{display:'flex', justifyContent:"center"}}>
+                    <Button 
+                        type="submit"
+                        variant="contained"
+                        sx={{ m: 'auto', mt:2, mb:4}}
+                    >
+                        Add Team Member
+                    </Button>
+                </Box>
             </Box>
-        </Box>
+        </Paper>
     )
 }
 

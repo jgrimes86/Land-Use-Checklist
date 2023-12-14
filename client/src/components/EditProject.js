@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useLocation, useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, Stack, TextField, Typography } from '@mui/material';
 
 import EditTeam from "./EditTeam";
 
@@ -117,10 +117,32 @@ function EditProject() {
     const createEditButton = project ? "Save Changes" : "Create Project";
 
     return (
-        <Container>
+        <Box>
 
-            <Typography variant="h4">{project ? project.name : "Create a New Project"}</Typography>
-            <Typography sx={{color: "red"}} variant="h6">{error}</Typography>
+            <Paper
+                elevation={2} 
+                sx={{
+                    mt: 2,
+                }}
+            >
+                <Box 
+                    sx={{
+                        display:'flex', 
+                        flexDirection:'row',
+                        justifyContent: 'space-between'
+                    }}
+                >
+                    <Typography sx={{m:1.5, pt:1, pb:1}} variant="h4">{project ? project.name : "Create a New Project"}</Typography>
+                    <Button 
+                        variant="outlined" 
+                        onClick={handleClickOpen}
+                        sx={{m:2.5}}
+                    >
+                        Delete Project
+                    </Button>
+                </Box>
+                <Typography sx={{color: "red"}} variant="h7">{error}</Typography>
+            </Paper>
 
             <Box
                 sx={{
@@ -129,126 +151,127 @@ function EditProject() {
                     justifyContent: 'center'
                 }}
             >
-                <Box
+                <Paper
+                    elevation={2} 
                     sx={{
-                        marginTop: 8,
+                        mt:2,
+                        mr:1,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
-                        width: '50%'
+                        width: '50%',
+                        maxHeight: 850,
+                        overflow: 'auto',
                     }}
                 >
-                    <Typography>
+                    <Typography variant="h6" sx={{mt:2}}>
                         Project Details
                     </Typography>
                     <Box 
                         component="form"
                         onSubmit={projectFormik.handleSubmit}
-                        // sx={{ mt: 1 }}
+                        sx={{ m: 2 }}
                     >
-                            <TextField 
-                                margin="normal"
-                                fullWidth
-                                id="name" 
-                                name="name"
-                                label="Name"
-                                value={projectFormik.values.name} 
-                                onChange={projectFormik.handleChange} 
-                                error={!!projectFormik.errors.name}
-                                helperText={projectFormik.errors.name}
-                            />
-                            <TextField 
-                                margin="normal"
-                                fullWidth
-                                id="client" 
-                                name="client"
-                                label="Client" 
-                                value={projectFormik.values.client} 
-                                onChange={projectFormik.handleChange}
-                            />
-                            <TextField 
-                                margin="normal"
-                                fullWidth
-                                id="propertyAddress" 
-                                name="propertyAddress" 
-                                label="Property Address"
-                                value={projectFormik.values.propertyAddress} 
-                                onChange={projectFormik.handleChange}
-                            />
-                            <TextField 
-                                margin="normal"
-                                fullWidth
-                                id="propertyLot" 
-                                name="propertyLot" 
-                                label="Lot"
-                                value={projectFormik.values.propertyLot} 
-                                onChange={projectFormik.handleChange}
-                            />
-                            <TextField 
-                                margin="normal"
-                                fullWidth
-                                id="propertyBlock" 
-                                name="propertyBlock" 
-                                label="Block"
-                                value={projectFormik.values.propertyBlock} 
-                                onChange={projectFormik.handleChange}
-                            />
-                            <TextField 
-                                margin="normal"
-                                fullWidth
-                                id="municipality" 
-                                name="municipality" 
-                                label="Municipality"
-                                value={projectFormik.values.municipality} 
-                                onChange={projectFormik.handleChange}
-                            />
-                            <TextField 
-                                margin="normal"
-                                fullWidth
-                                id="county" 
-                                name="county" 
-                                label="County"
-                                value={projectFormik.values.county} 
-                                onChange={projectFormik.handleChange}
-                            />
-                            <TextField 
-                                margin="normal"
-                                fullWidth
-                                id="state" 
-                                name="state" 
-                                label="State"
-                                value={projectFormik.values.state} 
-                                onChange={projectFormik.handleChange}
-                            />
+                        <TextField 
+                            margin="normal"
+                            fullWidth
+                            id="name" 
+                            name="name"
+                            label="Name"
+                            value={projectFormik.values.name} 
+                            onChange={projectFormik.handleChange} 
+                            error={!!projectFormik.errors.name}
+                            helperText={projectFormik.errors.name}
+                        />
+                        <TextField 
+                            margin="normal"
+                            fullWidth
+                            id="client" 
+                            name="client"
+                            label="Client" 
+                            value={projectFormik.values.client} 
+                            onChange={projectFormik.handleChange}
+                        />
+                        <TextField 
+                            margin="normal"
+                            fullWidth
+                            id="propertyAddress" 
+                            name="propertyAddress" 
+                            label="Property Address"
+                            value={projectFormik.values.propertyAddress} 
+                            onChange={projectFormik.handleChange}
+                        />
+                        <TextField 
+                            margin="normal"
+                            fullWidth
+                            id="propertyLot" 
+                            name="propertyLot" 
+                            label="Lot"
+                            value={projectFormik.values.propertyLot} 
+                            onChange={projectFormik.handleChange}
+                        />
+                        <TextField 
+                            margin="normal"
+                            fullWidth
+                            id="propertyBlock" 
+                            name="propertyBlock" 
+                            label="Block"
+                            value={projectFormik.values.propertyBlock} 
+                            onChange={projectFormik.handleChange}
+                        />
+                        <TextField 
+                            margin="normal"
+                            fullWidth
+                            id="municipality" 
+                            name="municipality" 
+                            label="Municipality"
+                            value={projectFormik.values.municipality} 
+                            onChange={projectFormik.handleChange}
+                        />
+                        <TextField 
+                            margin="normal"
+                            fullWidth
+                            id="county" 
+                            name="county" 
+                            label="County"
+                            value={projectFormik.values.county} 
+                            onChange={projectFormik.handleChange}
+                        />
+                        <TextField 
+                            margin="normal"
+                            fullWidth
+                            id="state" 
+                            name="state" 
+                            label="State"
+                            value={projectFormik.values.state} 
+                            onChange={projectFormik.handleChange}
+                        />
 
-                            <Stack spacing={2} direction="row">
-                                <Button 
-                                    type="submit" 
-                                    variant="contained"
-                                    sx={{ mt: 3, mb: 2 }}
-                                >
-                                    {createEditButton}
-                                </Button>
+                        <Stack spacing={2} sx={{mt: 1.5}} direction="row" justifyContent='center'>
+                            <Button 
+                                type="submit" 
+                                variant="contained"
+                                // sx={{ mt: 3, mb: 2 }}
+                            >
+                                {createEditButton}
+                            </Button>
 
-                                <Button
-                                    onClick={() => {
-                                        projectFormik.resetForm({
-                                            values: projectFormik.initialValues
-                                        });
-                                        navigate(priorURL)
-                                    }}
-                                    type="reset"
-                                    variant="outlined"
-                                    sx={{ mt: 3, mb: 2 }}
-                                >
-                                    Discard Changes
-                                </Button>
-
-
-                            </Stack>
-
+                            <Button
+                                onClick={() => {
+                                    projectFormik.resetForm({
+                                        values: projectFormik.initialValues
+                                    });
+                                    navigate(priorURL)
+                                }}
+                                type="reset"
+                                variant="outlined"
+                                // sx={{ mt: 3, mb: 2 }}
+                            >
+                                Discard Changes
+                            </Button>
+                        </Stack>
                     </Box>
-                </Box>
+                </Paper>
 
                 {project && <EditTeam roles={roles} setRoles={setRoles} users={users}
                 setError={setError} />}
@@ -256,9 +279,6 @@ function EditProject() {
             </Box>
             
             <>
-                <Button variant="outlined" onClick={handleClickOpen}>
-                    Delete Project
-                </Button>
                 <Dialog
                     open={open}
                     onClose={handleClose}
@@ -285,7 +305,7 @@ function EditProject() {
                     </DialogActions>
                 </Dialog>
             </>
-        </Container>
+        </Box>
     )
 }
 

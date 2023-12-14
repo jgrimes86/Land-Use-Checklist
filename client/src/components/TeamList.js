@@ -20,12 +20,13 @@ function TeamList({setError, roles, setRoles, users}) {
     return (
         <TableContainer>
             <Table
-                sx={{width:'100%'}}
+                sx={{width:'100%', overflow:'auto', maxHeight: 800,}}
             >
                 <TableHead>
                     <TableRow sx={{backgroundColor: '#2B2D42'}}>
                         <TableCell sx={{color:'white'}}>Role</TableCell>
                         <TableCell sx={{color:'white'}}>Team Member</TableCell>
+                        {(location.pathname === `/projects/${params.id}/edit`) && <TableCell sx={{width: "10%"}}></TableCell>}
                     </TableRow>
                 </TableHead>
                 <TableBody>
