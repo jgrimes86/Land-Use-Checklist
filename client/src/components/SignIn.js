@@ -149,7 +149,7 @@ function SignIn() {
                 error={!!formik.errors.email}
                 helperText={formik.errors.email}
             />
-            <FormControl variant="outlined" sx={{width:"100%"}}>
+            <FormControl variant="outlined" sx={{width:"100%", mt:2.5}}>
               <InputLabel htmlFor="password">Password</InputLabel>
               <OutlinedInput 
                   fullWidth
@@ -175,7 +175,7 @@ function SignIn() {
               />
               <FormHelperText>{formik.errors.password}</FormHelperText>
             </FormControl>
-            {signup && <FormControl variant="outlined" sx={{width:"100%"}}>
+            {signup && <FormControl variant="outlined" sx={{width:"100%", mt:2.5}}>
               <InputLabel htmlFor="confirmPassword">Confirm Password</InputLabel>
               <OutlinedInput 
                   fullWidth

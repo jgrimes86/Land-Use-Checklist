@@ -86,8 +86,11 @@ api.add_resource(ChangePassword, '/users/<int:id>/change-password')
 class Users(Resource):
     
     def get(self):
-        users = [user.to_dict(rules=('tasks', '-tasks.user', 'roles', '-roles.user')) for user in User.query.all()]
-        return make_response(users, 200)
+        try:
+            users = [user.to_dict(rules=('tasks', '-tasks.user', 'roles', '-roles.user')) for user in User.query.all()]
+            return make_response(users, 200)
+        except:
+            make_response ({"error": "Unable to retrieve data"}, 500)
 
 api.add_resource(Users, '/users')
 
@@ -118,8 +121,11 @@ class UserProjects(Resource):
     
     def get(self, id):
         projects = db.session.query(Project).join(Role, Project.id == Role.project_id).join(User, Role.user_id == User.id).filter(User.id == id)
-        project_list = [project.to_dict(rules=('tasks', '-tasks.project', 'roles', '-roles.project')) for project in projects]
-        return make_response(project_list, 200)
+        if projects:
+            project_list = [project.to_dict(rules=('tasks', '-tasks.project', 'roles', '-roles.project')) for project in projects]
+            return make_response(project_list, 200)
+        else:
+            return make_response({"error": "User projects not found"}, 404)
 
 api.add_resource(UserProjects, '/users/<int:id>/roles')
 
@@ -140,19 +146,24 @@ class ProjectTasks(Resource):
 
     def post(self, id):
         data = request.json
-        newTask = Task(
-            name=data['name'],
-            description=data['description'],
-            start_date=data['start_date'],
-            end_date=data['end_date'],
-            status=data['status'],
-            comments=data['comments'],
-            user_id=data['user_id'],
-            project_id=id
-        )           
-        db.session.add(newTask)
-        db.session.commit()
-        return make_response(newTask.to_dict(rules=('user', '-user.tasks', 'project', '-project.tasks')), 202)
+        try:
+            newTask = Task(
+                name=data['name'],
+                description=data['description'],
+                start_date=data['start_date'],
+                end_date=data['end_date'],
+                status=data['status'],
+                comments=data['comments'],
+                user_id=data['user_id'],
+                project_id=id
+            )           
+            db.session.add(newTask)
+            db.session.commit()
+            return make_response(newTask.to_dict(rules=('user', '-user.tasks', 'project', '-project.tasks')), 202)
+        except ValueError as v_error:
+            return make_response({"error": str(v_error)}, 404)
+        except Exception as e:
+            return make_response({"error": str(e)}, 500)
 
 api.add_resource(ProjectTasks, '/projects/<int:id>/tasks')
 
@@ -194,22 +205,24 @@ class Projects(Resource):
     
     def post(self):
         data = request.json
-        # try:
-        newProject = Project(
-            name = data["name"],
-            client = data["client"],
-            property_address = data["propertyAddress"],
-            property_lot = data["propertyLot"],
-            property_block = data["propertyBlock"],
-            municipality = data["municipality"],
-            county = data["county"],
-            state = data["state"],
-        )
-        db.session.add(newProject)
-        db.session.commit()
-        return make_response(newProject.to_dict(rules=('tasks', '-tasks.project', 'roles', '-roles.project')), 202)
-        # except:
-        #     return make_response({"error": "Error saving project"}, 400)
+        try:
+            newProject = Project(
+                name = data["name"],
+                client = data["client"],
+                property_address = data["propertyAddress"],
+                property_lot = data["propertyLot"],
+                property_block = data["propertyBlock"],
+                municipality = data["municipality"],
+                county = data["county"],
+                state = data["state"],
+            )
+            db.session.add(newProject)
+            db.session.commit()
+            return make_response(newProject.to_dict(rules=('tasks', '-tasks.project', 'roles', '-roles.project')), 202)
+        except ValueError as v_error:
+            return make_response({"error": str(v_error)}, 404)
+        except Exception as e:
+            return make_response({"error": str(e)}, 500)
 
 api.add_resource(Projects, '/projects')
 
@@ -221,6 +234,9 @@ class ProjectsById(Resource):
         else:
             project = Project.query.filter_by(id=id).first().to_dict(rules=('tasks', '-tasks.project', 'roles', '-roles.project'))
             return make_response(project, 200)
+
+
+# ######################### RESUME ERROR HANDLINE HERE #############################
 
     def patch(self, id):
         project = Project.query.filter_by(id=id).first()

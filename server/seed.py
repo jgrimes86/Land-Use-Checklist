@@ -42,7 +42,7 @@ with app.app_context():
         description="EIC must be submitted which complies with Code §148-102(C)", 
         start_date="2024-01-08", 
         end_date="2024-02-05", 
-        status="open", 
+        status="Open", 
         user=u1, 
         project=p1
     )

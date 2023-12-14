@@ -76,7 +76,7 @@ function Project() {
                         <Typography sx={{ml:2}}>
                             {project.client}
                         </Typography>
-                        <p>
+                        <div>
                             <Typography sx={{fontWeight:'bold'}}>
                                 Property: 
                             </Typography>
@@ -92,7 +92,7 @@ function Project() {
                             <Typography sx={{ml:2}}>
                                 {`${project.county}, ${project.state}`}
                             </Typography>
-                        </p>
+                        </div>
                     </Box>
                 </Paper>
 
