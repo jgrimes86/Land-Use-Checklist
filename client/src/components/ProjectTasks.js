@@ -10,9 +10,6 @@ function ProjectTasks({users}) {
     const params = useParams();
     const [tasks, setTasks] = useState([]);
     const [team, setTeam] = useState([])
-    // const [open, setOpen] = useState(false);
-    // const handleOpen = () => setOpen(true);
-    // const handleClose = () => setOpen(false);
 
     useEffect(() => {
         fetch(`/projects/${params.id}/tasks`)
@@ -115,7 +112,7 @@ function ProjectTasks({users}) {
                             },
                         },
                     }}
-                    pageSizeOptions={[10]}
+                    pageSizeOptions={[5, 10, 15, 20]}
                     disableRowSelectionOnClick 
                     getRowHeight={() => 'auto'}
                     sx={{

@@ -80,11 +80,12 @@ function Project() {
                         width: '50%'
                     }}
                 >
-                    <Box sx={{ml:2}}>
-                        <Typography>{project.client}</Typography>
+                    <Box sx={{m:2}}>
+                        <Typography>Client: {project.client}</Typography>
                         <Typography>{project.property_address}</Typography>
-                        <Typography>{`Block ${project.property_block}, Lot ${project.property_lot}`}</Typography>
-                        <Typography>{`${project.municipality}, ${project.county}, ${project.state}`}</Typography>
+                        <Typography>Block {project.property_block}, Lot {project.property_lot}</Typography>
+                        <Typography>{project.municipality}</Typography>
+                        <Typography>{`${project.county}, ${project.state}`}</Typography>
                     </Box>
                 </Paper>
                 <Paper
