@@ -25,7 +25,7 @@ function UserTasks({user, users}) {
             field: 'task',
             headerName: 'Task',
             headerClassName: 'task-table-header',
-            width: 400,
+            minWidth: 300,
             // headerAlign: 'center',
             flex: 1
         },

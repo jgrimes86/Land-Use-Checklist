@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom"
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Alert, Box, Button, Container, CssBaseline, IconButton, Stack, TextField, Typography } from '@mui/material';
+import { Alert, Box, Button, Container, CssBaseline, IconButton, Paper, Stack, TextField, Typography } from '@mui/material';
 
 import ChangePassword from "./ChangePassword";
 
@@ -58,112 +58,126 @@ function EditUser() {
 
   return (
     <Box>
-      <Box
+
+      <Paper
+        elevation={2} 
         sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
+            mt: 2,
+            display: 'flex',
+            justifyContent: 'center'
         }}
       >
-        <Typography variant="h4">Account Information</Typography>
-
-        <Box 
-          component="form"
-          onSubmit={formik.handleSubmit}
-          noValidate
-          sx={{ mt: 1 }}
+        <Box
+          sx={{
+            // marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
         >
-          <TextField
-            margin="normal"
-            fullWidth 
-            id="name" 
-            name="name"
-            label="Name"
-            value={formik.values.name} 
-            onChange={formik.handleChange} 
-            error={!!formik.errors.name}
-            helperText={formik.errors.name}
-          />
+          <Typography variant="h4" sx={{mt:2}}>Account Information</Typography>
 
-          <TextField
-            margin="normal"
-            fullWidth 
-            id="company" 
-            name="company"
-            label="Company" 
-            value={formik.values.company} 
-            onChange={formik.handleChange}
-          />
-
-          <TextField
-            margin="normal"
-            fullWidth 
-            id="phoneNumber" 
-            name="phoneNumber" 
-            label="Phone Number"
-            value={formik.values.phoneNumber} 
-            onChange={formik.handleChange}
-          />
-
-          <TextField
-            margin="normal"
-            fullWidth 
-            id="email" 
-            name="email" 
-            label="email"
-            value={formik.values.email} 
-            onChange={formik.handleChange}
-            error={!!formik.errors.email}
-            helperText={formik.errors.email}
-          />
-
-          {error && <p style={{ color: "red" }}>{error}</p>}
-
-          <Stack spacing={2} direction="row">
-            <Button 
-              type="submit"
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Save Changes
-            </Button>
-
-            <Button
-              onClick={() => {
-                formik.resetForm({
-                  values: formik.initialValues
-                })
-              }}
-              type="reset"
-              variant="outlined"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Undo Changes
-            </Button>
-          </Stack>
-        </Box>
-
-        {message && <Box >
-          <Alert
-            sx={{ 
-              alignItems: 'center', 
-              color: "green", 
-            
-            }}
+          <Box 
+            component="form"
+            onSubmit={formik.handleSubmit}
+            noValidate
+            sx={{ mt: 1, maxWidth: 600 }}
           >
-            <div>
-              <div>Success!</div>
-              <Typography level="body-sm" color="green">
-                {message}
-              </Typography>
-            </div>
-          </Alert>
-        </Box>}
+            <TextField
+              margin="normal"
+              fullWidth 
+              id="name" 
+              name="name"
+              label="Name"
+              value={formik.values.name} 
+              onChange={formik.handleChange} 
+              error={!!formik.errors.name}
+              helperText={formik.errors.name}
+            />
 
-        <ChangePassword user={user} setUser={setUser} setMessage={setMessage} />
+            <TextField
+              margin="normal"
+              fullWidth 
+              id="company" 
+              name="company"
+              label="Company" 
+              value={formik.values.company} 
+              onChange={formik.handleChange}
+            />
 
-      </Box>
+            <TextField
+              margin="normal"
+              fullWidth 
+              id="phoneNumber" 
+              name="phoneNumber" 
+              label="Phone Number"
+              value={formik.values.phoneNumber} 
+              onChange={formik.handleChange}
+            />
+
+            <TextField
+              margin="normal"
+              fullWidth 
+              id="email" 
+              name="email" 
+              label="email"
+              value={formik.values.email} 
+              onChange={formik.handleChange}
+              error={!!formik.errors.email}
+              helperText={formik.errors.email}
+            />
+
+            {error && <p style={{ color: "red" }}>{error}</p>}
+
+            <Stack 
+              spacing={2} 
+              direction="row"
+              justifyContent="center"
+            >
+              <Button 
+                type="submit"
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Save Changes
+              </Button>
+
+              <Button
+                onClick={() => {
+                  formik.resetForm({
+                    values: formik.initialValues
+                  })
+                }}
+                type="reset"
+                variant="outlined"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Undo Changes
+              </Button>
+            </Stack>
+          </Box>
+
+          {message && <Box >
+            <Alert
+              sx={{ 
+                alignItems: 'center', 
+                color: "green", 
+              
+              }}
+            >
+              <div>
+                <div>Success!</div>
+                <Typography level="body-sm" color="green">
+                  {message}
+                </Typography>
+              </div>
+            </Alert>
+          </Box>}
+
+          <ChangePassword user={user} setUser={setUser} setMessage={setMessage} />
+
+        </Box>
+      </Paper>
     </Box>
   )
 }

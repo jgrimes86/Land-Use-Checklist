@@ -182,7 +182,7 @@ function ChangePassword({user, setMessage}) {
                             <FormHelperText>{passwordFormik.errors.confirmPassword}</FormHelperText>
                         </FormControl>
 
-                        <Stack spacing={2} direction="row">
+                        <Stack spacing={2} direction="row" justifyContent='center'>
                             <Button 
                                 type="submit"
                                 variant="contained"
