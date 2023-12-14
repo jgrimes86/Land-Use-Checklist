@@ -104,6 +104,9 @@ function UserTasks({user, users}) {
                     '.MuiDataGrid-sortIcon': {
                         color: 'white'
                     },
+                    '.MuiDataGrid-cell:focus': {
+                        outline: "none",
+                    },
                     '& .edit-task-button--cell': {
                         paddingLeft: 0,
                     },

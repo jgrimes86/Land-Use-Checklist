@@ -206,6 +206,7 @@ function TaskModal({task, tasks, setTasks, users}) {
                                 value={formik.values.user_id}
                                 onChange={formik.handleChange}
                             >
+                                <MenuItem key={0} value={null}>None</MenuItem>
                                 {teamOptions}
                             </Select>
                         </FormControl>
