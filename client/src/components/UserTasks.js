@@ -7,9 +7,6 @@ import TaskModal from "./TaskModal";
 
 function UserTasks({user, users}) {
     const [userTasks, setUserTasks] = useState([])
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
 
     useEffect(() => {
         fetch('/users/tasks/'+user.id)

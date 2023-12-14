@@ -3,8 +3,20 @@ import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Box } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import Banner from "./Banner";
+
+const theme = createTheme({
+    palette: {
+        primary: {
+            main:'#2B2D42'
+        },
+        secondary: {
+            main:'#CAD2C5'
+        },
+      },
+})
 
 function App() {
     const location = useLocation();
@@ -39,7 +51,7 @@ function App() {
     }, [])
 
     useEffect(() => {
-        if (location.pathname === `/projects/${params.id}` || `/projects/${params.id}/edit`) {
+        if (location.pathname === `/projects/${params.id}/edit`) {
             fetch(`/projects/${params.id}`)
             .then((r) => {
                 if (r.ok) {
@@ -84,10 +96,12 @@ function App() {
     
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <Box>
-                {user && (location.pathname !== '/login') && <Banner user={user} handleLogout={handleLogout}/>}
-                <Outlet context={context} />
-            </Box>
+            <ThemeProvider theme={theme} >
+                <Box>
+                    {user && (location.pathname !== '/login') && <Banner user={user} handleLogout={handleLogout}/>}
+                    <Outlet context={context} />
+                </Box>
+            </ThemeProvider>
         </LocalizationProvider>
     )
 }

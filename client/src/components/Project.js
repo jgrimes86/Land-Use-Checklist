@@ -10,7 +10,25 @@ import TeamList from "./TeamList";
 function Project() {
     const params = useParams();
     const navigate = useNavigate();
-    const {project, roles, setRoles, users} = useOutletContext()
+    const {project, setProject, roles, setRoles, users} = useOutletContext()
+
+    useMemo(() => {
+        fetch(`/projects/${params.id}`)
+        .then((r) => {
+            if (r.ok) {
+                r.json()
+                .then(data => setProject(data))
+            }
+        })
+
+        fetch(`/projects/${params.id}/roles`)
+        .then((r) => {
+            if (r.ok) {
+                r.json()
+                .then(data => setRoles(data))
+            }
+        })
+    }, [])
 
     function handleEditClick() {
         navigate(`/projects/${params.id}/edit`)

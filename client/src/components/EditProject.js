@@ -3,11 +3,6 @@ import { useLocation, useNavigate, useOutletContext, useParams } from "react-rou
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack, TextField, Typography } from '@mui/material';
-// import Dialog from '@mui/material/Dialog';
-// import DialogActions from '@mui/material/DialogActions';
-// import DialogContent from '@mui/material/DialogContent';
-// import DialogContentText from '@mui/material/DialogContentText';
-// import DialogTitle from '@mui/material/DialogTitle';
 
 import EditTeam from "./EditTeam";
 

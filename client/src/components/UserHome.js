@@ -1,4 +1,3 @@
-// import { useMemo, useState } from "react";
 import { useOutletContext } from 'react-router-dom';
 import { Box, Paper, Typography } from '@mui/material';
 
@@ -15,7 +14,7 @@ function UserHome() {
             <Paper
                 elevation={2} 
                 sx={{
-                    mt: 2
+                    mt: 2,
                 }}
             >
                 <Typography variant="h4">{user.name}</Typography>
