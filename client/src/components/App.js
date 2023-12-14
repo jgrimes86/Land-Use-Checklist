@@ -98,7 +98,7 @@ function App() {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <ThemeProvider theme={theme} >
                 <Box>
-                    {user && (location.pathname !== '/login') && <Banner user={user} handleLogout={handleLogout}/>}
+                    {user && (location.pathname !== '/login') && <Banner user={user} handleLogout={handleLogout} setProject={setProject} />}
                     <Outlet context={context} />
                 </Box>
             </ThemeProvider>

@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { MenuItem } from '@mui/material';
 
-function NavBar({user, handleLogout, handleClose}) {
+function NavBar({user, handleLogout, handleClose, setProject}) {
     const navigate = useNavigate();
 
     return (
@@ -9,7 +9,8 @@ function NavBar({user, handleLogout, handleClose}) {
             <MenuItem 
                 onClick={() => {
                     handleClose();
-                    navigate(`/users/${user.id}`);
+                    navigate(`/users/${user.id}`)
+                    setProject("");
                 }}
             >
                 Home

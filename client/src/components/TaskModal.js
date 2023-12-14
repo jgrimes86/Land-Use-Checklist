@@ -101,6 +101,7 @@ function TaskModal({task, tasks, setTasks, users}) {
     }) : [];
 
     const buttonText = task ? "Edit" : "Add Task";
+    const buttonStyle = task ? {width:80, m:0.5} : {width:'auto', m:2, ml:1.5};
     const saveButtonText = task ? "Save Changes" : "Create Task";
 
     return (
@@ -111,10 +112,7 @@ function TaskModal({task, tasks, setTasks, users}) {
                     e.stopPropagation();
                     handleOpen()
                 }}
-                sx={{
-                    width:80,
-                    m:0.5,
-                }}
+                sx={buttonStyle}
             >
                 {buttonText}
             </Button>

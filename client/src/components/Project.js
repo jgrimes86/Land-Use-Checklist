@@ -36,7 +36,7 @@ function Project() {
     if (!project) return <p>Loading...</p>
 
     return (
-        <Box sx={{m:0.5}}>
+        <Box >
             <Paper
                 elevation={2} 
                 sx={{
@@ -47,16 +47,19 @@ function Project() {
                     mt: 2
                 }}
             >
-                <Typography 
-                    variant="h4"
-                    sx={{ ml: 2 }}
-                >
+                <Typography variant="h4" sx={{m:1.5}} >
                     {project.name}
                 </Typography>
 
                 <Button 
                     variant="contained"
-                    sx={{ mt: 3, mb: 2, mr: 2 }}
+                    sx={{ 
+                        mt: 2, 
+                        mb: 2, 
+                        mr: 2, 
+                        alignSelf: 'flex-start',
+                        width: 200
+                    }}
                     onClick={handleEditClick} 
                 >
                     Edit Project
@@ -95,12 +98,12 @@ function Project() {
                     <TeamList roles={roles} setRoles={setRoles} users={users} sx={{mr:2}}/>
                 </Paper>
             </Box>
-            <Paper
+            <Box
                 elevation={2}
                 sx={{mt:2}}
             >
                 <ProjectTasks users={users} />
-            </Paper>
+            </Box>
         </Box>
     )
 }

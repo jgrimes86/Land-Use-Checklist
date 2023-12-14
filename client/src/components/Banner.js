@@ -5,7 +5,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 import NavBar from "./Navbar";
 
-function Banner({user, handleLogout}) {
+function Banner({user, handleLogout, setProject}) {
     const location = useLocation();
     const params = useParams();
     const [anchorEl, setAnchorEl] = useState(null);
@@ -56,7 +56,7 @@ function Banner({user, handleLogout}) {
                             'aria-labelledby': "menu-button"
                         }}
                     >
-                        <NavBar user={user} handleLogout={handleLogout} handleClose={handleClose} />
+                        <NavBar user={user} handleLogout={handleLogout} handleClose={handleClose} setProject={setProject}/>
                     </Menu>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         {bannerText()}

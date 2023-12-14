@@ -45,7 +45,6 @@ function UserTasks({user, users}) {
         {
             field: 'edit',
             headerName: 'Edit Task',
-            headerClassName: 'task-table-header',
             sortable: false,
             width: 100,
             cellClassName: 'edit-task-button--cell',

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Box } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import dayjs from "dayjs";
 
@@ -38,22 +38,23 @@ function ProjectTasks({users}) {
         {
             field: 'task',
             headerName: 'Task',
-            width: 400,
+            minWidth: 300,
+            flex: 1
         },
         {
             field: 'startDate',
             headerName: 'Start Date',
-            width: 150,
+            width: 100,
         },
         {
             field: 'endDate',
             headerName: 'Due Date',
-            width: 150,
+            width: 100,
         },
         {
             field: 'status',
             headerName: 'Status',
-            width: 100,
+            width: 150,
         },
         {
             field: 'user',
@@ -65,6 +66,7 @@ function ProjectTasks({users}) {
             headerName: 'Edit Task',
             sortable: false,
             width: 100,
+            cellClassName: 'edit-task-button--cell',
             renderCell: (params) => (
                 <span>
                     <TaskModal task={params.row.taskDetail} tasks={tasks} setTasks={setTasks} users={users} />
@@ -86,22 +88,60 @@ function ProjectTasks({users}) {
     }) : [];
 
     return (
-        <Box sx={{ height: 400, width: '100%'}} >
-            <DataGrid 
-                rows={rows}
-                columns={columns}
-                initialState={{
-                    pagination: {
-                        paginationModel: {
-                            pageSize: 10,
+        <Paper
+            elevation={2}
+            sx={{ 
+                mt: 2,
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+            }}
+        >
+            <Box 
+                sx={{ 
+                    width: '100%', 
+                    display: 'flex',
+                    justifyContent: 'center',
+                }} 
+            >
+                <DataGrid 
+                    rows={rows}
+                    columns={columns}
+                    initialState={{
+                        pagination: {
+                            paginationModel: {
+                                pageSize: 10,
+                            },
                         },
-                    },
-                }}
-                pageSizeOptions={[10]}
-                disableRowSelectionOnClick 
-            />
-            {tasks && team ? <TaskModal task={""} tasks={tasks} setTasks={setTasks} team={team} /> : null}
-        </Box>
+                    }}
+                    pageSizeOptions={[10]}
+                    disableRowSelectionOnClick 
+                    getRowHeight={() => 'auto'}
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        '.MuiDataGrid-columnHeaders': {
+                            backgroundColor: '#2B2D42',
+                            color: 'white',
+                        },
+                        '.MuiDataGrid-menuIconButton': {
+                            color: 'white'
+                        },
+                        '.MuiDataGrid-sortIcon': {
+                            color: 'white'
+                        },
+                        '.MuiDataGrid-cell:focus': {
+                            outline: "none",
+                        },
+                        '& .edit-task-button--cell': {
+                            paddingLeft: 0,
+                        },
+                    }}
+                />
+            </Box>
+                {tasks && team ? <TaskModal task={""} tasks={tasks} setTasks={setTasks} team={team} /> : null}
+        </Paper>
     )
 }
 
