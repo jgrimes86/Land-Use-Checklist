@@ -2,12 +2,12 @@ import { useState } from "react";
 import { useLocation, useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Box, Button, Container, Stack, TextField, Typography } from '@mui/material';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack, TextField, Typography } from '@mui/material';
+// import Dialog from '@mui/material/Dialog';
+// import DialogActions from '@mui/material/DialogActions';
+// import DialogContent from '@mui/material/DialogContent';
+// import DialogContentText from '@mui/material/DialogContentText';
+// import DialogTitle from '@mui/material/DialogTitle';
 
 import EditTeam from "./EditTeam";
 
@@ -42,7 +42,7 @@ function EditProject() {
             county: project ? project.county : "",
             state: project ? project.state : "",
         },
-        // enableReinitialize: true,
+        enableReinitialize: true,
         validationSchema: projectSchema,
         validateOnChange: false,
         onSubmit: (values) => {

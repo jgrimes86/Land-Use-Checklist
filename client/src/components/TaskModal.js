@@ -2,8 +2,6 @@ import { useState } from "react";
 import { useLocation, useParams } from 'react-router-dom';
 import { useFormik } from "formik";
 import * as yup from "yup";
-
-
 import { Box, Button, InputLabel, MenuItem, Modal, Select, Stack, TextField, Typography } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from "dayjs";
@@ -29,8 +27,6 @@ function TaskModal({task, tasks, setTasks, users}) {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    // console.log(task)
-
     const formikSchema = yup.object().shape({
         name: yup.string().required('Must enter a task name'),
         description: yup.string(),
@@ -50,7 +46,6 @@ function TaskModal({task, tasks, setTasks, users}) {
             comments: task.comments ? task.comments : "",
             user_id: task.user_id ? task.user_id : "",
         },
-        // enableReinitialize: true,
         validationSchema: formikSchema,
         validateOnChange: false,
         onSubmit: (values) => {

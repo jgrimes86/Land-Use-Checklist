@@ -3,7 +3,6 @@ import { useNavigate, useOutletContext } from "react-router-dom"
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Alert, Box, Button, Container, CssBaseline, IconButton, Stack, TextField, Typography } from '@mui/material';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 import ChangePassword from "./ChangePassword";
 

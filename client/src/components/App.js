@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Box } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -8,6 +8,7 @@ import Banner from "./Banner";
 
 function App() {
     const location = useLocation();
+    const params = useParams();
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [signup, setSignup] = useState(false);
@@ -35,6 +36,26 @@ function App() {
                 .then(data => setUsers(data))
             }
         })
+    }, [])
+
+    useEffect(() => {
+        if (location.pathname === `/projects/${params.id}` || `/projects/${params.id}/edit`) {
+            fetch(`/projects/${params.id}`)
+            .then((r) => {
+                if (r.ok) {
+                    r.json()
+                    .then(data => setProject(data))
+                }
+            })
+    
+            fetch(`/projects/${params.id}/roles`)
+            .then((r) => {
+                if (r.ok) {
+                    r.json()
+                    .then(data => setRoles(data))
+                }
+            })
+        }
     }, [])
 
     function handleLogout() {
