@@ -59,8 +59,8 @@ class Project(db.Model, SerializerMixin):
     county = db.Column(db.Text)
     state = db.Column(db.Text)
 
-    tasks = db.relationship('Task', back_populates='project')
-    roles = db.relationship('Role', back_populates='project')
+    tasks = db.relationship('Task', back_populates='project', cascade='all, delete-orphan')
+    roles = db.relationship('Role', back_populates='project', cascade='all, delete-orphan')
 
     users = association_proxy('roles', 'projects')
 
