@@ -120,7 +120,7 @@ api.add_resource(UserById, '/api/v1/users/<int:id>')
 class UserProjects(Resource):
     
     def get(self, id):
-        projects = db.session.query(Project).join(Role, Project.id == Role.project_id).join(User, Role.user_id == User.id).filter(User.id == id)
+        projects = db.session.query(Project).join(Role, Project.id == Role.project_id).join(User, Role.user_id == User.id).filter(User.id == id).all()
         if projects:
             project_list = [project.to_dict(rules=('tasks', '-tasks.project', 'roles', '-roles.project')) for project in projects]
             return make_response(project_list, 200)
@@ -135,7 +135,7 @@ class UserTasks(Resource):
         tasks = Task.query.filter_by(user_id=id).all()
         if tasks:
             task_list =[task.to_dict(rules=('user', '-user.tasks', 'project', '-project.tasks')) for task in tasks]
-            return make_response(tasks, 200)
+            return make_response(task_list, 200)
         else:
             return make_response({"error": "User tasks not found"}, 404)
 
@@ -334,7 +334,7 @@ class RolesByProject(Resource):
         roles = Role.query.filter_by(project_id=id).all()
         if roles:
             roles_list = [role.to_dict(rules=('user', '-user.roles')) for role in roles]
-            return make_response(roles, 200)
+            return make_response(roles_list, 200)
         else:
             return make_response({"error": "Unable to get project roles"}, 404)
 
