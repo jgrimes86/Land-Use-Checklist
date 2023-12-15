@@ -86,8 +86,7 @@ function SignIn() {
   }
 
   return (
-    <Container>
-      <CssBaseline />
+    
       <Box
         sx={{
           marginTop: 8,
@@ -225,7 +224,6 @@ function SignIn() {
         {error && <p style={{ color: "red" }}>{error}</p>}
       </Box>
 
-    </Container>
   )
 }
 

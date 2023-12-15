@@ -5,31 +5,33 @@ import UserHome from "../components/UserHome";
 import EditUser from "../components/EditUser";
 import Project from "../components/Project";
 import EditProject from "../components/EditProject";
+import ErrorPage from "../components/ErrorPage";
 
 const routes = [
     {
         path: "/",
         element: <App />,
+        errorElement: <ErrorPage />,
         children: [
             {
                 path: "/login",
-                element: <SignIn />
+                element: <SignIn />,
             },
             {
                 path: "/users/:id",
-                element: <UserHome />
+                element: <UserHome />,
             },
             {
                 path: "/users/:id/account",
-                element: <EditUser />
+                element: <EditUser />,
             },
             {
                 path: "/projects/:id",
-                element: <Project />
+                element: <Project />,
             },
             {
                 path: "/projects/:id/edit",
-                element: <EditProject />
+                element: <EditProject />,
             }
         ]
     }
