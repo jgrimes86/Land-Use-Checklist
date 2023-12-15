@@ -27,6 +27,7 @@ function App() {
     const [project, setProject] = useState("");
     const [roles, setRoles] = useState("");
     const [users, setUsers] = useState([]);
+    const [navError, setNavError] = useState(null);
 
     useEffect(() => {
         fetch('/check_session')
@@ -89,7 +90,9 @@ function App() {
         roles,
         setRoles,
         users,
-        setUsers
+        setUsers,
+        navError,
+        setNavError,
     }
 
 

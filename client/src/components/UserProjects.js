@@ -8,7 +8,7 @@ function UserProjects({user, setProject, setRoles}) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch(`/users/${user.id}/roles`)
+        fetch(`/users/${user.id}/projects`)
         .then((r) => {
             if (r.ok) {
                 r.json().then(projects => setUserProjects(projects))

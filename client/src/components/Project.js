@@ -9,15 +9,19 @@ import TeamList from "./TeamList";
 function Project() {
     const params = useParams();
     const navigate = useNavigate();
-    const {project, setProject, roles, setRoles, users} = useOutletContext()
+    const {project, setProject, roles, setRoles, users, setNavError} = useOutletContext()
 
     useMemo(() => {
         fetch(`/projects/${params.id}`)
         .then((r) => {
             if (r.ok) {
                 r.json()
-                .then(data => setProject(data))
+                .then(data => {setProject(data); setNavError(null)})
+            } else {
+                r.json()
+                .then(({error}) => {setNavError(error); navigate(`/not-found`)})
             }
+
         })
 
         fetch(`/projects/${params.id}/roles`)

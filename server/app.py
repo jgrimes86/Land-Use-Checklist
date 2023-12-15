@@ -83,6 +83,7 @@ class ChangePassword(Resource):
 api.add_resource(ChangePassword, '/api/v1/users/<int:id>/change-password')
 
 
+
 class Users(Resource):
     
     def get(self):
@@ -94,22 +95,14 @@ class Users(Resource):
 
 api.add_resource(Users, '/api/v1/users')
 
-class UserById(Resource):
+class UsersById(Resource):
     
-    # def get(self, id):
-    #     user = User.query.filter_by(id=id).first()
-    #     if user:
-    #         return make_response(user.to_dict(rules=('tasks', '-tasks.user', 'roles', '-roles.user')), 200)
-    #     else:
-    #         return make_response({"error": "User not found"})
-
     def patch(self, id):
         if id != session.get('user_id'):
             return make_response({"error":"Unauthorized user"}, 401)
         user = User.query.filter_by(id=id).first()
         if user:
             try:
-
                 data = request.json
                 for attr in data:
                     setattr(user, attr, data[attr])
@@ -120,7 +113,7 @@ class UserById(Resource):
         else:
             return make_response({"error": "User not found"}, 404)
 
-api.add_resource(UserById, '/api/v1/users/<int:id>')
+api.add_resource(UsersById, '/api/v1/users/<int:id>')
 
 class UserProjects(Resource):
     
@@ -132,7 +125,7 @@ class UserProjects(Resource):
         else:
             return make_response({"error": "User projects not found"}, 404)
 
-api.add_resource(UserProjects, '/api/v1/users/<int:id>/roles')
+api.add_resource(UserProjects, '/api/v1/users/<int:id>/projects')
 
 class UserTasks(Resource):
 
@@ -146,32 +139,6 @@ class UserTasks(Resource):
 
 api.add_resource(UserTasks, '/api/v1/users/tasks/<int:id>')
 
-
-
-class ProjectTasks(Resource):
-
-    def post(self, id):
-        data = request.json
-        try:
-            newTask = Task(
-                name=data['name'],
-                description=data['description'],
-                start_date=data['start_date'],
-                end_date=data['end_date'],
-                status=data['status'],
-                comments=data['comments'],
-                user_id=data['user_id'],
-                project_id=id
-            )           
-            db.session.add(newTask)
-            db.session.commit()
-            return make_response(newTask.to_dict(rules=('user', '-user.tasks', 'project', '-project.tasks')), 202)
-        except ValueError as v_error:
-            return make_response({"error": str(v_error)}, 404)
-        except Exception as e:
-            return make_response({"error": str(e)}, 500)
-
-api.add_resource(ProjectTasks, '/api/v1/projects/<int:id>/tasks')
 
 class TasksById(Resource):
 
@@ -198,17 +165,17 @@ class TasksById(Resource):
 
 api.add_resource(TasksById, '/api/v1/tasks/<int:id>')
 
-class TasksByProject(Resource):
+# class TasksByProject(Resource):
     
-    def get(self, id):
-        tasks = Task.query.filter_by(project_id=id).all()
-        if tasks:
-            task_list = [task.to_dict(rules=('user', '-user.tasks')) for task in tasks]
-            return make_response(task_list, 200)
-        else:
-            return make_response({"error": "Poject tasks not found"}, 404)
+#     def get(self, id):
+#         tasks = Task.query.filter_by(project_id=id).all()
+#         if tasks:
+#             task_list = [task.to_dict(rules=('user', '-user.tasks')) for task in tasks]
+#             return make_response(task_list, 200)
+#         else:
+#             return make_response({"error": "Poject tasks not found"}, 404)
 
-api.add_resource(TasksByProject, '/api/v1/projects/<int:id>/tasks')
+# api.add_resource(TasksByProject, '/api/v1/projects/<int:id>/tasks')
 
 
 class Projects(Resource):
@@ -246,7 +213,7 @@ class ProjectsById(Resource):
         if project:
             return make_response(project.to_dict(rules=('tasks', '-tasks.project', 'roles', '-roles.project')), 200)
         else:
-            return make_response({"error": "Project not found"}, 404)
+            return make_response({"error": "Project not found."}, 404)
 
     def patch(self, id):
         project = Project.query.filter_by(id=id).first()
@@ -275,6 +242,65 @@ class ProjectsById(Resource):
             return make_response({"error": "Project not found"}, 404)
 
 api.add_resource(ProjectsById, '/api/v1/projects/<int:id>')
+
+class ProjectTasks(Resource):
+
+    def get(self, id):
+        tasks = Task.query.filter_by(project_id=id).all()
+        if tasks:
+            task_list = [task.to_dict(rules=('user', '-user.tasks')) for task in tasks]
+            return make_response(task_list, 200)
+        else:
+            return make_response({"error": "Poject tasks not found"}, 404)
+
+    def post(self, id):
+        data = request.json
+        try:
+            newTask = Task(
+                name=data['name'],
+                description=data['description'],
+                start_date=data['start_date'],
+                end_date=data['end_date'],
+                status=data['status'],
+                comments=data['comments'],
+                user_id=data['user_id'],
+                project_id=id
+            )           
+            db.session.add(newTask)
+            db.session.commit()
+            return make_response(newTask.to_dict(rules=('user', '-user.tasks', 'project', '-project.tasks')), 202)
+        except ValueError as v_error:
+            return make_response({"error": str(v_error)}, 404)
+        except Exception as e:
+            return make_response({"error": str(e)}, 500)
+
+api.add_resource(ProjectTasks, '/api/v1/projects/<int:id>/tasks')
+
+class ProjectRoles(Resource):
+    
+    def get(self, id):
+        roles = Role.query.filter_by(project_id=id).all()
+        if roles:
+            roles_list = [role.to_dict(rules=('user', '-user.roles')) for role in roles]
+            return make_response(roles_list, 200)
+        else:
+            return make_response({"error": "Unable to get project roles"}, 404)
+
+api.add_resource(ProjectRoles, '/api/v1/projects/<int:id>/roles')
+
+class ProjectTeam(Resource):
+
+    def get(self, id):
+        team = db.session.query(User).join(Role, User.id == Role.user_id).filter(Role.project_id == id).all()
+        if team:
+            team_list = [user.to_dict() for user in team]
+            return make_response(team_list, 200)
+        else:
+            return make_response({"error": "Unable to get team members"}, 404)
+
+api.add_resource(ProjectTeam, '/api/v1/projects/<int:id>/team-members')
+
+
 
 
 class Roles(Resource):
@@ -333,29 +359,6 @@ class RolesById(Resource):
 
 api.add_resource(RolesById, '/api/v1/roles/<int:id>')
 
-class RolesByProject(Resource):
-    
-    def get(self, id):
-        roles = Role.query.filter_by(project_id=id).all()
-        if roles:
-            roles_list = [role.to_dict(rules=('user', '-user.roles')) for role in roles]
-            return make_response(roles_list, 200)
-        else:
-            return make_response({"error": "Unable to get project roles"}, 404)
-
-api.add_resource(RolesByProject, '/api/v1/projects/<int:id>/roles')
-
-class TeamMembers(Resource):
-
-    def get(self, id):
-        team = db.session.query(User).join(Role, User.id == Role.user_id).filter(Role.project_id == id).all()
-        if team:
-            team_list = [user.to_dict() for user in team]
-            return make_response(team_list, 200)
-        else:
-            return make_response({"error": "Unable to get team members"}, 404)
-
-api.add_resource(TeamMembers, '/api/v1/projects/<int:id>/team-members')
 
 
 if __name__ == '__main__':

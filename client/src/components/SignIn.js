@@ -58,7 +58,7 @@ function SignIn() {
           r.json().then((user) => {
             setUser(user);
             setError(null);
-            navigate(`/users/${user.id}`)
+            navigate(`/user/home`)
           });
         }
         else {

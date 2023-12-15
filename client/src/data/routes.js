@@ -6,6 +6,7 @@ import EditUser from "../components/EditUser";
 import Project from "../components/Project";
 import EditProject from "../components/EditProject";
 import ErrorPage from "../components/ErrorPage";
+import NotFound from "../components/NotFound";
 
 const routes = [
     {
@@ -32,6 +33,10 @@ const routes = [
             {
                 path: "/projects/:id/edit",
                 element: <EditProject />,
+            },
+            {
+                path: "/not-found",
+                element: <NotFound />,
             }
         ]
     }

@@ -12,8 +12,6 @@ function EditUser() {
   const {user, setUser} = useOutletContext();
   const navigate = useNavigate();
 
-
-
   const formikSchema = yup.object().shape({
       name: yup.string().required("Must enter a first name"),
       company: yup.string(),
