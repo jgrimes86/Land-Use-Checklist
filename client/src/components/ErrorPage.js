@@ -23,7 +23,7 @@ function ErrorPage() {
             <h1>404 - Not Found!</h1>
             <Button 
                 variant="contained"
-                onClick={()=>{navigate(`/users/${params.id}`)}}
+                onClick={()=>{navigate(`/user/home`)}}
             >
                 Navigate to Home
             </Button>

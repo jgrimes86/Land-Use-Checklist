@@ -47,7 +47,7 @@ api.add_resource(Login, '/api/v1/login')
 class Logout(Resource):
     def delete(self):
         session['user_id'] = None
-        return make_response('', 204)
+        return make_response({}, 204)
 
 api.add_resource(Logout, '/api/v1/logout')
 
@@ -55,9 +55,9 @@ class CheckSession(Resource):
     def get(self):
         user = User.query.filter_by(id=session.get('user_id')).first()
         if user:
-            return user.to_dict(rules=('tasks', '-tasks.user', 'roles', '-roles.user'))
+            return make_response(user.to_dict(rules=('tasks', '-tasks.user', 'roles', '-roles.user')), 200)
         else:
-            return {'message': '401: Not Authorized'}, 401
+            return make_response({'message': '401: Not Authorized'}, 401)
 
 api.add_resource(CheckSession, '/api/v1/check_session')
 
@@ -96,11 +96,16 @@ api.add_resource(Users, '/api/v1/users')
 
 class UserById(Resource):
     
-    def patch(self, id):
+    # def get(self, id):
+    #     user = User.query.filter_by(id=id).first()
+    #     if user:
+    #         return make_response(user.to_dict(rules=('tasks', '-tasks.user', 'roles', '-roles.user')), 200)
+    #     else:
+    #         return make_response({"error": "User not found"})
 
+    def patch(self, id):
         if id != session.get('user_id'):
             return make_response({"error":"Unauthorized user"}, 401)
-
         user = User.query.filter_by(id=id).first()
         if user:
             try:

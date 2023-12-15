@@ -18,11 +18,11 @@ const routes = [
                 element: <SignIn />,
             },
             {
-                path: "/users/:id",
+                path: "/user/home",
                 element: <UserHome />,
             },
             {
-                path: "/users/:id/account",
+                path: "/user/account",
                 element: <EditUser />,
             },
             {

@@ -18,9 +18,9 @@ function Banner({user, handleLogout, setProject}) {
     };
 
     const bannerText = () => {
-        if (location.pathname === `/users/${params.id}`) {
+        if (location.pathname === `/user/home`) {
             return "Home"
-        } else if (location.pathname === `/users/${params.id}/account`) {
+        } else if (location.pathname === `/user/account`) {
             return "Account"
         } 
         else if (location.pathname === `/projects/${params.id}`) {
