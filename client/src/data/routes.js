@@ -35,7 +35,7 @@ const routes = [
                 element: <EditProject />,
             },
             {
-                path: "/not-found",
+                path: "/404",
                 element: <NotFound />,
             }
         ]

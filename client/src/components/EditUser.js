@@ -5,6 +5,7 @@ import * as yup from "yup";
 import { Alert, Box, Button, Paper, Stack, TextField, Typography } from '@mui/material';
 
 import ChangePassword from "./ChangePassword";
+import Loading from "./Loading";
 
 function EditUser() {
   const [error, setError] = useState(null);
@@ -54,7 +55,7 @@ function EditUser() {
       },
     });
 
-  if (!user) return <p>Loading...</p>;
+  if (!user) return <Loading />;
 
   return (
     <Box>

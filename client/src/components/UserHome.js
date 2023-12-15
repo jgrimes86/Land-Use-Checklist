@@ -4,12 +4,13 @@ import { Box, Paper, Typography } from '@mui/material';
 
 import UserProjects from "./UserProjects";
 import UserTasks from "./UserTasks";
+import Loading from "./Loading";
 
 function UserHome() {
     const {user, setUser, users, setProject, setRoles} = useOutletContext();
     const params = useParams();
 
-    if (!user) return <p>Loading...</p>
+    if (!user) return <Loading />
 
     return (
         <Box>

@@ -5,6 +5,7 @@ import * as yup from "yup";
 import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, Stack, TextField, Typography } from '@mui/material';
 
 import EditTeam from "./EditTeam";
+import Loading from "./Loading";
 
 function EditProject() {
     const {project, setProject, roles, setRoles, user, users, setUsers} = useOutletContext()
@@ -111,7 +112,7 @@ function EditProject() {
         })
     }
 
-    if (!user) return <p>Loading...</p>
+    if (!user) return <Loading />
       
     const priorURL = project ? `/projects/${params.id}` : `/users/${user.id}`;
     const createEditButton = project ? "Save Changes" : "Create Project";

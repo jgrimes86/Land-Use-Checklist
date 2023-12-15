@@ -5,6 +5,7 @@ import { Box, Button, Paper, Stack, Typography } from '@mui/material';
 
 import ProjectTasks from "./ProjectTasks";
 import TeamList from "./TeamList";
+import Loading from "./Loading";
 
 function Project() {
     const params = useParams();
@@ -19,9 +20,8 @@ function Project() {
                 .then(data => {setProject(data); setNavError(null)})
             } else {
                 r.json()
-                .then(({error}) => {setNavError(error); navigate(`/not-found`)})
+                .then(({error}) => {setNavError(error); navigate(`/404`)})
             }
-
         })
 
         fetch(`/projects/${params.id}/roles`)
@@ -37,7 +37,7 @@ function Project() {
         navigate(`/projects/${params.id}/edit`)
     }
 
-    if (!project) return <p>Loading...</p>
+    if (!project) return <Loading />
 
     return (
         <Box >
