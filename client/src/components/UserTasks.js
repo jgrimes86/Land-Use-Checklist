@@ -5,6 +5,9 @@ import dayjs from "dayjs";
 
 import TaskModal from "./TaskModal";
 
+const isSameOrAfter = require('dayjs/plugin/isSameOrAfter')
+dayjs.extend(isSameOrAfter)
+
 function UserTasks({user, users}) {
     const [userTasks, setUserTasks] = useState([])
 
@@ -91,11 +94,13 @@ function UserTasks({user, users}) {
                 disableRowSelectionOnClick 
                 getRowHeight={() => 'auto'}
                 getRowClassName={(params) => {
-                    if ((params.row.status === 'Complete') || (params.row.status === 'Waiver Granted')) {
+                    if (dayjs().isSameOrAfter(params.row.endDate) && (params.row.status === 'Open' || 'Not Satisfied')) {
+                        return 'row-theme--Overdue'
+                    } else if ((params.row.status === 'Complete') || (params.row.status === 'Waiver Granted')) {
                         return 'row-theme--Green'
                     } else if ((params.row.status === 'Waiver Requested') || (params.row.status === 'Not Applicable')) {
                         return 'row-theme--Yellow'
-                    } else if (params.row.status === 'Incomplete') {
+                    } else if (params.row.status === 'Not Satisfied') {
                         return 'row-theme--Orange'
                     }
                 }}
@@ -118,8 +123,11 @@ function UserTasks({user, users}) {
                     '& .edit-task-button--cell': {
                         paddingLeft: 0,
                     },
+                    '& .row-theme--Overdue': {
+                        backgroundColor: '#E46C66'
+                    },
                     '& .row-theme--Green': {
-                        backgroundColor: '#98ECA0',
+                        backgroundColor: '#98ECA0'
                     },
                     '& .row-theme--Yellow': {
                         backgroundColor: '#F2E891'

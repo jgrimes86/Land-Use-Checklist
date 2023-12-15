@@ -230,7 +230,7 @@ function TaskModal({task, tasks, setTasks, users}) {
                                 <MenuItem value='Waiver Requested'>Waiver Requested</MenuItem>
                                 <MenuItem value='Waiver Granted'>Waiver Granted</MenuItem>
                                 <MenuItem value='Not Applicable'>Not Applicable</MenuItem>
-                                <MenuItem value='Incomplete'>Incomplete</MenuItem>
+                                <MenuItem value='Not Satisfied'>Not Satisfied</MenuItem>
                             </Select>
                         </FormControl>
 
