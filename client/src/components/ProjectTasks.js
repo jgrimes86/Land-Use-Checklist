@@ -115,6 +115,15 @@ function ProjectTasks({users}) {
                     pageSizeOptions={[5, 10, 15, 20]}
                     disableRowSelectionOnClick 
                     getRowHeight={() => 'auto'}
+                    getRowClassName={(params) => {
+                        if ((params.row.status === 'Complete') || (params.row.status === 'Waiver Granted')) {
+                            return 'row-theme--Green'
+                        } else if ((params.row.status === 'Waiver Requested') || (params.row.status === 'Not Applicable')) {
+                            return 'row-theme--Yellow'
+                        } else if (params.row.status === 'Incomplete') {
+                            return 'row-theme--Orange'
+                        }
+                    }}
                     sx={{
                         display: 'flex',
                         justifyContent: 'center',
@@ -133,6 +142,18 @@ function ProjectTasks({users}) {
                         },
                         '& .edit-task-button--cell': {
                             paddingLeft: 0,
+                        },
+                        '& .row-theme--Green': {
+                            backgroundColor: '#98ECA0',
+                        },
+                        '& .row-theme--Yellow': {
+                            backgroundColor: '#F2E891'
+                        },
+                        '& .row-theme--Orange': {
+                            backgroundColor: '#F4AC7C'
+                        },
+                        "& .MuiDataGrid-row:hover": {
+                            backgroundColor: "#B7B7B8",
                         },
                     }}
                 />

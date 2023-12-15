@@ -97,14 +97,3 @@ with app.app_context():
     db.session.add_all([t1, t2, t3, t4, t5, t6])
     db.session.commit()
 
-
-    # Comment.query.delete()
-
-    # c1 = Comment(comment="Montgomery Township's official newspaper is the Courier News.  Notices must be submitted for publication 3 business days prior to date of publication.  Courier News does not publish print edition on Saturdays.", task=t3)
-    # c2 = Comment(comment="Request for list of property owners within 200 feet of subject property submitted to township tax assessor.", task=t3)
-    # c3 = Comment(comment="Topographic survey scheduled for Jan 4.", task=t2)
-
-    # db.session.add_all([c1, c2, c3])
-    # db.session.commit()
-
-

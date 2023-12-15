@@ -1,5 +1,4 @@
 import { useLocation, useParams } from "react-router-dom";
-import { Box, Paper } from '@mui/material';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
 import TeamListModal from "./TeamListModal";

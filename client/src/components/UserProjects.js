@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Button, List, ListItem, ListItemText, Paper } from '@mui/material';
+import { Button, List, ListItem, ListItemText, Paper } from '@mui/material';
 
 
 function UserProjects({user, setProject, setRoles}) {

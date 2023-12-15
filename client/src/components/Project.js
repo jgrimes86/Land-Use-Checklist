@@ -1,7 +1,7 @@
 
 import { useMemo } from "react";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
-import { Box, Button, Paper, Stack, Typography } from '@mui/material';
+import { Box, Button, Paper, Typography } from '@mui/material';
 
 import ProjectTasks from "./ProjectTasks";
 import TeamList from "./TeamList";

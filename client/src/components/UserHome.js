@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { useOutletContext, useParams } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 import { Box, Paper, Typography } from '@mui/material';
 
 import UserProjects from "./UserProjects";
@@ -8,7 +7,6 @@ import Loading from "./Loading";
 
 function UserHome() {
     const {user, setUser, users, setProject, setRoles} = useOutletContext();
-    const params = useParams();
 
     if (!user) return <Loading />
 
