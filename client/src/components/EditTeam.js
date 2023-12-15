@@ -1,12 +1,15 @@
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Box, Button, FormControl, FormHelperText, InputLabel, MenuItem, Paper, Select, TextField, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, FormControl, FormHelperText, InputLabel, MenuItem, Paper, Select, TextField, Typography } from '@mui/material';
+import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 
 import TeamList from "./TeamList";
 
 function EditTeam({setError, roles, setRoles, users}) {
     const params = useParams();
+    const [inputValue, setInputValue] = useState("")
 
     const addTeamSchema = yup.object().shape({
         role: yup.string(),
@@ -16,10 +19,10 @@ function EditTeam({setError, roles, setRoles, users}) {
     const addTeamFormik = useFormik({
         initialValues: {
             role: "",
+            user_name: "",
             user_id: "",
             project_id: params.id
         },
-        // enableReinitialize: true,
         validationSchema: addTeamSchema,
         validateOnChange: false,
         onSubmit: (values) => {
@@ -44,6 +47,10 @@ function EditTeam({setError, roles, setRoles, users}) {
 
     const teamOptions = users ? users.map(u => {
         return <MenuItem key={u.id} value={u.id}>{u.name}</MenuItem>
+    }) : [];
+
+    const options = users ? users.map(u => {
+        return {label: u.name, user_id: u.id}
     }) : [];
 
     return (
@@ -90,6 +97,7 @@ function EditTeam({setError, roles, setRoles, users}) {
                         id='role'
                         name='role'
                         placeholder="Team Member Role"
+                        label="Team Member Role"
                         value={addTeamFormik.values.role}
                         onChange={addTeamFormik.handleChange}
                         sx={{
@@ -97,27 +105,25 @@ function EditTeam({setError, roles, setRoles, users}) {
                             mr: 0.5,
                         }}
                     />
-                    
-                    <FormControl 
-                        sx={{
-                            width: '50%',
-                            ml: 0.5,
+                    <Autocomplete 
+                        id="user_name"
+                        name="user_name"
+                        options={options}
+                        getOptionLabel={option => option.label}
+                        onChange={(event, newValue) => {
+                            addTeamFormik.setFieldValue('user_name', newValue.label);
+                            addTeamFormik.setFieldValue('user_id', newValue.user_id)
                         }}
-                        error={!!addTeamFormik.errors.user_id}
-                    >
-                        <InputLabel id="team-member-label">Select a Team Member</InputLabel>
-                        <Select 
-                            labelId="team-member-label"
-                            id="user_id"
-                            name="user_id"
-                            label="Select a Team Member"
-                            value={addTeamFormik.values.user_id}
-                            onChange={addTeamFormik.handleChange}
-                        >
-                            {teamOptions}
-                        </Select>
-                        <FormHelperText>{addTeamFormik.errors.name}</FormHelperText>
-                    </FormControl>
+                        inputValue={inputValue}
+                        onInputChange={(event, newInputValue) => {
+                            setInputValue(newInputValue)
+                        }}
+                        isOptionEqualToValue={(option, value) => option.label === addTeamFormik.values.user_name}
+
+                        sx={{width: '50%'}}
+                        disableClearable
+                        renderInput={(params) => <TextField {...params} label="Select a Team Member" />}
+                    />
                 </Box>
                 <Box sx={{display:'flex', justifyContent:"center"}}>
                     <Button 
