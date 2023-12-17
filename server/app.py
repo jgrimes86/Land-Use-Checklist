@@ -149,7 +149,7 @@ class TasksById(Resource):
             for attr in data:
                 setattr(task, attr, data[attr])
             db.session.commit()
-            return make_response(task.to_dict(rules=('user', '-user.tasks', 'project', '-project.tasks')), 202)
+            return make_response(task.to_dict(rules=('user.name', '-user.company', '-user.email', '-user.phone_number', '-user.tasks', 'project.name', '-project.client', '-project.county', '-project.municipality', '-project.property_address', '-project.property_block', '-project.property_lot', '-project.state')), 202)
         else:
             return make_response({"error": "Task not found"}, 404)
 
@@ -237,7 +237,7 @@ class ProjectTasks(Resource):
     def get(self, id):
         tasks = Task.query.filter_by(project_id=id).all()
         if tasks:
-            task_list = [task.to_dict(rules=('user', '-user.tasks')) for task in tasks]
+            task_list = [task.to_dict(rules=('user.name', '-user.company', '-user.email', '-user.phone_number', '-user.tasks', 'project.name', '-project.client', '-project.county', '-project.municipality', '-project.property_address', '-project.property_block', '-project.property_lot', '-project.state')) for task in tasks]
             return make_response(task_list, 200)
         else:
             return make_response({"error": "Poject tasks not found"}, 404)
@@ -257,7 +257,7 @@ class ProjectTasks(Resource):
             )           
             db.session.add(newTask)
             db.session.commit()
-            return make_response(newTask.to_dict(rules=('user', '-user.tasks', 'project', '-project.tasks')), 202)
+            return make_response(newTask.to_dict(rules=('user.name', '-user.company', '-user.email', '-user.phone_number', '-user.tasks', 'project.name', '-project.client', '-project.county', '-project.municipality', '-project.property_address', '-project.property_block', '-project.property_lot', '-project.state')), 202)
         except ValueError as v_error:
             return make_response({"error": str(v_error)}, 404)
         except Exception as e:
@@ -305,7 +305,8 @@ class Roles(Resource):
             )
             db.session.add(newRole)
             db.session.commit()
-            return make_response(newRole.to_dict(rules=('user', '-user.roles', 'project', '-project.roles')), 202)
+            return make_response(newRole.to_dict(rules=('user.name', '-user.email', 
+            '-user.company', '-user.phone_number', '-project_id',)), 202)
         except ValueError as v_error:
             return make_response({"error": str(v_error)}, 400)
         except:
@@ -327,7 +328,8 @@ class RolesById(Resource):
                 for attr in data:
                     setattr(role, attr, data[attr])
                 db.session.commit()
-                return make_response(role.to_dict(rules=('user.name',)), 202)
+                return make_response(role.to_dict(rules=('user.name', '-user.email', 
+            '-user.company', '-user.phone_number', '-project_id',)), 202)
             except ValueError as v_error:
                 return make_response({"error": str(v_error)}, 400)
             except:

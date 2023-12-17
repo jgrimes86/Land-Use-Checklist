@@ -107,14 +107,14 @@ function EditProject() {
             if (r.ok) {
                 setProject("")
                 setRoles("")
-                navigate(`/user/home`)
+                navigate(`/home`)
             }
         })
     }
 
     if (!user) return <Loading />
       
-    const priorURL = project ? `/projects/${params.id}` : `/user/home`;
+    const priorURL = project ? `/projects/${params.id}` : `/home`;
     const createEditButton = project ? "Save Changes" : "Create Project";
 
     return (

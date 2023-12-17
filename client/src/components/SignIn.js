@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { Box, Button, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, Typography } from '@mui/material';
+import { Box, Button, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, Paper, TextField, Typography } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
@@ -58,7 +58,7 @@ function SignIn() {
           r.json().then((user) => {
             setUser(user);
             setError(null);
-            navigate(`/user/home`)
+            navigate(`/home`)
           });
         }
         else {
@@ -87,25 +87,30 @@ function SignIn() {
 
   return (
     
-      <Box
+      <Paper
+        elevation={2}
         sx={{
-          marginTop: 8,
+          marginTop: 2,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          maxWidth: 500,
+          maxWidth: 550,
           ml: 'auto',
           mr: 'auto'
         }}
       >
-        <Typography component="h1" varian="h5">
+        <Typography 
+          component="h1" 
+          variant="h5"
+          sx={{mt:2}}
+        >
           {signup ? "Sign Up" : "Sign In"}
         </Typography>
         <Box 
           component="form" 
           onSubmit={formik.handleSubmit} 
           noValidate 
-          sx={{ mt: 1 }}
+          sx={{ m: 2 ,mt: 1 }}
         >
             {signup && <TextField 
                 margin="normal"
@@ -205,13 +210,14 @@ function SignIn() {
               type="submit" 
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3 }}
             >
                 {signup ? 'Create Account' : 'Log In'}
             </Button>
         </Box>
 
           <Button 
+            sx={{mb:2}}
             onClick={() => {
               toggleForm();
               formik.resetForm({values: formik.initialValues});
@@ -222,7 +228,7 @@ function SignIn() {
           </Button>
 
         {error && <p style={{ color: "red" }}>{error}</p>}
-      </Box>
+      </Paper>
 
   )
 }

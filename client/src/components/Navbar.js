@@ -9,7 +9,7 @@ function NavBar({user, handleLogout, handleClose, setProject}) {
             <MenuItem 
                 onClick={() => {
                     handleClose();
-                    navigate(`/user/home`)
+                    navigate(`/home`)
                     setProject("");
                 }}
             >
@@ -18,7 +18,7 @@ function NavBar({user, handleLogout, handleClose, setProject}) {
             <MenuItem 
                 onClick={() => {
                     handleClose();
-                    navigate(`/user/account`);
+                    navigate(`/account`);
                 }}
             >
                 Account

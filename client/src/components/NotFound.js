@@ -21,7 +21,7 @@ function NotFound() {
             <h1>404 - {navError}</h1>
             <Button 
                 variant="contained"
-                onClick={()=>{navigate(`/user/home`)}}
+                onClick={()=>{navigate(`/home`)}}
             >
                 Navigate to Home
             </Button>
