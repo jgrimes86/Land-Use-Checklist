@@ -25,7 +25,7 @@ class Signup(Resource):
         db.session.commit()
 
         session['user_id'] = user.id
-        return make_response(user.to_dict(rules=('tasks', '-tasks.user', 'roles', '-roles.user')), 202)
+        return make_response(user.to_dict(), 202)
 
 api.add_resource(Signup, '/api/v1/signup')
 
@@ -38,7 +38,7 @@ class Login(Resource):
 
         if user.authenticate(password):
             session['user_id'] = user.id
-            return make_response(user.to_dict(rules=('tasks', '-tasks.user', 'roles', '-roles.user')), 201)
+            return make_response(user.to_dict(), 201)
         else:
             return make_response({"error": "Invalid username or password"}, 401)
 
@@ -55,7 +55,7 @@ class CheckSession(Resource):
     def get(self):
         user = User.query.filter_by(id=session.get('user_id')).first()
         if user:
-            return make_response(user.to_dict(rules=('tasks', '-tasks.user', 'roles', '-roles.user')), 200)
+            return make_response(user.to_dict(), 200)
         else:
             return make_response({'message': '401: Not Authorized'}, 401)
 
@@ -88,7 +88,7 @@ class Users(Resource):
     
     def get(self):
         try:
-            users = [user.to_dict(rules=('tasks', '-tasks.user', 'roles', '-roles.user')) for user in User.query.all()]
+            users = [user.to_dict() for user in User.query.all()]
             return make_response(users, 200)
         except:
             make_response ({"error": "Unable to retrieve data"}, 500)
@@ -107,7 +107,7 @@ class UsersById(Resource):
                 for attr in data:
                     setattr(user, attr, data[attr])
                 db.session.commit()
-                return make_response(user.to_dict(rules=('tasks', '-tasks.user', 'roles', '-roles.user')), 200)
+                return make_response(user.to_dict(), 200)
             except ValueError as v_error:
                 return make_response({"error": str(v_error)}, 400)
         else:
@@ -120,7 +120,7 @@ class UserProjects(Resource):
     def get(self, id):
         projects = db.session.query(Project).join(Role, Project.id == Role.project_id).join(User, Role.user_id == User.id).filter(User.id == id).all()
         if projects:
-            project_list = [project.to_dict(rules=('tasks', '-tasks.project', 'roles', '-roles.project')) for project in projects]
+            project_list = [project.to_dict() for project in projects]
             return make_response(project_list, 200)
         else:
             return make_response({"error": "User projects not found"}, 404)
@@ -132,7 +132,7 @@ class UserTasks(Resource):
     def get(self, id):
         tasks = Task.query.filter_by(user_id=id).all()
         if tasks:
-            task_list =[task.to_dict(rules=('user', '-user.tasks', 'project', '-project.tasks')) for task in tasks]
+            task_list =[task.to_dict(rules=('user.name', '-user.company', '-user.email', '-user.phone_number', '-user.tasks', 'project.name', '-project.client', '-project.county', '-project.municipality', '-project.property_address', '-project.property_block', '-project.property_lot', '-project.state')) for task in tasks]
             return make_response(task_list, 200)
         else:
             return make_response({"error": "User tasks not found"}, 404)
@@ -165,17 +165,6 @@ class TasksById(Resource):
 
 api.add_resource(TasksById, '/api/v1/tasks/<int:id>')
 
-# class TasksByProject(Resource):
-    
-#     def get(self, id):
-#         tasks = Task.query.filter_by(project_id=id).all()
-#         if tasks:
-#             task_list = [task.to_dict(rules=('user', '-user.tasks')) for task in tasks]
-#             return make_response(task_list, 200)
-#         else:
-#             return make_response({"error": "Poject tasks not found"}, 404)
-
-# api.add_resource(TasksByProject, '/api/v1/projects/<int:id>/tasks')
 
 
 class Projects(Resource):
@@ -195,7 +184,7 @@ class Projects(Resource):
             )
             db.session.add(newProject)
             db.session.commit()
-            return make_response(newProject.to_dict(rules=('tasks', '-tasks.project', 'roles', '-roles.project')), 202)
+            return make_response(newProject.to_dict(), 202)
         except ValueError as v_error:
             return make_response({"error": str(v_error)}, 404)
         except Exception as e:
@@ -211,7 +200,7 @@ class ProjectsById(Resource):
         
         project = Project.query.filter_by(id=id).first()
         if project:
-            return make_response(project.to_dict(rules=('tasks', '-tasks.project', 'roles', '-roles.project')), 200)
+            return make_response(project.to_dict(), 200)
         else:
             return make_response({"error": "Project not found."}, 404)
 
@@ -223,7 +212,7 @@ class ProjectsById(Resource):
                 for attr in data:
                     setattr(project, attr, data[attr])
                 db.session.commit()
-                return make_response(project.to_dict(rules=('tasks', '-tasks.project', 'roles', '-roles.project')), 202)
+                return make_response(project.to_dict(), 202)
             except ValueError as v_error:
                 return make_response({"error": str(v_error)}, 400)
         else:
@@ -281,7 +270,8 @@ class ProjectRoles(Resource):
     def get(self, id):
         roles = Role.query.filter_by(project_id=id).all()
         if roles:
-            roles_list = [role.to_dict(rules=('user', '-user.roles')) for role in roles]
+            roles_list = [role.to_dict(rules=('user.name', '-user.email', 
+            '-user.company', '-user.phone_number', '-project_id',)) for role in roles]
             return make_response(roles_list, 200)
         else:
             return make_response({"error": "Unable to get project roles"}, 404)
@@ -337,7 +327,7 @@ class RolesById(Resource):
                 for attr in data:
                     setattr(role, attr, data[attr])
                 db.session.commit()
-                return make_response(role.to_dict(rules=('user', '-user.roles')), 202)
+                return make_response(role.to_dict(rules=('user.name',)), 202)
             except ValueError as v_error:
                 return make_response({"error": str(v_error)}, 400)
             except:
