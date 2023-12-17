@@ -1,18 +1,17 @@
 import { useState } from "react";
-import { useLocation, useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, Stack, TextField, Typography } from '@mui/material';
 
 import EditTeam from "./EditTeam";
 import Loading from "./Loading";
 
 function EditProject() {
-    const {project, setProject, roles, setRoles, user, users, setUsers} = useOutletContext()
+    const {project, setProject, roles, setRoles, user, users} = useOutletContext()
     const [error, setError] = useState(null);
     const [open, setOpen] = useState(false);
     const params = useParams();
-    const location = useLocation();
     const navigate = useNavigate();
 
     const projectSchema = yup.object().shape({

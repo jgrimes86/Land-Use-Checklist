@@ -1,10 +1,9 @@
-import { useRouteError, useNavigate, useParams } from "react-router-dom";
+import { useRouteError, useNavigate } from "react-router-dom";
 import { Box, Button } from '@mui/material';
 
 
 function ErrorPage() {
     const navigate = useNavigate();
-    const params = useParams();
     const error = useRouteError();
     console.error(error);
 

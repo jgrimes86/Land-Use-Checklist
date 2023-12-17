@@ -6,7 +6,7 @@ import UserTasks from "./UserTasks";
 import Loading from "./Loading";
 
 function UserHome() {
-    const {user, setUser, users, setProject, setRoles} = useOutletContext();
+    const {user, users, setProject, setRoles} = useOutletContext();
 
     if (!user) return <Loading />
 
