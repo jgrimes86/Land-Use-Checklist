@@ -7,6 +7,7 @@ import Project from "../components/Project";
 import EditProject from "../components/EditProject";
 import ErrorPage from "../components/ErrorPage";
 import NotFound from "../components/NotFound";
+import TaskTemplates from "../components/TaskTemplates";
 
 const routes = [
     {
@@ -33,6 +34,10 @@ const routes = [
             {
                 path: "/projects/:id/edit",
                 element: <EditProject />,
+            },
+            {
+                path: "/templates",
+                element: <TaskTemplates />,
             },
             {
                 path: "/404",

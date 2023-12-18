@@ -32,6 +32,15 @@ function NavBar({user, handleLogout, handleClose, setProject}) {
             >
                 Log Out
             </MenuItem>
+            <MenuItem 
+                onClick={() => {
+                    handleClose();
+                    navigate("/templates");
+                }} 
+            >
+                Templates
+            </MenuItem>
+
         </>
     )
 }
