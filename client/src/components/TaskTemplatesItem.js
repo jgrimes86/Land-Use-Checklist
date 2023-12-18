@@ -1,6 +1,21 @@
+import { useFormik } from "formik";
+import * as yup from "yup";
 import { Box, Button, TextField } from '@mui/material';
 
 function TaskTemplatesItem({index, task, tasks, setTasks}) {
+
+    // const taskSchema = yup.object().shape({
+    //     name: yup.string().required("Must enter a task name"),
+    //     description: yup.string(),
+    // })
+
+    // const taskFormik = useFormik({
+    //     initialValues: {
+    //         name: task.name,
+    //         description: task.description,
+    //     },
+    //     validationSchema: taskSchema,
+    // })
 
     function handleChange(event) {
         const allTasks = [...tasks];

@@ -1,31 +1,62 @@
 import { useState } from "react";
+import { useFormik } from "formik";
+import * as yup from "yup";
 import { Box, Button, Paper, Stack, TextField } from '@mui/material';
+
 
 import TaskTemplatesItem from "./TaskTemplatesItem";
 
 function TaskTemplates() {
-    const [templateTitle, setTemplateTitle] = useState('')
+    // const [templateTitle, setTemplateTitle] = useState('')
     const [tasks, setTasks] = useState([{name: '', description: ''}])
 
-    console.log(tasks)
+    // console.log(tasks)
 
+    
+    const formikSchema = yup.object().shape({
+        title: yup.string().required("Must enter a template title")
+    })
+    
+    const templateFormik = useFormik({
+        initialValues: {
+            title: '',
+        },
+        validationSchema: formikSchema,
+        enableReinitialize: true,
+        onSubmit: (values) => {
+            handleSubmit(values)
+        }
+    })
+    
     const taskList = tasks.map((task, index) => {
         return (
                 <TaskTemplatesItem key={index} index={index} task={task} tasks={tasks} setTasks={setTasks} />
         )
     })
 
-    function handleTitleChange(event) {
-        setTemplateTitle(event.target.value)
-    }
+    // function handleTitleChange(event) {
+    //     setTemplateTitle(event.target.value)
+    // }
 
     function newTask() {
         setTasks(currentTasks => [...currentTasks, {name: '', description: ''}])
     }
 
-    function handleSubmit(event) {
-        event.preventDefault();
-        console.log("submit clicked")
+    function handleSubmit(values) {
+        console.log(tasks)
+        fetch('/templates', {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                title: values.title,
+                tasks: tasks
+            })
+        })
+        .then(r => r.json())
+        .then(data => console.log(data))
+
     }
     
     return (
@@ -34,28 +65,30 @@ function TaskTemplates() {
 
             <Box
                 component="form"
+                onSubmit={templateFormik.handleSubmit}
                 sx={{
                     m: 1,
                     width: 300,
                 }}
                 noValidate
                 autoComplete="off"
-                >
+            >
                 <TextField
                     id="template-name"
                     name="title"
                     label="Template Name"
-                    value={templateTitle}
-                    onChange={handleTitleChange}
+                    value={templateFormik.values.title}
+                    onChange={templateFormik.handleChange}
                 />
 
                 <Button 
                     variant="contained" 
                     type="submit" 
-                    onClick={handleSubmit}
                 >
                     Save Template
                 </Button>
+
+
             </Box>
 
             {taskList}

@@ -1,8 +1,9 @@
 from flask import request, make_response, session
 from flask_restful import Resource
 from config import app, db, api
+import json;
 
-from models import User, Project, Role, Task
+from models import User, Project, Role, Task, Template
 
 @app.route('/')
 def index():
@@ -350,6 +351,31 @@ class RolesById(Resource):
             return make_response({"error": "Role not found"}, 404)
 
 api.add_resource(RolesById, '/api/v1/roles/<int:id>')
+
+
+class Templates(Resource):
+
+    def get(self):
+        templates = [template.to_dict() for template in Template.query.all()]
+        return make_response(templates, 200)
+
+    def post(self):
+        data = request.json
+        newTemplate = Template(title=data['title'], tasks=json.dumps(data['tasks']))
+        db.session.add(newTemplate)
+        db.session.commit()
+        return make_response(newTemplate.to_dict(), 202)
+
+api.add_resource(Templates, '/api/v1/templates')
+
+class TemplatesById(Resource):
+
+    def get(self, id):
+        template = Template.query.filter_by(id=id).first().to_dict()
+        template['tasks'] = json.loads(template['tasks'])
+        return make_response(template, 200)
+
+api.add_resource(TemplatesById, '/api/v1/templates/<int:id>')
 
 
 

@@ -121,7 +121,7 @@ function SignIn() {
                 autoFocus
                 value={formik.values.name} 
                 onChange={formik.handleChange} 
-                error = {formik.errors.name}
+                error = {!!formik.errors.name}
                 helperText = {formik.errors.name}
             />}
             {signup && <TextField 

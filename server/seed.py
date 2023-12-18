@@ -1,5 +1,5 @@
 from app import app
-from models import db, User, Project, Role, Task
+from models import db, User, Project, Role, Task, Template
 
 with app.app_context():
     print("Starting seed...")
@@ -97,3 +97,5 @@ with app.app_context():
     db.session.add_all([t1, t2, t3, t4, t5, t6])
     db.session.commit()
 
+
+    Template.query.delete()
