@@ -99,10 +99,6 @@ function TaskModal({task, tasks, setTasks, users}) {
 
     const taskTitle = (location.pathname===`/home`) ? task.project.name : task.name;
 
-    const teamOptions = users ? users.map(user => {
-            return <MenuItem key={user.id} value={user.id}>{user.name}</MenuItem>
-    }) : [];
-
     const options = users ? users.map(user => {
         return {label: user.name, user_id: user.id}
     }) : [];

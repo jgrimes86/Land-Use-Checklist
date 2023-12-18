@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Box, Button, MenuItem, Paper, TextField, Typography } from '@mui/material';
+import { Box, Button, Paper, TextField, Typography } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 
 import TeamList from "./TeamList";
@@ -44,10 +44,6 @@ function EditTeam({setError, roles, setRoles, users}) {
             })
         }
     })
-
-    const teamOptions = users ? users.map(user => {
-        return <MenuItem key={user.id} value={user.id}>{user.name}</MenuItem>
-    }) : [];
 
     const options = users ? users.map(user => {
         return {label: user.name, user_id: user.id}
