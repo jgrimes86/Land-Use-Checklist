@@ -3,6 +3,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Select, Stack, TextField, Typography } from '@mui/material';
+import Autocomplete from '@mui/material/Autocomplete';
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from "dayjs";
 
@@ -23,6 +24,7 @@ const modalStyle = {
 function TaskModal({task, tasks, setTasks, users}) {
     const location = useLocation();
     const params = useParams();
+    const [inputValue, setInputValue] = useState("")
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -44,6 +46,7 @@ function TaskModal({task, tasks, setTasks, users}) {
             end_date: dayjs(task.end_date) ? dayjs(task.end_date) : dayjs(),
             status: task.status ? task.status : "",
             comments: task.comments ? task.comments : "",
+            user_name: task.user? task.user.name : "",
             user_id: task.user_id ? task.user_id : "",
         },
         validationSchema: formikSchema,
@@ -100,6 +103,10 @@ function TaskModal({task, tasks, setTasks, users}) {
             return <MenuItem key={user.id} value={user.id}>{user.name}</MenuItem>
     }) : [];
 
+    const options = users ? users.map(user => {
+        return {label: user.name, user_id: user.id}
+    }) : [];
+
     const buttonText = task ? "Edit" : "Add Task";
     const buttonStyle = task ? {width:80, m:0.5} : {width:'auto', m:2, ml:1.5};
     const saveButtonText = task ? "Save Changes" : "Create Task";
@@ -110,7 +117,8 @@ function TaskModal({task, tasks, setTasks, users}) {
                 variant = "contained"
                 onClick={(e) => {
                     e.stopPropagation();
-                    handleOpen()
+                    handleOpen();
+                    console.log(task)
                 }}
                 sx={buttonStyle}
             >
@@ -188,26 +196,26 @@ function TaskModal({task, tasks, setTasks, users}) {
 
                         {formik.errors.end_date ? <Typography sx={{color:"red"}}>Due Date cannot be earlier than Start Date</Typography> : null}
 
-                        <FormControl
-                            fullWidth
-                            sx={{
-                                mt: 3
+
+                        <Autocomplete 
+                            id="user_name"
+                            name="user_name"
+                            options={options}
+                            value={formik.values.user_name}
+                            onChange={(event, newValue) => {
+                                formik.setFieldValue('user_name', newValue.label);
+                                formik.setFieldValue('user_id', newValue.user_id)
                             }}
-                        >
-                            <InputLabel id="team-member-label">Responsible Team Member</InputLabel>
-                            <Select
-                                fullWidth
-                                labelId="team-member-label"
-                                id="user_id"
-                                name="user_id"
-                                label="Responsible Team Member"
-                                value={formik.values.user_id}
-                                onChange={formik.handleChange}
-                            >
-                                <MenuItem key={0} value={null}>None</MenuItem>
-                                {teamOptions}
-                            </Select>
-                        </FormControl>
+                            inputValue={inputValue}
+                            onInputChange={(event, newInputValue) => {
+                                setInputValue(newInputValue)
+                            }}
+                            isOptionEqualToValue={(option, value) => option.label === formik.values.user_name}
+
+                            sx={{width: '100%', mt:2.5}}
+                            disableClearable
+                            renderInput={(params) => <TextField {...params} label="Select a Team Member" />}
+                        />
 
                         <FormControl
                             fullWidth

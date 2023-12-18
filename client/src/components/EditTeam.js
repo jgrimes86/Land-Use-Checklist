@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Box, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, FormControl, FormHelperText, InputLabel, MenuItem, Paper, Select, TextField, Typography } from '@mui/material';
-import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
+import { Box, Button, MenuItem, Paper, TextField, Typography } from '@mui/material';
+import Autocomplete from '@mui/material/Autocomplete';
 
 import TeamList from "./TeamList";
 
