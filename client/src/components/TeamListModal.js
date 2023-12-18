@@ -73,9 +73,10 @@ function TeamListModal({setError, row, roles, setRoles, users}) {
                         if (role.id !== row.id) return role
                     }));
                     handleClose();
-                    setModalError(null)
+                    setModalError(null); 
+                    setError(null)
                 } else {
-                    r.json().then(({error}) => console.log(error))
+                    r.json().then(({error}) => setError(error))
                 }
             })
         } else {
