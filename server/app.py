@@ -366,7 +366,7 @@ class Templates(Resource):
         newTemplate = Template(title=data['title'], tasks=json.dumps(data['tasks']))
         db.session.add(newTemplate)
         db.session.commit()
-        return make_response(newTemplate.to_dict(), 202)
+        return make_response(newTemplate.to_dict(), 201)
 
 api.add_resource(Templates, '/api/v1/templates')
 
@@ -376,6 +376,18 @@ class TemplatesById(Resource):
         template = Template.query.filter_by(id=id).first().to_dict()
         template['tasks'] = json.loads(template['tasks'])
         return make_response(template, 200)
+
+    def patch(self, id):
+        template = Template.query.filter_by(id=id).first()
+        data = request.json
+        templateUpdates = {
+            'title': data['title'],
+            'tasks': json.dumps(data['tasks'])
+        }
+        for attr in templateUpdates:
+            setattr(template, attr, templateUpdates[attr])
+        db.session.commit()
+        return make_response(template.to_dict(), 202)
 
 api.add_resource(TemplatesById, '/api/v1/templates/<int:id>')
 
