@@ -356,7 +356,9 @@ api.add_resource(RolesById, '/api/v1/roles/<int:id>')
 class Templates(Resource):
 
     def get(self):
-        templates = [template.to_dict() for template in Template.query.all()]
+        templates = [template.to_dict(rules=('-tasks',)) for template in Template.query.all()]
+        # for template in templates:
+            # template['tasks'] = json.loads(template['tasks'])
         return make_response(templates, 200)
 
     def post(self):
