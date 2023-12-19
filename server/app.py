@@ -2,6 +2,7 @@ from flask import request, make_response, session
 from flask_restful import Resource
 from config import app, db, api
 import json;
+import datetime;
 
 from models import User, Project, Role, Task, Template
 
@@ -398,7 +399,7 @@ class TemplateImport(Resource):
         task_list = data['task_list']
         new_tasks = []
         for task in task_list:
-            new_task = Task(name=task['name'], description=task['description'], project_id=id, template_id=data['id'])
+            new_task = Task(name=task['name'], description=task['description'], project_id=id, template_id=data['id'], start_date=datetime.date.today(), end_date=(datetime.date.today() + datetime.timedelta(days=1)))
             db.session.add(new_task)
             db.session.commit()
             new_tasks.append(new_task.to_dict())
