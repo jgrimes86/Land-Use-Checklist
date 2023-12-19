@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Box, Paper } from '@mui/material';
+import { Autocomplete, Box, Button, Paper, Popover, TextField } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import dayjs from "dayjs";
 
@@ -9,10 +9,23 @@ import TaskModal from "./TaskModal";
 const isSameOrAfter = require('dayjs/plugin/isSameOrAfter')
 dayjs.extend(isSameOrAfter)
 
-function ProjectTasks({users}) {
+function ProjectTasks({users, tasks, setTasks}) {
     const params = useParams();
-    const [tasks, setTasks] = useState([]);
+    // const [tasks, setTasks] = useState([]);
     const [team, setTeam] = useState([])
+
+    // const [anchorEl, setAnchorEl] = useState(null);
+
+    // const handleClick = (event) => {
+    //     setAnchorEl(event.currentTarget);
+    // };
+
+    // const handleClose = () => {
+    //     setAnchorEl(null);
+    // };
+
+    // const open = Boolean(anchorEl);
+    // const id = open ? 'simple-popover' : undefined;
 
     useEffect(() => {
         fetch(`/projects/${params.id}/tasks`)
@@ -166,7 +179,9 @@ function ProjectTasks({users}) {
                     }}
                 />
             </Box>
-                {tasks && team ? <TaskModal task={""} tasks={tasks} setTasks={setTasks} team={team} /> : null}
+
+            {tasks && team ? <TaskModal task={""} tasks={tasks} setTasks={setTasks} team={team} /> : null}
+
         </Paper>
     )
 }

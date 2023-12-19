@@ -1,20 +1,18 @@
 import { useEffect, useState } from "react";
+import { useOutletContext } from "react-router-dom";
 import { Box } from '@mui/material';
 
 import EditTemplate from "./EditTemplate";
 
 function TaskTemplates() {
-    const [templates, setTemplates] = useState('')
+    const {templates, setTemplates} = useOutletContext();
+    // const [templates, setTemplates] = useState('')
 
-    console.log(templates)
-
-    useEffect(() => {
-        fetch('/templates')
-        .then(r => r.json())
-        .then(data => setTemplates(data))
-    }, [])
-
-    console.log(templates)
+    // useEffect(() => {
+    //     fetch('/templates')
+    //     .then(r => r.json())
+    //     .then(data => setTemplates(data))
+    // }, [])
 
     const existingTemplates = templates ? templates.map(template => {
         return (

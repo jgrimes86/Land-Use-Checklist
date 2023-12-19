@@ -28,6 +28,7 @@ function App() {
     const [roles, setRoles] = useState("");
     const [users, setUsers] = useState([]);
     const [navError, setNavError] = useState(null);
+    const [templates, setTemplates] = useState('');
 
     useEffect(() => {
         fetch('/check_session')
@@ -49,6 +50,10 @@ function App() {
                 .then(data => setUsers(data))
             }
         })
+
+        fetch('/templates')
+        .then(r => r.json())
+        .then(data => setTemplates(data))
     }, [])
 
     useEffect(() => {
@@ -93,9 +98,11 @@ function App() {
         setUsers,
         navError,
         setNavError,
+        templates,
+        setTemplates,
     }
 
-
+    // console.log(templates)
     
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>

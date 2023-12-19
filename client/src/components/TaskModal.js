@@ -58,8 +58,8 @@ function TaskModal({task, tasks, setTasks, users}) {
                 method: method,
                 headers: {
                     "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify(values, null, 2),
+                },
+                body: JSON.stringify(values, null, 2),
             })
             .then((r) => {
                 if (r.ok) {

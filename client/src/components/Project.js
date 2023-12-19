@@ -1,16 +1,18 @@
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
-import { Box, Button, Paper, Typography } from '@mui/material';
+import { Autocomplete, Box, Button, Paper, Popover, TextField, Typography } from '@mui/material';
 
 import ProjectTasks from "./ProjectTasks";
 import TeamList from "./TeamList";
 import Loading from "./Loading";
+import ImportTaskTemplate from "./ImportTaskTemplate";
 
 function Project() {
     const params = useParams();
     const navigate = useNavigate();
-    const {project, setProject, roles, setRoles, users, setNavError} = useOutletContext()
+    const {project, setProject, roles, setRoles, users, setNavError, templates} = useOutletContext()
+    const [tasks, setTasks] = useState([]);
 
     useMemo(() => {
         fetch(`/projects/${params.id}`)
@@ -111,11 +113,14 @@ function Project() {
                     <TeamList roles={roles} setRoles={setRoles} users={users} sx={{mr:2}}/>
                 </Paper>
             </Box>
+
+            <ImportTaskTemplate templates={templates} setTasks={setTasks} />
+
             <Box
                 elevation={2}
                 sx={{mt:2}}
             >
-                <ProjectTasks users={users} />
+                <ProjectTasks users={users} tasks={tasks} setTasks={setTasks} />
             </Box>
         </Box>
     )

@@ -21,7 +21,7 @@ function EditTemplate({templates, setTemplates, templateId}) {
                     .then(data => {
                         setTemplate(data)
                         setTasks(data.tasks)
-                        console.log(data)
+                        // console.log(data)
                     })
                 } else {
                     r.json()
