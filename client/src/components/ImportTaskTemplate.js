@@ -17,7 +17,9 @@ const modalStyle = {
     overflow: 'scroll',
 }
 
-function ImportTaskTemplate({templates, setTasks}) {
+function ImportTaskTemplate({templates, tasks, setTasks}) {
+    const [autocompleteValue, setAutocompleteValue] = useState(null);
+    const [inputValue, setInputValue] = useState('');
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -28,7 +30,7 @@ function ImportTaskTemplate({templates, setTasks}) {
         return {label: temp.title, templateId: temp.id}
     }): [];
 
-    console.log('the template: ', selectedTemplate)
+    // console.log('the template: ', selectedTemplate)
     function handleOptionClick(templateId) {
         fetch(`/templates/${templateId}`)
         .then((r) => {
@@ -56,7 +58,8 @@ function ImportTaskTemplate({templates, setTasks}) {
             if (r.ok) {
                 r.json()
                 .then(data => {
-                    console.log(data)
+                    // console.log(data);
+                    setTasks((currentTasks) => [...currentTasks, ...data])
                 })
             } else {
                 r.json()
@@ -77,23 +80,26 @@ function ImportTaskTemplate({templates, setTasks}) {
 
         <Box>
             <Autocomplete 
-                // disablePortal
-                // disableClearable
-                clearOnEscape
-                
+                disableClearable
+                value={autocompleteValue}
+                onChange={(event, value) => {
+                    setAutocompleteValue(value)
+                    if (event.type === 'click' || event.keyCode === 13) {
+                        // event.stopPropagation();
+                        handleOptionClick(value.templateId);
+                        handleOpen();
+                    }
+                }}
+                inputValue={inputValue}
+                onInputChange={(event, newInputValue) => {
+                    setInputValue(newInputValue)
+                }}
                 id="template-select"
                 options={templateOptions}
                 getOptionLabel={option => option.label}
                 isOptionEqualToValue={(option, value) => option.label === value.label}
                 sx={{ width: 300, height:'auto' }}
                 renderInput={(params) => <TextField {...params} label="Import Tasks From Template" />}
-                onChange={(event, value) => {
-                    if (event.type === 'click' || event.keyCode === 13) {
-                        event.stopPropagation();
-                        handleOptionClick(value.templateId);
-                        handleOpen();
-                    }
-                }}
             />
             <Modal open={open}>
                 <Paper>
@@ -139,7 +145,15 @@ function ImportTaskTemplate({templates, setTasks}) {
                             Import Tasks
                         </Button>
 
-                        <Button variant="outlined" onClick={handleClose}>Cancel Import</Button>
+                        <Button 
+                            variant="outlined" 
+                            onClick={() => {
+                                handleClose()
+                                setAutocompleteValue(null)
+                            }}
+                        >
+                            Cancel Import
+                        </Button>
 
                     </Stack>
 

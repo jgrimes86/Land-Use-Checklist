@@ -11,21 +11,9 @@ dayjs.extend(isSameOrAfter)
 
 function ProjectTasks({users, tasks, setTasks}) {
     const params = useParams();
-    // const [tasks, setTasks] = useState([]);
     const [team, setTeam] = useState([])
 
-    // const [anchorEl, setAnchorEl] = useState(null);
-
-    // const handleClick = (event) => {
-    //     setAnchorEl(event.currentTarget);
-    // };
-
-    // const handleClose = () => {
-    //     setAnchorEl(null);
-    // };
-
-    // const open = Boolean(anchorEl);
-    // const id = open ? 'simple-popover' : undefined;
+    // console.log(tasks)
 
     useEffect(() => {
         fetch(`/projects/${params.id}/tasks`)

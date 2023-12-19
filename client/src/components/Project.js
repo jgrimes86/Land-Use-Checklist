@@ -114,7 +114,7 @@ function Project() {
                 </Paper>
             </Box>
 
-            <ImportTaskTemplate templates={templates} setTasks={setTasks} />
+            <ImportTaskTemplate templates={templates} tasks={tasks} setTasks={setTasks} />
 
             <Box
                 elevation={2}
