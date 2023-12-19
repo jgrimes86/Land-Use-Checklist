@@ -98,11 +98,13 @@ class Task(db.Model, SerializerMixin):
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'))
+    template_id = db.Column(db.Integer, db.ForeignKey('templates.id'))
 
     user = db.relationship('User', back_populates='tasks')
     project = db.relationship('Project', back_populates='tasks')
+    template = db.relationship('Template', back_populates='tasks')
 
-    serialize_rules = ('-user', '-project')
+    serialize_rules = ('-user', '-project', '-template')
 
 
 class Template(db.Model, SerializerMixin):
@@ -110,7 +112,11 @@ class Template(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Text)
-    tasks = db.Column(db.Text)
+    task_list = db.Column(db.Text)
+
+    tasks = db.relationship('Task', back_populates='template')
+
+    serialize_rules = ('-tasks',)
 
     def __repr__(self):
         return f'<Template {self.id}: {self.title}>'

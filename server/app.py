@@ -363,7 +363,7 @@ class Templates(Resource):
 
     def post(self):
         data = request.json
-        newTemplate = Template(title=data['title'], tasks=json.dumps(data['tasks']))
+        newTemplate = Template(title=data['title'], task_list=json.dumps(data['tasks']))
         db.session.add(newTemplate)
         db.session.commit()
         return make_response(newTemplate.to_dict(), 201)
@@ -374,7 +374,7 @@ class TemplatesById(Resource):
 
     def get(self, id):
         template = Template.query.filter_by(id=id).first().to_dict()
-        template['tasks'] = json.loads(template['tasks'])
+        template['task_list'] = json.loads(template['task_list'])
         return make_response(template, 200)
 
     def patch(self, id):
@@ -382,7 +382,7 @@ class TemplatesById(Resource):
         data = request.json
         templateUpdates = {
             'title': data['title'],
-            'tasks': json.dumps(data['tasks'])
+            'task_list': json.dumps(data['task_list'])
         }
         for attr in templateUpdates:
             setattr(template, attr, templateUpdates[attr])
@@ -391,6 +391,20 @@ class TemplatesById(Resource):
 
 api.add_resource(TemplatesById, '/api/v1/templates/<int:id>')
 
+class TemplateImport(Resource):
+    
+    def post(self, id):
+        data = request.json
+        task_list = data['task_list']
+        new_tasks = []
+        for task in task_list:
+            new_task = Task(name=task['name'], description=task['description'], project_id=id, template_id=data['id'])
+            db.session.add(new_task)
+            db.session.commit()
+            new_tasks.append(new_task.to_dict())
+        return make_response(new_tasks, 202)
+
+api.add_resource(TemplateImport, '/api/v1/projects/<int:id>/templates')
 
 
 if __name__ == '__main__':

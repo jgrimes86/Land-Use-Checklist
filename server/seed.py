@@ -103,11 +103,11 @@ with app.app_context():
 
     tp1 = Template(
         title="Notice",
-        tasks=json.dumps([{"name": "Certified List of Property Owners", "description": "get list"}, {"name": "Prepare Notice", "description": ""}, {"name": "Publish Notice", "description": "publish notice in municipality\'s official newspaper"}])
+        task_list=json.dumps([{"name": "Certified List of Property Owners", "description": "get list"}, {"name": "Prepare Notice", "description": ""}, {"name": "Publish Notice", "description": "publish notice in municipality\'s official newspaper"}])
     )
     tp2 = Template(
         title="Hearing Preparation",
-        tasks=json.dumps([{"name": "Copies of reports", "description": "print enough copies of reports for all board members"}, {"name": "Site Plan Copies", "description": "Obtain large copies of site plan for display at hearing"}])
+        task_list=json.dumps([{"name": "Copies of reports", "description": "print enough copies of reports for all board members"}, {"name": "Site Plan Copies", "description": "Obtain large copies of site plan for display at hearing"}])
     )
 
     db.session.add_all([tp1, tp2])

@@ -20,7 +20,7 @@ function EditTemplate({templates, setTemplates, templateId}) {
                     r.json()
                     .then(data => {
                         setTemplate(data)
-                        setTasks(data.tasks)
+                        setTasks(data.task_list)
                         // console.log(data)
                     })
                 } else {
@@ -67,7 +67,7 @@ function EditTemplate({templates, setTemplates, templateId}) {
             },
             body: JSON.stringify({
                 title: values.title,
-                tasks: tasks
+                task_list: tasks
             })
         })
         .then((r) => {

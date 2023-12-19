@@ -28,8 +28,8 @@ function ImportTaskTemplate({templates, setTasks}) {
         return {label: temp.title, templateId: temp.id}
     }): [];
 
+    console.log('the template: ', selectedTemplate)
     function handleOptionClick(templateId) {
-        console.log(selectedTemplate)
         fetch(`/templates/${templateId}`)
         .then((r) => {
             if (r.ok) {
@@ -45,12 +45,12 @@ function ImportTaskTemplate({templates, setTasks}) {
     }
 
     function handleImport() {
-        fetch(`/projects/${params.id}/tasks`, {
+        fetch(`/projects/${params.id}/templates`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({'tasks': selectedTemplate.tasks})
+            body: JSON.stringify(selectedTemplate)
         })
         .then((r) => {
             if (r.ok) {
@@ -65,7 +65,7 @@ function ImportTaskTemplate({templates, setTasks}) {
         })
     }
 
-    const rows = selectedTemplate ? selectedTemplate.tasks.map(task => {
+    const rows = selectedTemplate ? selectedTemplate.task_list.map(task => {
         return ({
             id: task.id,
             name: task.name,
@@ -77,7 +77,10 @@ function ImportTaskTemplate({templates, setTasks}) {
 
         <Box>
             <Autocomplete 
-                disablePortal
+                // disablePortal
+                // disableClearable
+                clearOnEscape
+                
                 id="template-select"
                 options={templateOptions}
                 getOptionLabel={option => option.label}
@@ -86,6 +89,7 @@ function ImportTaskTemplate({templates, setTasks}) {
                 renderInput={(params) => <TextField {...params} label="Import Tasks From Template" />}
                 onChange={(event, value) => {
                     if (event.type === 'click' || event.keyCode === 13) {
+                        event.stopPropagation();
                         handleOptionClick(value.templateId);
                         handleOpen();
                     }
