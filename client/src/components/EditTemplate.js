@@ -1,9 +1,22 @@
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Box, Button, Paper, Modal, Stack, TextField } from '@mui/material';
+import { Box, Button, Paper, Modal, Stack, TextField, Typography } from '@mui/material';
 
 import EditTemplateItem from "./EditTemplateItem";
+
+const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '75%',
+    maxHeight: "75%",
+    border: '2px solid #2B2D42',
+    boxShadow: 24,
+    p: 4,
+    overflowY: 'scroll',
+}
 
 function EditTemplate({templates, setTemplates, templateId}) {
     const [open, setOpen] = useState(false);
@@ -11,7 +24,7 @@ function EditTemplate({templates, setTemplates, templateId}) {
     const handleClose = () => setOpen(false);
     const [template, setTemplate] = useState('')
     const [tasks, setTasks] = useState([{name: '', description: ''}])
-   
+
     useEffect(() => {
         if (templateId) {
             fetch(`/templates/${templateId}`)
@@ -21,7 +34,6 @@ function EditTemplate({templates, setTemplates, templateId}) {
                     .then(data => {
                         setTemplate(data)
                         setTasks(data.task_list)
-                        // console.log(data)
                     })
                 } else {
                     r.json()
@@ -46,18 +58,17 @@ function EditTemplate({templates, setTemplates, templateId}) {
         }
     })
     
-    const taskList = template ? tasks.map((task, index) => {
+    const taskList = tasks.map((task, index) => {
         return (
                 <EditTemplateItem key={`task-${index}`} index={index} task={task} tasks={tasks} setTasks={setTasks} />
         )
-    }) : [];
+    });
 
     function newTask() {
         setTasks(currentTasks => [...currentTasks, {name: '', description: ''}])
     }
 
     function handleSubmit(values) {
-        // console.log(tasks)
         const url = templateId ? `/templates/${templateId}` : '/templates';
         const method = templateId ? 'PATCH' : 'POST';
         fetch(url, {
@@ -91,27 +102,47 @@ function EditTemplate({templates, setTemplates, templateId}) {
             }
         })
     }
+
+    function handleDelete() {
+        fetch(`/templates/${templateId}`, {
+            method: 'DELETE'
+        })
+        .then((r) => {
+            if (r.ok) {
+                setTemplates((currentTemplates) => currentTemplates.filter(temp => {if (temp.id !== templateId) return temp}));
+            } else {
+                r.json()
+                .then(({error}) => console.log(error))
+            }
+        })
+    }
     
     const modalButton = templateId ? 'Edit Template' : 'Add New Template';
     const modalHeading = templateId ? 'Edit Task Template' : 'Create New Task Template';
     const saveButton = templateId ? 'Save Changes' : 'Save Template';
     const cancelButton = templateId ? 'Cancel Changes' : 'Discard Template';
+    const buttonStyle = templateId ? {gridRow: '1', gridColumn: '4 / 6'}: {m:2, alignSelf: 'flex-start'};
+    const buttonVariant = templateId ? 'outlined' : 'contained';
 
     return (
         <>
-            <Button onClick={handleOpen}>{modalButton}</Button>
+            <Button variant={buttonVariant} onClick={handleOpen} sx={buttonStyle}>{modalButton}</Button>
 
             <Modal open={open} >
-                <Paper >
+                <Paper sx={modalStyle}>
                     
-                    <h1>{modalHeading}</h1>
+                    <Typography variant="h6" align='center'>{modalHeading}</Typography>
 
                     <Box
                         component="form"
                         onSubmit={templateFormik.handleSubmit}
                         sx={{
-                            m: 1,
-                            width: 300,
+                            mt: 2,
+                            mb: 2,
+                            // width: 'auto',
+                            display: 'flex',
+                            flexDirection: 'row',
+                            
                         }}
                         noValidate
                         autoComplete="off"
@@ -122,19 +153,50 @@ function EditTemplate({templates, setTemplates, templateId}) {
                             label="Template Name"
                             value={templateFormik.values.title}
                             onChange={templateFormik.handleChange}
+                            sx={{width: '100%'}}
+                            multiline
+                            maxRows={4}
                         />
-
-                        <Button variant="contained" type="submit" >
-                            {saveButton}
-                        </Button>
-                        <Button variant="outlined" onClick={handleClose}>
-                            {cancelButton}
-                        </Button>
                     </Box>
 
                     {taskList}
 
-                    <Button variant="contained" onClick={newTask}>Add Task</Button>
+                    <Box 
+                        sx={{
+                            mt:2,
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between'
+                        }}
+                    >
+                        <Button variant="contained" onClick={newTask}>
+                            Add Task
+                        </Button>
+                        <Button 
+                            variant="contained" 
+                            type="submit" 
+                            sx={{flexGrow:0}}
+                            onClick={templateFormik.submitForm}
+                        >
+                            {saveButton}
+                        </Button>
+                        <Button variant="outlined" onClick={() => {
+                            handleClose();
+                            setTasks([{name: '', description: ''}])
+                        }}>
+                            {cancelButton}
+                        </Button>
+                        {templateId && <Button 
+                            variant="outlined" 
+                            onClick={() => {
+                                handleDelete();
+                                handleClose();
+                                setTasks([{name: '', description: ''}])
+                            }}
+                        >
+                            Delete Template
+                        </Button>}
+                    </Box>
                 </Paper>
             </Modal>
         </>

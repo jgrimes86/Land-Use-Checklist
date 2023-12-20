@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { json, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Autocomplete, Box, Button, Modal, Paper, Popover, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
 
 
@@ -8,13 +8,13 @@ const modalStyle = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 500,
+    maxWidth: 900,
     maxHeight: "75%",
     bgcolor: 'background.paper',
     border: '2px solid #2B2D42',
     boxShadow: 24,
     p: 4,
-    overflow: 'scroll',
+    overflowY: 'scroll',
 }
 
 function ImportTaskTemplate({templates, tasks, setTasks}) {
@@ -30,7 +30,6 @@ function ImportTaskTemplate({templates, tasks, setTasks}) {
         return {label: temp.title, templateId: temp.id}
     }): [];
 
-    // console.log('the template: ', selectedTemplate)
     function handleOptionClick(templateId) {
         fetch(`/templates/${templateId}`)
         .then((r) => {
@@ -58,7 +57,6 @@ function ImportTaskTemplate({templates, tasks, setTasks}) {
             if (r.ok) {
                 r.json()
                 .then(data => {
-                    // console.log(data);
                     setTasks((currentTasks) => [...currentTasks, ...data])
                 })
             } else {
@@ -78,7 +76,13 @@ function ImportTaskTemplate({templates, tasks, setTasks}) {
 
     return (
 
-        <Box>
+        <Paper
+            elevation={2}
+            sx={{
+                mt: 2,
+                width: 300
+            }}
+        >
             <Autocomplete 
                 disableClearable
                 value={autocompleteValue}
@@ -102,15 +106,16 @@ function ImportTaskTemplate({templates, tasks, setTasks}) {
                 renderInput={(params) => <TextField {...params} label="Import Tasks From Template" />}
             />
             <Modal open={open}>
-                <Paper>
-                    <Typography>{selectedTemplate.title}</Typography>
+                <Box sx={modalStyle}>
+                    <Typography variant="h6" align='center'>
+                        Task Template: {selectedTemplate.title}
+                    </Typography>
                     <TableContainer component={Paper}>
-                        <Table sx={{ width: '100%' }} >
+                        <Table sx={{ width: '100%', overflow:'auto', mt:2 }} >
                             <TableHead>
-                                <TableRow>
-                                    <TableCell>Task Name</TableCell>
-                                    <TableCell>Description</TableCell>
-
+                                <TableRow sx={{backgroundColor: '#2B2D42'}}>
+                                    <TableCell sx={{color:'white'}}>Task Name</TableCell>
+                                    <TableCell sx={{color:'white'}}>Description</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -133,7 +138,7 @@ function ImportTaskTemplate({templates, tasks, setTasks}) {
                         spacing={2} 
                         direction="row"
                         justifyContent='center'
-                        sx={{mt:2}}
+                        sx={{mt:3}}
                     >
                         <Button 
                             variant="contained" 
@@ -157,9 +162,9 @@ function ImportTaskTemplate({templates, tasks, setTasks}) {
 
                     </Stack>
 
-                </Paper>
+                </Box>
             </Modal>
-        </Box>
+        </Paper>
     )
 }
 

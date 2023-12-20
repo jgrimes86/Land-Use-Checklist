@@ -364,7 +364,7 @@ class Templates(Resource):
 
     def post(self):
         data = request.json
-        newTemplate = Template(title=data['title'], task_list=json.dumps(data['tasks']))
+        newTemplate = Template(title=data['title'], task_list=json.dumps(data['task_list']))
         db.session.add(newTemplate)
         db.session.commit()
         return make_response(newTemplate.to_dict(), 201)
@@ -389,6 +389,12 @@ class TemplatesById(Resource):
             setattr(template, attr, templateUpdates[attr])
         db.session.commit()
         return make_response(template.to_dict(), 202)
+
+    def delete(self, id):
+        template = Template.query.filter_by(id=id).first()
+        db.session.delete(template)
+        db.session.commit()
+        return make_response({}, 204)
 
 api.add_resource(TemplatesById, '/api/v1/templates/<int:id>')
 

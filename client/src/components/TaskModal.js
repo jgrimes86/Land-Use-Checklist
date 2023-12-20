@@ -18,7 +18,7 @@ const modalStyle = {
     border: '2px solid #2B2D42',
     boxShadow: 24,
     p: 4,
-    overflow: 'scroll',
+    overflowY: 'scroll',
 }
 
 function TaskModal({task, tasks, setTasks, users}) {

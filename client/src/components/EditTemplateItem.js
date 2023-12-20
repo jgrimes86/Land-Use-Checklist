@@ -1,4 +1,5 @@
 import { Box, Button, TextField } from '@mui/material';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 function EditTemplateItem({index, task, tasks, setTasks}) {
 
@@ -20,7 +21,8 @@ function EditTemplateItem({index, task, tasks, setTasks}) {
             sx={{
                 display: "flex",
                 flexDirection: 'row',
-                m: 1, width: 500,
+                mt: 1, 
+                // width: '100%',
             }}
             noValidate
             autoComplete="off"
@@ -30,14 +32,27 @@ function EditTemplateItem({index, task, tasks, setTasks}) {
                 label="Task Name"
                 value={task.name}
                 onChange={handleChange}
+                sx={{ width: '45%', mr:1 }}
+                multiline
+                // minRows={1}
+                rows={2}
             />
             <TextField
                 name="description"
                 label="Task Description"
                 value={task.description}
                 onChange={handleChange}
+                sx={{ width: '45%', mr:1 }}
+                multiline
+                // minRows={1}
+                rows={2}
             />
-            <Button variant="outlined" onClick={handleDelete}>Delete Task</Button>
+            <Box>
+
+            </Box>
+            <Button variant="contained" sx={{width: 50, maxHeight: 50}}onClick={handleDelete}>
+                <DeleteForeverIcon/>
+            </Button>
         </Box>
     )
 }

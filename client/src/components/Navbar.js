@@ -26,21 +26,20 @@ function NavBar({user, handleLogout, handleClose, setProject}) {
             <MenuItem 
                 onClick={() => {
                     handleClose();
+                    navigate("/templates");
+                }} 
+            >
+                Templates
+            </MenuItem>
+            <MenuItem 
+                onClick={() => {
+                    handleClose();
                     navigate("/login");
                     handleLogout();
                 }} 
             >
                 Log Out
             </MenuItem>
-            <MenuItem 
-                onClick={() => {
-                    handleClose();
-                    navigate("/templates");
-                }} 
-            >
-                Templates
-            </MenuItem>
-
         </>
     )
 }
