@@ -272,8 +272,8 @@ class ProjectRoles(Resource):
     def get(self, id):
         roles = Role.query.filter_by(project_id=id).all()
         if roles:
-            roles_list = [role.to_dict(rules=('user.name', '-user.email', 
-            '-user.company', '-user.phone_number', '-project_id',)) for role in roles]
+            roles_list = [role.to_dict(rules=('user.name', 'user.email', 
+            'user.company', 'user.phone_number', '-project_id',)) for role in roles]
             return make_response(roles_list, 200)
         else:
             return make_response({"error": "Unable to get project roles"}, 404)

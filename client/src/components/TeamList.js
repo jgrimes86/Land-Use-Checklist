@@ -1,5 +1,5 @@
 import { useLocation, useParams } from "react-router-dom";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 
 import TeamListModal from "./TeamListModal";
 
@@ -7,11 +7,22 @@ function TeamList({setError, roles, setRoles, users}) {
     const location = useLocation();
     const params = useParams();
 
+    // console.log(roles)
+
+    
     const rows= roles ? roles.map(role => {
+        const userInfo = (location.pathname === `/projects/${params.id}/edit`)
+            ? role.user.name
+            : <>
+                <Typography>{role.user.name}, {role.user.company}</Typography>
+                <Typography>{role.user.email}</Typography>
+                <Typography>{role.user.phone_number}</Typography>
+            </>;
+
         return ({
             id: role.id,
             role: role.name,
-            user_name: role.user.name,
+            user: userInfo,
             user_id: role.user_id,
         })
     }) : [];
@@ -32,12 +43,14 @@ function TeamList({setError, roles, setRoles, users}) {
                     {rows.map(row => (
                         <TableRow
                             key={row.id}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            sx={{
+                                '&:last-child td, &:last-child th': { border: 0 },
+                            }}
                         >
-                            <TableCell component='th' scope='row'>
+                            <TableCell component='th' scope='row' sx={{fontWeight: 600}}>
                                 {row.role}
                             </TableCell>
-                            <TableCell>{row.user_name}</TableCell>
+                            <TableCell>{row.user}</TableCell>
                             {(location.pathname === `/projects/${params.id}/edit`) && <TableCell>
                                 <span>
                                     <TeamListModal row={row} roles={roles} setRoles={setRoles} users={users} setError={setError} />
