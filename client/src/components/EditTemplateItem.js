@@ -22,7 +22,7 @@ function EditTemplateItem({index, task, tasks, setTasks}) {
                 display: "flex",
                 flexDirection: 'row',
                 mt: 1, 
-                // width: '100%',
+                width: '100%',
             }}
             noValidate
             autoComplete="off"
@@ -34,8 +34,8 @@ function EditTemplateItem({index, task, tasks, setTasks}) {
                 onChange={handleChange}
                 sx={{ width: '45%', mr:1 }}
                 multiline
-                // minRows={1}
-                rows={2}
+                minRows={1}
+                maxRows={4}
             />
             <TextField
                 name="description"
@@ -44,13 +44,15 @@ function EditTemplateItem({index, task, tasks, setTasks}) {
                 onChange={handleChange}
                 sx={{ width: '45%', mr:1 }}
                 multiline
-                // minRows={1}
-                rows={2}
+                minRows={1}
+                maxRows={4}
             />
-            <Box>
-
-            </Box>
-            <Button variant="contained" sx={{width: 50, maxHeight: 50}}onClick={handleDelete}>
+            
+            <Button 
+                variant="contained" 
+                sx={{width: 50, maxHeight: 50}}
+                onClick={handleDelete}
+            >
                 <DeleteForeverIcon/>
             </Button>
         </Box>

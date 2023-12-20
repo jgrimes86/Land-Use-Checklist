@@ -10,7 +10,19 @@ const modalStyle = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: '75%',
+    width: 1000,
+    '@media (max-width: 1075px)': {
+        width: 900
+    },
+    '@media (max-width: 975px)': {
+        width: 800
+    },
+    '@media (max-width: 875px)': {
+        width: 700
+    },
+    '@media (max-width: 775px)': {
+        width: 500
+    },
     maxHeight: "75%",
     border: '2px solid #2B2D42',
     boxShadow: 24,
@@ -90,11 +102,16 @@ function EditTemplate({templates, setTemplates, templateId}) {
                             if (temp.id === newTemplate.id) {
                                 return newTemplate
                             } else return temp
-                        }))
+                        }));
+                        setTasks([{name: '', description: ''}])
                     } else {
                         setTemplates([...templates, newTemplate]);
                     }
                     handleClose()
+                    setTasks([{name: '', description: ''}])
+                    templateFormik.resetForm({
+                        values: templateFormik.initialValues
+                    })
                 })
             } else {
                 r.json()
@@ -121,7 +138,7 @@ function EditTemplate({templates, setTemplates, templateId}) {
     const modalHeading = templateId ? 'Edit Task Template' : 'Create New Task Template';
     const saveButton = templateId ? 'Save Changes' : 'Save Template';
     const cancelButton = templateId ? 'Cancel Changes' : 'Discard Template';
-    const buttonStyle = templateId ? {gridRow: '1', gridColumn: '4 / 6'}: {m:2, alignSelf: 'flex-start'};
+    const buttonStyle = templateId ? {gridRow: '1', gridColumn: '4 / 5', width:'200px'}: {m:2, alignSelf: 'flex-start'};
     const buttonVariant = templateId ? 'outlined' : 'contained';
 
     return (
@@ -183,6 +200,9 @@ function EditTemplate({templates, setTemplates, templateId}) {
                         <Button variant="outlined" onClick={() => {
                             handleClose();
                             setTasks([{name: '', description: ''}])
+                            templateFormik.resetForm({
+                                values: templateFormik.initialValues
+                            })
                         }}>
                             {cancelButton}
                         </Button>
@@ -192,6 +212,9 @@ function EditTemplate({templates, setTemplates, templateId}) {
                                 handleDelete();
                                 handleClose();
                                 setTasks([{name: '', description: ''}])
+                                templateFormik.resetForm({
+                                    values: templateFormik.initialValues
+                                })
                             }}
                         >
                             Delete Template

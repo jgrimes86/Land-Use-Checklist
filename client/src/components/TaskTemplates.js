@@ -42,7 +42,9 @@ function TaskTemplates() {
                 spacing={2} 
                 divider={<Divider flexItem />}
                 sx={{
-                    mt:2,
+                    mt: 2,
+                    ml: 2,
+                    mr: 2,
                 }}
             >
                 {existingTemplates}
