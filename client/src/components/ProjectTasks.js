@@ -120,7 +120,7 @@ function ProjectTasks({users, tasks, setTasks}) {
                     disableRowSelectionOnClick 
                     getRowHeight={() => 'auto'}
                     getRowClassName={(params) => {
-                        if (dayjs().isSameOrAfter(params.row.endDate) && (params.row.status === 'Open' || 'Not Satisfied')) {
+                        if (dayjs().isSameOrAfter(params.row.endDate) && (params.row.status === ('Open' || 'Not Satisfied'))) {
                             return 'row-theme--Overdue'
                         } else if ((params.row.status === 'Complete') || (params.row.status === 'Waiver Granted')) {
                             return 'row-theme--Green'
