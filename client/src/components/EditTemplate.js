@@ -37,7 +37,7 @@ function EditTemplate({templates, setTemplates, templateId}) {
     const [template, setTemplate] = useState('')
     const [tasks, setTasks] = useState([{name: '', description: ''}])
 
-    useEffect(() => {
+    function handleGetTemplate () {
         if (templateId) {
             fetch(`/templates/${templateId}`)
             .then((r) => {
@@ -53,7 +53,7 @@ function EditTemplate({templates, setTemplates, templateId}) {
                 }
             })
         }
-    }, [])
+    }
 
     const formikSchema = yup.object().shape({
         title: yup.string().required("Must enter a template title")
@@ -80,6 +80,8 @@ function EditTemplate({templates, setTemplates, templateId}) {
         setTasks(currentTasks => [...currentTasks, {name: '', description: ''}])
     }
 
+    console.log(templates)
+
     function handleSubmit(values) {
         const url = templateId ? `/templates/${templateId}` : '/templates';
         const method = templateId ? 'PATCH' : 'POST';
@@ -97,13 +99,14 @@ function EditTemplate({templates, setTemplates, templateId}) {
             if (r.ok) {
                 r.json()
                 .then(newTemplate => {
+                    console.log(newTemplate)
                     if (template) {
                         setTemplates(templates => templates.map(temp => {
                             if (temp.id === newTemplate.id) {
                                 return newTemplate
                             } else return temp
                         }));
-                        setTasks([{name: '', description: ''}])
+                        // setTasks([{name: '', description: ''}])
                     } else {
                         setTemplates([...templates, newTemplate]);
                     }
@@ -143,7 +146,7 @@ function EditTemplate({templates, setTemplates, templateId}) {
 
     return (
         <>
-            <Button variant={buttonVariant} onClick={handleOpen} sx={buttonStyle}>{modalButton}</Button>
+            <Button variant={buttonVariant} onClick={() => {handleOpen(); handleGetTemplate()}} sx={buttonStyle}>{modalButton}</Button>
 
             <Modal open={open} >
                 <Paper sx={modalStyle}>
