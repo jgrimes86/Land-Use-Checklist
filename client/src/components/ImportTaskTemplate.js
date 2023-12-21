@@ -58,6 +58,8 @@ function ImportTaskTemplate({templates, tasks, setTasks}) {
                 r.json()
                 .then(data => {
                     setTasks((currentTasks) => [...currentTasks, ...data])
+                    setAutocompleteValue(null);
+                    setInputValue('')
                 })
             } else {
                 r.json()
@@ -154,8 +156,8 @@ function ImportTaskTemplate({templates, tasks, setTasks}) {
                             variant="outlined" 
                             onClick={() => {
                                 handleClose();
-                                // setAutocompleteValue(" ");
-                                // setInputValue(" ")
+                                setAutocompleteValue(null);
+                                setInputValue('')
                             }}
                         >
                             Cancel Import
