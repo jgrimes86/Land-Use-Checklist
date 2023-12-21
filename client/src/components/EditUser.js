@@ -44,7 +44,7 @@ function EditUser() {
             r.json().then((user) => {
               setUser(user);
               setError(null);
-              navigate(`/users/${user.id}`)
+              navigate(`/home`)
             });
           }
           else {

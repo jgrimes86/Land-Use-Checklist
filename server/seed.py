@@ -13,10 +13,10 @@ with app.app_context():
     db.session.commit()
 
 
-    u1 = User(name="Peter Brown", company="ACME Engineering", phone_number="555-303-6080", email="peter@email.com", password_hash="123")
-    u2 = User(name="Diana Bland", company="Jones & Garfunkle LLC", phone_number="555-584-5537", email="diana@email.com", password_hash="456")
-    u3 = User(name="Erica Woods", company="Woods Planning, LLC", phone_number="555-896-1255", email="erica@email.com", password_hash="789")
-    u4 = User(name="Mark Michaels", company="Many Acres Surveying, Inc.", phone_number="555-682-5826", email="mark@email.com", password_hash="101")
+    u1 = User(name="Peter Brown", company="ACME Engineering", phone_number="555-303-6080", email="peter@example.com", password_hash="123")
+    u2 = User(name="Diana Bland", company="Jones & Garfunkle LLC", phone_number="555-584-5537", email="diana@example.com", password_hash="456")
+    u3 = User(name="Erica Woods", company="Woods Planning, LLC", phone_number="555-896-1255", email="erica@example.com", password_hash="789")
+    u4 = User(name="Mark Michaels", company="Many Acres Surveying, Inc.", phone_number="555-682-5826", email="mark@example.com", password_hash="101")
 
     db.session.add_all([u1, u2, u3, u4])
     db.session.commit()
