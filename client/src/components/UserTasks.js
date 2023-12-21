@@ -90,7 +90,7 @@ function UserTasks({user, users}) {
                         },
                     },
                 }}
-                pageSizeOptions={[10]}
+                pageSizeOptions={[5, 10, 15, 20]}
                 disableRowSelectionOnClick 
                 getRowHeight={() => 'auto'}
                 getRowClassName={(params) => {

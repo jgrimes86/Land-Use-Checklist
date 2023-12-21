@@ -40,14 +40,20 @@ function EditTeam({setError, roles, setRoles, users}) {
                         setRoles([...roles, newMember]);
                         setError(null)
                     })
+                    addTeamFormik.resetForm({
+                        values: addTeamFormik.initialValues
+                    })
                 }
             })
         }
     })
 
-    const options = users ? users.map(user => {
-        return {label: user.name, user_id: user.id}
-    }) : [];
+    const options = users ? [
+        {label: "", user_id: ""},
+        ...users.map(user => {
+            return {label: user.name, user_id: user.id}
+        })
+] : [];
 
     return (
         <Paper

@@ -32,7 +32,7 @@ function TeamListModal({setError, row, roles, setRoles, users}) {
     const formik = useFormik({
         initialValues: {
             name: row.role,
-            user: row.user_name,
+            user: row.user,
             user_id: row.user_id,
         },
         validationSchema: formikSchema,

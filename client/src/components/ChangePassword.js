@@ -162,7 +162,7 @@ function ChangePassword({user, setMessage}) {
                                 fullWidth
                                 name="confirmPassword" 
                                 type={showConfirmPassword ? "text" : "password" }
-                                label="Current Password"
+                                label="Confirm Password"
                                 endAdornment={
                                     <InputAdornment position="end">
                                         <IconButton

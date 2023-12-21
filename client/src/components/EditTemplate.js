@@ -156,7 +156,6 @@ function EditTemplate({templates, setTemplates, templateId}) {
                         sx={{
                             mt: 2,
                             mb: 2,
-                            // width: 'auto',
                             display: 'flex',
                             flexDirection: 'row',
                             

@@ -66,13 +66,16 @@ function ImportTaskTemplate({templates, tasks, setTasks}) {
         })
     }
 
-    const rows = selectedTemplate ? selectedTemplate.task_list.map(task => {
-        return ({
-            id: task.id,
-            name: task.name,
-            description: task.description
+    const rows = selectedTemplate ? [
+        {id:0, name:" ", description: " "},
+        ...selectedTemplate.task_list.map(task => {
+            return ({
+                id: task.id,
+                name: task.name,
+                description: task.description
+            })
         })
-    }) : [];
+    ] : [];
 
     return (
 
@@ -153,8 +156,9 @@ function ImportTaskTemplate({templates, tasks, setTasks}) {
                         <Button 
                             variant="outlined" 
                             onClick={() => {
-                                handleClose()
-                                setAutocompleteValue(null)
+                                handleClose();
+                                setAutocompleteValue(" ");
+                                setInputValue(" ")
                             }}
                         >
                             Cancel Import

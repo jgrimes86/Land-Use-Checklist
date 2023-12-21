@@ -177,9 +177,9 @@ class Projects(Resource):
             newProject = Project(
                 name = data["name"],
                 client = data["client"],
-                property_address = data["propertyAddress"],
-                property_lot = data["propertyLot"],
-                property_block = data["propertyBlock"],
+                property_address = data["property_address"],
+                property_lot = data["property_lot"],
+                property_block = data["property_block"],
                 municipality = data["municipality"],
                 county = data["county"],
                 state = data["state"],
@@ -207,16 +207,16 @@ class ProjectsById(Resource):
             return make_response({"error": "Project not found."}, 404)
 
     def patch(self, id):
+        data = request.json
         project = Project.query.filter_by(id=id).first()
         if project:
-            try:
-                data = request.json
-                for attr in data:
-                    setattr(project, attr, data[attr])
-                db.session.commit()
-                return make_response(project.to_dict(), 202)
-            except ValueError as v_error:
-                return make_response({"error": str(v_error)}, 400)
+            # try:
+            for attr in data:
+                setattr(project, attr, data[attr])
+            db.session.commit()
+            return make_response(project.to_dict(), 202)
+            # except ValueError as v_error:
+            #     return make_response({"error": str(v_error)}, 400)
         else:
             return make_response({"error": "Project not found"}, 404)
 

@@ -29,9 +29,9 @@ function EditProject() {
         initialValues: {
             name: project ? project.name : "",
             client: project ? project.client : "",
-            propertyAddress: project ? project.property_address : "",
-            propertyLot: project ? project.property_lot : "",
-            propertyBlock: project ? project.property_block : "",
+            property_address: project ? project.property_address : "",
+            property_lot: project ? project.property_lot : "",
+            property_block: project ? project.property_block : "",
             municipality: project ? project.municipality : "",
             county: project ? project.county : "",
             state: project ? project.state : "",
@@ -76,6 +76,7 @@ function EditProject() {
                                 }
                             })
                         } else {
+                            console.log(newProject)
                             setProject(newProject);
                             setError(null);
                             navigate(`/projects/${newProject.id}`)
@@ -89,6 +90,8 @@ function EditProject() {
             })
         },
     });
+
+    // console.log(projectFormik.values)
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -195,28 +198,28 @@ function EditProject() {
                         <TextField 
                             margin="normal"
                             fullWidth
-                            id="propertyAddress" 
-                            name="propertyAddress" 
+                            id="property_address" 
+                            name="property_address" 
                             label="Property Address"
-                            value={projectFormik.values.propertyAddress} 
+                            value={projectFormik.values.property_address} 
                             onChange={projectFormik.handleChange}
                         />
                         <TextField 
                             margin="normal"
                             fullWidth
-                            id="propertyLot" 
-                            name="propertyLot" 
+                            id="property_lot" 
+                            name="property_lot" 
                             label="Lot"
-                            value={projectFormik.values.propertyLot} 
+                            value={projectFormik.values.property_lot} 
                             onChange={projectFormik.handleChange}
                         />
                         <TextField 
                             margin="normal"
                             fullWidth
-                            id="propertyBlock" 
-                            name="propertyBlock" 
+                            id="property_block" 
+                            name="property_block" 
                             label="Block"
-                            value={projectFormik.values.propertyBlock} 
+                            value={projectFormik.values.property_block} 
                             onChange={projectFormik.handleChange}
                         />
                         <TextField 

@@ -78,7 +78,7 @@ with app.app_context():
         description="Proposed form of notice for publication and service, unless application is for a minor subdivision with no variances or for a conventional site plan with no use or other variances or for final approval.", 
         start_date="2023-12-06", 
         end_date="2023-12-13", 
-        status="Incomplete", 
+        status="Not Satisfied", 
         user=u2, 
         project=p1
     )
