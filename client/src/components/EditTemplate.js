@@ -80,8 +80,6 @@ function EditTemplate({templates, setTemplates, templateId}) {
         setTasks(currentTasks => [...currentTasks, {name: '', description: ''}])
     }
 
-    console.log(templates)
-
     function handleSubmit(values) {
         const url = templateId ? `/templates/${templateId}` : '/templates';
         const method = templateId ? 'PATCH' : 'POST';
@@ -99,14 +97,12 @@ function EditTemplate({templates, setTemplates, templateId}) {
             if (r.ok) {
                 r.json()
                 .then(newTemplate => {
-                    console.log(newTemplate)
                     if (template) {
                         setTemplates(templates => templates.map(temp => {
                             if (temp.id === newTemplate.id) {
                                 return newTemplate
                             } else return temp
                         }));
-                        // setTasks([{name: '', description: ''}])
                     } else {
                         setTemplates([...templates, newTemplate]);
                     }
