@@ -38,8 +38,6 @@ function TaskModal({task, tasks, setTasks, users}) {
         comments: yup.string(),
     })
 
-    console.log('users',users)
-
     const formik = useFormik({
         initialValues: {
             name: task.name ? task.name : "",
@@ -119,7 +117,6 @@ function TaskModal({task, tasks, setTasks, users}) {
                 onClick={(e) => {
                     e.stopPropagation();
                     handleOpen();
-                    // console.log(task)
                 }}
                 sx={buttonStyle}
             >

@@ -13,8 +13,6 @@ function ProjectTasks({users, tasks, setTasks}) {
     const params = useParams();
     const [team, setTeam] = useState([])
 
-    // console.log(tasks)
-
     useEffect(() => {
         fetch(`/projects/${params.id}/tasks`)
         .then((r) => {

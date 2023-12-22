@@ -76,7 +76,6 @@ function EditProject() {
                                 }
                             })
                         } else {
-                            console.log(newProject)
                             setProject(newProject);
                             setError(null);
                             navigate(`/projects/${newProject.id}`)
@@ -90,8 +89,6 @@ function EditProject() {
             })
         },
     });
-
-    // console.log(projectFormik.values)
 
     const handleClickOpen = () => {
         setOpen(true);

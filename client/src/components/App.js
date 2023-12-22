@@ -101,8 +101,6 @@ function App() {
         templates,
         setTemplates,
     }
-
-    // console.log(templates)
     
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>

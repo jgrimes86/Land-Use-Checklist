@@ -6,9 +6,6 @@ import TeamListModal from "./TeamListModal";
 function TeamList({setError, roles, setRoles, users}) {
     const location = useLocation();
     const params = useParams();
-
-    // console.log(roles)
-
     
     const rows= roles ? roles.map(role => {
         const userInfo = (location.pathname === `/projects/${params.id}/edit`)
