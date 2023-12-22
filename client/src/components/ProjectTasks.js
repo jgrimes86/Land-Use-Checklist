@@ -168,7 +168,7 @@ function ProjectTasks({users, tasks, setTasks}) {
                 />
             </Box>
 
-            {tasks && team ? <TaskModal task={""} tasks={tasks} setTasks={setTasks} team={team} /> : null}
+            {tasks && team ? <TaskModal task={""} tasks={tasks} setTasks={setTasks} users={users} /> : null}
 
         </Paper>
     )

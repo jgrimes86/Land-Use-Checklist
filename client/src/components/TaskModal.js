@@ -38,6 +38,8 @@ function TaskModal({task, tasks, setTasks, users}) {
         comments: yup.string(),
     })
 
+    console.log('users',users)
+
     const formik = useFormik({
         initialValues: {
             name: task.name ? task.name : "",
@@ -99,9 +101,12 @@ function TaskModal({task, tasks, setTasks, users}) {
 
     const taskTitle = (location.pathname===`/home`) ? task.project.name : task.name;
 
-    const options = users ? users.map(user => {
-        return {label: user.name, user_id: user.id}
-    }) : [];
+    const options = users ? [
+        {label: "", user_id:""},
+        ...users.map(user => {
+            return {label: user.name, user_id: user.id}
+        })
+] : [];
 
     const buttonText = task ? "Edit" : "Add Task";
     const buttonStyle = task ? {width:80, m:0.5} : {width:'auto', m:2, ml:1.5};
@@ -114,7 +119,7 @@ function TaskModal({task, tasks, setTasks, users}) {
                 onClick={(e) => {
                     e.stopPropagation();
                     handleOpen();
-                    console.log(task)
+                    // console.log(task)
                 }}
                 sx={buttonStyle}
             >
