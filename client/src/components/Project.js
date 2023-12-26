@@ -6,7 +6,7 @@ import { Box, Button, Paper, Typography } from '@mui/material';
 import TaskTable from "./TaskTable";
 import TeamList from "./TeamList";
 import Loading from "./Loading";
-import ImportTaskTemplate from "./ImportTaskTemplate";
+import TaskTemplateImport from "./TaskTemplateImport";
 
 function Project() {
     const params = useParams();
@@ -114,7 +114,7 @@ function Project() {
                 </Paper>
             </Box>
 
-            <ImportTaskTemplate templates={templates} tasks={tasks} setTasks={setTasks} />
+            <TaskTemplateImport templates={templates} setTasks={setTasks} />
 
             <Box
                 elevation={2}

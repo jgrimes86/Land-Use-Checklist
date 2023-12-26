@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Autocomplete, Box, Button, Modal, Paper, Popover, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import { Autocomplete, Box, Button, Modal, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
 
 
 const modalStyle = {
@@ -17,7 +17,7 @@ const modalStyle = {
     overflowY: 'scroll',
 }
 
-function ImportTaskTemplate({templates, tasks, setTasks}) {
+function TaskTemplateImport({templates, setTasks}) {
     const [autocompleteValue, setAutocompleteValue] = useState(null);
     const [inputValue, setInputValue] = useState('');
     const [open, setOpen] = useState(false);
@@ -171,4 +171,4 @@ function ImportTaskTemplate({templates, tasks, setTasks}) {
     )
 }
 
-export default ImportTaskTemplate
+export default TaskTemplateImport
