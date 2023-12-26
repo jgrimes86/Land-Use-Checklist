@@ -1,5 +1,5 @@
 
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { Box, Button, Paper, Typography } from '@mui/material';
 
@@ -14,7 +14,7 @@ function Project() {
     const {project, setProject, roles, setRoles, user, users, setNavError, templates} = useOutletContext()
     const [tasks, setTasks] = useState([]);
 
-    useMemo(() => {
+    useEffect(() => {
         fetch(`/projects/${params.id}`)
         .then((r) => {
             if (r.ok) {

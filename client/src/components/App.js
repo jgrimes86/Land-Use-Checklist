@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Box } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -40,9 +40,7 @@ function App() {
                 r.json().then(() => navigate('/login'))
             }
           });
-    }, [])
 
-    useMemo(() => {
         fetch('/users')
         .then((r) => {
             if (r.ok) {
@@ -54,9 +52,7 @@ function App() {
         fetch('/templates')
         .then(r => r.json())
         .then(data => setTemplates(data))
-    }, [])
 
-    useEffect(() => {
         if ((location.pathname === `/projects/${params.id}/edit`) && (params.id !== 0)) {
             fetch(`/projects/${params.id}`)
             .then((r) => {
