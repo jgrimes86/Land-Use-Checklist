@@ -1,9 +1,9 @@
 
 import { useMemo, useState } from "react";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
-import { Autocomplete, Box, Button, Paper, Popover, TextField, Typography } from '@mui/material';
+import { Box, Button, Paper, Typography } from '@mui/material';
 
-import ProjectTasks from "./ProjectTasks";
+import TaskTable from "./TaskTable";
 import TeamList from "./TeamList";
 import Loading from "./Loading";
 import ImportTaskTemplate from "./ImportTaskTemplate";
@@ -11,7 +11,7 @@ import ImportTaskTemplate from "./ImportTaskTemplate";
 function Project() {
     const params = useParams();
     const navigate = useNavigate();
-    const {project, setProject, roles, setRoles, users, setNavError, templates} = useOutletContext()
+    const {project, setProject, roles, setRoles, user, users, setNavError, templates} = useOutletContext()
     const [tasks, setTasks] = useState([]);
 
     useMemo(() => {
@@ -120,7 +120,7 @@ function Project() {
                 elevation={2}
                 sx={{mt:2}}
             >
-                <ProjectTasks users={users} tasks={tasks} setTasks={setTasks} />
+                <TaskTable project={project} user={user} users={users} tasks={tasks} setTasks={setTasks} />
             </Box>
         </Box>
     )

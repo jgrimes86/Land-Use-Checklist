@@ -2,8 +2,8 @@ import { useOutletContext } from 'react-router-dom';
 import { Box, Paper, Typography } from '@mui/material';
 
 import UserProjects from "./UserProjects";
-import UserTasks from "./UserTasks";
 import Loading from "./Loading";
+import TaskTable from './TaskTable';
 
 function UserHome() {
     const {user, users, setProject, setRoles} = useOutletContext();
@@ -21,7 +21,7 @@ function UserHome() {
                 <Typography sx={{m:1.5, pt:1, pb:1}} variant="h4">{user.name}</Typography>
             </Paper>
             <UserProjects user={user} setProject={setProject} setRoles={setRoles} />
-            <UserTasks user={user} users={users} />
+            <TaskTable user={user} users={users} />
         </Box>
     )
 }
