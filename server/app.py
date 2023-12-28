@@ -38,10 +38,13 @@ class Login(Resource):
 
         password = request.json['password']
 
-        if user.authenticate(password):
-            session['user_id'] = user.id
-            return make_response(user.to_dict(), 201)
-        else:
+        try:
+            if user.authenticate(password):
+                session['user_id'] = user.id
+                return make_response(user.to_dict(), 201)
+            else:
+                return make_response({"error": "Invalid username or password"}, 401)
+        except:
             return make_response({"error": "Invalid username or password"}, 401)
 
 api.add_resource(Login, '/api/v1/login')
