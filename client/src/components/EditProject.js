@@ -125,7 +125,7 @@ function EditProject() {
                     mt: 2,
                 }}
             >
-                <Box 
+                {project && <Box 
                     sx={{
                         display:'flex', 
                         flexDirection:'row',
@@ -140,7 +140,7 @@ function EditProject() {
                     >
                         Delete Project
                     </Button>
-                </Box>
+                </Box>}
                 <Typography sx={{color: "red"}} variant="h7">{error}</Typography>
             </Paper>
 
